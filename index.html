@@ -209,8 +209,33 @@ html[data-theme="night"] .formmsg.ok{color:#8bd18e}
 .reveal.on{opacity:1;transform:none}
 .hero h1 em,.sec-head h2 em,.story h2 em,.apply-intro h2 em,.cta h2 em,.val.h2 em,.value h3 em{font-style:italic}
 h1,h2,h3,.brand{letter-spacing:-.01em}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,.pcard:focus-visible{outline:3px solid var(--gold);outline-offset:3px;border-radius:6px}
+.kicker{text-shadow:0 1px 10px rgba(0,0,0,.35)}
+.trust{background:var(--bg2);border-block:1px solid var(--line)}
+.trust-in{display:flex;flex-wrap:wrap;gap:8px 26px;justify-content:center;align-items:center;padding:16px 0;color:var(--text-dim);font-size:.8rem}
+.trust-in b{color:var(--gold)}
+.trust-in span{display:inline-flex;align-items:center;gap:8px}
+.faq-list{max-width:820px;margin:0 auto;display:grid;gap:14px}
+.faq-item{border:1px solid var(--line);border-radius:16px;background:var(--panel);overflow:hidden}
+.faq-q{width:100%;text-align:left;background:none;border:0;color:var(--text);font-family:var(--serif);font-size:1.12rem;padding:19px 22px;cursor:pointer;display:flex;justify-content:space-between;gap:16px;align-items:center}
+.faq-q:hover{color:var(--gold)}
+.faq-q .pl{color:var(--gold);font-size:1.4rem;transition:transform .3s;flex:0 0 auto}
+.faq-item.open .faq-q .pl{transform:rotate(45deg)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .35s ease;color:var(--text-dim)}
+.faq-item.open .faq-a{max-height:340px}
+.faq-a p{padding:0 22px 20px;font-size:.97rem}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition-duration:.01ms!important}}
 </style>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"How do I apply, and is there a fee?","acceptedAnswer":{"@type":"Answer","text":"Applying is free. Fill out the short form and the Gamino family contacts you within 1-2 business days, in English or Spanish."}},
+{"@type":"Question","name":"Do you speak Spanish?","acceptedAnswer":{"@type":"Answer","text":"Yes. We are a bilingual family and help you in Spanish or English, start to finish."}},
+{"@type":"Question","name":"What do I need to qualify?","acceptedAnswer":{"@type":"Answer","text":"Typically proof of income and references. We look at the whole picture and talk it through with you personally."}},
+{"@type":"Question","name":"Who handles repairs?","acceptedAnswer":{"@type":"Answer","text":"We do it ourselves: plumbing, electrical, carpentry. You reach the family, not a call center, and it gets fixed fast."}},
+{"@type":"Question","name":"Where are your buildings?","acceptedAnswer":{"@type":"Answer","text":"Across Milwaukee south side: Lincoln Village, Historic Mitchell Street, Silver City, and Bay View."}},
+{"@type":"Question","name":"How do I reach you?","acceptedAnswer":{"@type":"Answer","text":"Use the form on the site or email info@gaminorealestate.com. A real Gamino replies."}}
+]}
+</script>
 </head>
 <body>
 
@@ -223,6 +248,7 @@ h1,h2,h3,.brand{letter-spacing:-.01em}
         <a href="#familia" data-i="nav.fam">Nuestra familia</a>
         <a href="#proceso" data-i="nav.proc">Cómo rentar</a>
         <a href="#solicitar" data-i="nav.apply">Solicitar</a>
+        <a href="#faq">FAQ</a>
       </div>
       <button class="icnbtn" id="theme" aria-label="Cambiar día / noche" title="Día / Noche"></button>
       <button class="lang" id="lang" aria-label="Cambiar idioma / Switch language"><span id="langflag">🇺🇸</span> <b id="langtxt">EN</b></button>
@@ -250,6 +276,13 @@ h1,h2,h3,.brand{letter-spacing:-.01em}
   </div>
   <div class="hero-dots" id="dots"></div>
 </header>
+
+<div class="trust"><div class="wrap trust-in">
+<span><b>★</b> Family-owned, two generations</span>
+<span><b>·</b> Milwaukee's south side since 1892</span>
+<span><b>·</b> We answer in English &amp; Spanish</span>
+<span><b>·</b> Equal Housing Opportunity</span>
+</div></div>
 
 <div class="stats">
   <div class="wrap stats-in">
@@ -375,9 +408,24 @@ h1,h2,h3,.brand{letter-spacing:-.01em}
       <div class="field"><label>Message (optional) / Mensaje (opcional)</label><textarea name="message" placeholder="Tell us what you're looking for… / Cuéntanos qué buscas…"></textarea></div>
       <input class="hp" name="company" tabindex="-1" autocomplete="off" aria-hidden="true"/>
       <label class="consent"><input type="checkbox" name="consent" required/> <span>I agree Gamino Real Estate may contact me about my application. / Acepto que Gamino Real Estate me contacte sobre mi solicitud.</span></label>
+      <p style="font-size:.75rem;color:var(--text-dim);margin:-4px 0 14px">We use your info only to contact you about your application. <a href="/privacy.html" style="color:var(--gold)">Privacy Policy</a>. / Usamos tus datos solo para contactarte sobre tu solicitud.</p>
       <button type="submit" class="btn btn-gold" id="applyBtn" style="width:100%;justify-content:center">Send application / Enviar solicitud →</button>
       <div class="formmsg" id="formMsg"></div>
     </form>
+  </div>
+</section>
+
+<section class="section" id="faq" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head reveal"><h2>Questions, <em>answered</em>.</h2><p>Straight answers, no runaround. Don't see yours? Just ask in the form below.</p></div>
+    <div class="faq-list">
+      <div class="faq-item reveal"><button class="faq-q" aria-expanded="false">How do I apply, and is there a fee?<span class="pl">+</span></button><div class="faq-a"><p>Applying is free. Fill out the short form on this page and the Gamino family contacts you directly within 1–2 business days, in English or Spanish.</p></div></div>
+      <div class="faq-item reveal"><button class="faq-q" aria-expanded="false">Do you speak Spanish? / ¿Hablan español?<span class="pl">+</span></button><div class="faq-a"><p>Sí. We're a bilingual family and help you in Spanish or English, start to finish. / Somos una familia bilingüe y te ayudamos en español o inglés.</p></div></div>
+      <div class="faq-item reveal"><button class="faq-q" aria-expanded="false">What do I need to qualify?<span class="pl">+</span></button><div class="faq-a"><p>Typically proof of income and references. We look at the whole picture and talk it through with you personally, no anonymous algorithm.</p></div></div>
+      <div class="faq-item reveal"><button class="faq-q" aria-expanded="false">Who handles repairs?<span class="pl">+</span></button><div class="faq-a"><p>We do, ourselves. Plumbing, electrical, carpentry. When something breaks you reach the family, not a call center, and it gets fixed fast.</p></div></div>
+      <div class="faq-item reveal"><button class="faq-q" aria-expanded="false">Where are your buildings?<span class="pl">+</span></button><div class="faq-a"><p>Across Milwaukee's south side: Lincoln Village, Historic Mitchell Street, Silver City, and Bay View.</p></div></div>
+      <div class="faq-item reveal"><button class="faq-q" aria-expanded="false">How do I reach you?<span class="pl">+</span></button><div class="faq-a"><p>Use the form below or email <a href="mailto:info@gaminorealestate.com" style="color:var(--gold)">info@gaminorealestate.com</a>. A real Gamino replies.</p></div></div>
+    </div>
   </div>
 </section>
 
@@ -413,7 +461,7 @@ h1,h2,h3,.brand{letter-spacing:-.01em}
         <a href="mailto:info@gaminorealestate.com">info@gaminorealestate.com</a>
       </div>
     </div>
-    <div class="f-bottom"><span>© 2026 Gamino Real Estate</span><span data-i="ft.r">Igualdad de oportunidad de vivienda · Equal Housing Opportunity</span></div>
+    <div class="f-bottom"><span>© 2026 Gamino Real Estate</span><span style="display:flex;gap:16px;flex-wrap:wrap"><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a><span data-i="ft.r">Equal Housing Opportunity</span></span></div>
   </div>
 </footer>
 
@@ -428,8 +476,8 @@ const D={en:{
  'val.h2':'Why rent <em>with the family</em>.',
  'val.p':"We don't manage hundreds of units for an investment fund. We manage our own, in the neighborhoods we grew up in, and we answer the phone ourselves.",
  'val.1k':'Direct','val.1h':'You talk to a Gamino','val.1p':'When you call, the family answers, not a call center or an app. In Spanish or English, the person who answers is the same one who fixes things and makes decisions.',
- 'val.2k':'Hands-on','val.2h':'Real care','val.2p':'Plumbing, electrical, carpentry — we do it ourselves. Repairs done fast and done right, because these buildings are our legacy, not a number on a spreadsheet.',
- 'val.3k':'Roots','val.3h':"From Milwaukee's south side",'val.3p':"Lincoln Village, Mitchell Street, Silver City, Bay View. We know every block, every neighbor and every building — for decades.",
+ 'val.2k':'Hands-on','val.2h':'Real care','val.2p':'Plumbing, electrical, carpentry: we do it ourselves. Repairs done fast and done right, because these buildings are our legacy, not a number on a spreadsheet.',
+ 'val.3k':'Roots','val.3h':"From Milwaukee's south side",'val.3p':"Lincoln Village, Mitchell Street, Silver City, Bay View. We know every block, every neighbor and every building, for decades.",
  'pr.h2':'Buildings with <em>character</em>, in neighborhoods full of life.',
  'pr.p':'Turn-of-the-century brick and woodwork, kept by hands that have known them for decades. Six properties, one family name behind them.',
  'u':'units','dup':'duplex',
@@ -502,6 +550,7 @@ const io=new IntersectionObserver((es)=>es.forEach(e=>{if(e.isIntersecting){e.ta
     const step=t=>{if(!s)s=t;const p=Math.min((t-s)/900,1);n.textContent=Math.round(p*to)+suf;if(p<1)requestAnimationFrame(step)};requestAnimationFrame(step)});
   io.unobserve(e.target)}}),{threshold:.16});
 document.querySelectorAll('.reveal').forEach((el,i)=>{el.style.transitionDelay=(i%4*80)+'ms';io.observe(el)});
+document.querySelectorAll('.faq-q').forEach(function(q){q.addEventListener('click',function(){var it=q.closest('.faq-item');var op=it.classList.toggle('open');q.setAttribute('aria-expanded',op?'true':'false')})});
 
 // APPLICATION FORM
 const form=document.getElementById('applyForm');const msg=document.getElementById('formMsg');const btn=document.getElementById('applyBtn');
