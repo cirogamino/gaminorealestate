@@ -162,6 +162,18 @@ img{max-width:100%;display:block}
 .person .pn span{color:var(--gold);font-size:.74rem;letter-spacing:.1em;text-transform:uppercase}
 .fam-group{margin-top:20px;border:1px dashed var(--gold);border-radius:20px;padding:26px;text-align:center;color:var(--text-dim);background:var(--panel)}
 .fam-group b{color:var(--text);font-family:var(--serif);font-weight:400;font-size:1.2rem}
+/* real family gallery */
+.fam-gallery{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:1fr;gap:16px;margin-top:8px}
+.ftile{position:relative;border-radius:18px;overflow:hidden;border:1px solid var(--line);background:var(--panel);aspect-ratio:1/1;transition:transform .35s,border-color .35s,box-shadow .35s}
+.ftile:hover{transform:translateY(-6px);border-color:var(--gold);box-shadow:0 20px 44px rgba(0,0,0,.16)}
+.ftile img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s ease}
+.ftile:hover img{transform:scale(1.06)}
+.ftile.tall{grid-row:span 2;aspect-ratio:auto}
+.ftile.wide{grid-column:span 2}
+.ftile figcaption{position:absolute;left:0;right:0;bottom:0;padding:30px 16px 14px;background:linear-gradient(to top,rgba(20,14,6,.9),rgba(20,14,6,.35) 62%,transparent);color:#f7f2e9;font-family:var(--serif);font-weight:400;font-size:1rem;line-height:1.22}
+.ftile figcaption span{display:block;font-family:var(--sans);font-size:.71rem;letter-spacing:.03em;color:rgba(247,242,233,.72);margin-top:4px;font-weight:500}
+.ftile figcaption em.who{display:block;font-style:normal;font-family:var(--sans);font-size:.66rem;letter-spacing:.02em;color:var(--gold);margin-top:6px;font-weight:600;line-height:1.35}
+@media(max-width:900px){.fam-gallery{grid-template-columns:repeat(2,1fr)}.ftile.wide{grid-column:span 2}.ftile.tall{grid-row:span 1;aspect-ratio:1/1}}
 .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
 .step{border:1px solid var(--line);border-radius:22px;padding:38px 32px;background:var(--bg2);transition:border-color .3s,transform .3s,box-shadow .3s}
 .step:hover{border-color:var(--gold);transform:translateY(-8px);box-shadow:0 24px 50px rgba(0,0,0,.10)}
@@ -342,16 +354,18 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
   <div class="wrap fam">
     <div class="fam-head reveal">
       <h3 data-i="fam.gh">Las caras detrás de Gamino Real Estate</h3>
-      <p data-i="fam.gp">Fotos reales de la familia próximamente. Por ahora reservamos su lugar, así conoces exactamente con quién estás tratando.</p>
+      <p data-i="fam.gp">Fotos reales de la familia. Así sabes exactamente con quién estás tratando.</p>
     </div>
-    <div class="fam-grid">
-      <div class="person reveal"><div class="pframe"><div class="mono">CG</div><span class="soon" data-i="soon">Foto próximamente</span></div><div class="pn"><b>Carlos Gamino</b><span data-i="role.founder">Fundador · Oficios</span></div></div>
-      <div class="person reveal"><div class="pframe"><div class="mono">RG</div><span class="soon" data-i="soon">Foto próximamente</span></div><div class="pn"><b>Rosario Gamino</b><span data-i="role.admin">Administración</span></div></div>
-      <div class="person reveal"><div class="pframe"><div class="mono">CG</div><span class="soon" data-i="soon">Foto próximamente</span></div><div class="pn"><b>Carlos Jr.</b><span data-i="role.trades">Oficios · Mantenimiento</span></div></div>
-      <div class="person reveal"><div class="pframe"><div class="mono">CG</div><span class="soon" data-i="soon">Foto próximamente</span></div><div class="pn"><b>César Gamino</b><span data-i="role.trades">Oficios · Mantenimiento</span></div></div>
-      <div class="person reveal"><div class="pframe"><div class="mono">CG</div><span class="soon" data-i="soon">Foto próximamente</span></div><div class="pn"><b>Ciro Gamino</b><span data-i="role.ops">Oficios · Operaciones</span></div></div>
+    <div class="fam-gallery">
+      <figure class="ftile wide reveal"><img src="family/fam-04.jpg" alt="Tres generaciones de la familia Gamino juntas en casa"/><figcaption>Tres generaciones, un solo apellido<span>Three generations, one name</span><em class="who">De izq. a der.: Tío Chewy · tía · Rosario · Carlos · Leticia · tía — foto de Ciro</em></figcaption></figure>
+      <figure class="ftile tall reveal"><img src="family/fam-07.jpg" alt="Carlos y Rosario Gamino en otoño en Wisconsin"/><figcaption>Carlos y Rosario<span>Carlos &amp; Rosario, fall in Wisconsin</span></figcaption></figure>
+      <figure class="ftile reveal"><img src="family/fam-11.jpg" alt="Camiseta de los Brewers con el apellido GAMINO en la espalda"/><figcaption>El apellido, con orgullo<span>The family name, worn proud</span></figcaption></figure>
+      <figure class="ftile reveal"><img src="family/fam-02.jpg" alt="Los hombres de la familia Gamino, día de juego en el American Family Field"/><figcaption>Día de juego<span>Game day, American Family Field</span><em class="who">El sobrino · Carlos · papá Carlos L. · Ciro</em></figcaption></figure>
+      <figure class="ftile reveal"><img src="family/fam-10.jpg" alt="Día de Muertos en el jardín de la familia Gamino"/><figcaption>Día de Muertos en el jardín<span>Day of the Dead, front yard</span></figcaption></figure>
+      <figure class="ftile reveal"><img src="family/fam-05.jpg" alt="Rosario Gamino disfrazada en Halloween"/><figcaption>Rosario se toma Halloween en serio<span>Mom, fully committed to the bit</span></figcaption></figure>
+      <figure class="ftile reveal"><img src="family/fam-09.jpg" alt="La familia Gamino en un partido de los Brewers"/><figcaption>Fieles a los Brewers, siempre<span>Brewers faithful, always</span></figcaption></figure>
+      <figure class="ftile reveal"><img src="family/fam-08.jpg" alt="Rosario Gamino con la familia, un domingo"/><figcaption>Domingo, juntos<span>Sunday, together</span></figcaption></figure>
     </div>
-    <div class="fam-group reveal"><b data-i="fam.group">Foto familiar de grupo próximamente</b><br/><span data-i="fam.groups">Toda la familia Gamino, junta. El retrato irá aquí en cuanto lo tengamos.</span></div>
   </div>
 </section>
 
@@ -488,7 +502,7 @@ const D={en:{
  'fam.p2':'Today Rosario runs the administration with the same care you’d give your own home: every lease, every application and every call passes through her hands. Together, Carlos and Rosario are on the properties every day, greeting tenants by name.',
  'fam.p3':'Renting with us means renting from people who pick up the phone. When something happens, you don’t reach a stranger in another city. You reach the family that laid every brick. Two generations, the same name on the door, and the intention that the name means something good for the people who live here.',
  'fam.gh':'The faces behind Gamino Real Estate',
- 'fam.gp':'Real family photos coming soon. For now we’re saving their spot, so you know exactly who you’re dealing with.',
+ 'fam.gp':'Real photos of the family, so you know exactly who you’re dealing with.',
  'soon':'Photo coming soon',
  'role.founder':'Founder · Trades','role.admin':'Administration','role.trades':'Trades · Maintenance','role.ops':'Trades · Operations',
  'fam.group':'Family group photo coming soon','fam.groups':'The whole Gamino family, together. The portrait will go right here as soon as we have it.',
