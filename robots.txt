@@ -20,3 +20,4 @@ User-agent: Applebot-Extended
 Allow: /
 
 Sitemap: https://gaminorealestate.com/sitemap.xml
+Sitemap: https://gaminorealestate.com/sitemap-images.xml
