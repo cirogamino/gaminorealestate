@@ -33,6 +33,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500;1,9..144,600&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
 <script type="application/ld+json">
 {
   "@context":"https://schema.org",
@@ -173,6 +174,21 @@ img{max-width:100%;display:block}
 .ftile figcaption{position:absolute;left:0;right:0;bottom:0;padding:30px 16px 14px;background:linear-gradient(to top,rgba(20,14,6,.9),rgba(20,14,6,.35) 62%,transparent);color:#f7f2e9;font-family:var(--serif);font-weight:400;font-size:1rem;line-height:1.22}
 .ftile figcaption span{display:block;font-family:var(--sans);font-size:.71rem;letter-spacing:.03em;color:rgba(247,242,233,.72);margin-top:4px;font-weight:500}
 .ftile figcaption em.who{display:block;font-style:normal;font-family:var(--sans);font-size:.66rem;letter-spacing:.02em;color:var(--gold);margin-top:6px;font-weight:600;line-height:1.35}
+/* map + family voices */
+.gmap{height:520px;border-radius:22px;overflow:hidden;border:1px solid var(--line);box-shadow:0 20px 50px rgba(0,0,0,.10);margin-top:8px}
+@media(max-width:700px){.gmap{height:420px}}
+.leaflet-container{font-family:var(--sans)}
+.gpin img{width:52px;height:52px;border-radius:50%;object-fit:cover;border:2px solid var(--gold);box-shadow:0 3px 12px rgba(0,0,0,.35);background:#fff}
+.gpop{display:block;width:158px;color:var(--ink)}
+.gpop img{width:100%;height:84px;object-fit:cover;border-radius:9px;margin-bottom:7px}
+.gpop b{font-family:var(--serif);font-weight:400;font-size:1rem;display:block;line-height:1.15}
+.gpop span{display:block;font-size:.74rem;color:var(--dim);margin:2px 0 6px}
+.gpop em{font-style:normal;color:var(--gold);font-weight:600;font-size:.8rem}
+.voces{background:var(--bg2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.voces .vin{max-width:900px;margin:0 auto;padding:64px 30px;text-align:center}
+.voces .vq{font-family:var(--serif);font-weight:400;font-size:clamp(1.4rem,3.4vw,2.2rem);line-height:1.3;min-height:2.6em;transition:opacity .45s ease}
+.voces .vq em{font-style:italic;color:var(--gold)}
+.voces .vsig{color:var(--gold);font-size:.82rem;letter-spacing:.14em;text-transform:uppercase;margin-top:16px}
 @media(max-width:900px){.fam-gallery{grid-template-columns:repeat(2,1fr)}.ftile.wide{grid-column:span 2}.ftile.tall{grid-row:span 1;aspect-ratio:1/1}}
 .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
 .step{border:1px solid var(--line);border-radius:22px;padding:38px 32px;background:var(--bg2);transition:border-color .3s,transform .3s,box-shadow .3s}
@@ -327,13 +343,31 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
       <p data-i="pr.p">Ladrillo y madera de principios de siglo, mantenidos por manos que los conocen desde hace décadas. Seis propiedades, un mismo apellido detrás.</p>
     </div>
     <div class="pgrid">
-      <a class="pcard wide reveal" href="#solicitar"><span class="ptag">14 <span data-i="u">unidades</span></span><img src="pierce-3110.jpg" alt="3110 W Pierce St, edificio histórico en Silver City, Milwaukee"/><div class="pinfo"><h3>3110 W Pierce St</h3><p>Silver City · 1928</p></div></a>
-      <a class="pcard wide reveal" href="#solicitar"><span class="ptag">9 <span data-i="u">unidades</span></span><img src="muskego-1750.jpg" alt="1750–1752 S Muskego Ave, Historic Mitchell Street, Milwaukee"/><div class="pinfo"><h3>1750–1752 S Muskego Ave</h3><p>Historic Mitchell Street · 1912</p></div></a>
-      <a class="pcard reveal" href="#solicitar"><span class="ptag">4 <span data-i="u">unidades</span></span><img src="muskego-1968.jpg" alt="1968 S Muskego Ave, Mitchell Street, Milwaukee"/><div class="pinfo"><h3>1968 S Muskego Ave</h3><p>Mitchell Street · 1900</p></div></a>
-      <a class="pcard reveal" href="#solicitar"><span class="ptag">4 <span data-i="u">unidades</span></span><img src="muskego-1754.jpg" alt="1754–1756 S Muskego Ave, Mitchell Street, Milwaukee"/><div class="pinfo"><h3>1754–1756 S Muskego</h3><p>Mitchell Street · 1913</p></div></a>
-      <a class="pcard reveal" href="#solicitar"><span class="ptag">4 <span data-i="u">unidades</span></span><img src="eleventh-2176.jpg" alt="2176–2178 S 11th St, Lincoln Village, Milwaukee"/><div class="pinfo"><h3>2176–2178 S 11th St</h3><p>Lincoln Village · 1900</p></div></a>
-      <a class="pcard reveal" href="#solicitar"><span class="ptag">2 <span data-i="u">unidades</span> · <span data-i="dup">dúplex</span></span><img src="smith-210.jpg" alt="210 E Smith St, dúplex histórico en Bay View, Milwaukee"/><div class="pinfo"><h3>210 E Smith St</h3><p>Bay View · 1892</p></div></a>
+      <a class="pcard wide reveal" href="/propiedades/pierce-3110.html"><span class="ptag">14 <span data-i="u">unidades</span></span><img src="pierce-3110.jpg" alt="3110 W Pierce St, edificio histórico en Silver City, Milwaukee"/><div class="pinfo"><h3>3110 W Pierce St</h3><p>Silver City · 1928</p></div></a>
+      <a class="pcard wide reveal" href="/propiedades/muskego-1750.html"><span class="ptag">9 <span data-i="u">unidades</span></span><img src="muskego-1750.jpg" alt="1750–1752 S Muskego Ave, Historic Mitchell Street, Milwaukee"/><div class="pinfo"><h3>1750–1752 S Muskego Ave</h3><p>Historic Mitchell Street · 1912</p></div></a>
+      <a class="pcard reveal" href="/propiedades/muskego-1968.html"><span class="ptag">4 <span data-i="u">unidades</span></span><img src="muskego-1968.jpg" alt="1968 S Muskego Ave, Mitchell Street, Milwaukee"/><div class="pinfo"><h3>1968 S Muskego Ave</h3><p>Mitchell Street · 1900</p></div></a>
+      <a class="pcard reveal" href="/propiedades/muskego-1754.html"><span class="ptag">4 <span data-i="u">unidades</span></span><img src="muskego-1754.jpg" alt="1754–1756 S Muskego Ave, Mitchell Street, Milwaukee"/><div class="pinfo"><h3>1754–1756 S Muskego</h3><p>Mitchell Street · 1913</p></div></a>
+      <a class="pcard reveal" href="/propiedades/eleventh-2176.html"><span class="ptag">4 <span data-i="u">unidades</span></span><img src="eleventh-2176.jpg" alt="2176–2178 S 11th St, Lincoln Village, Milwaukee"/><div class="pinfo"><h3>2176–2178 S 11th St</h3><p>Lincoln Village · 1900</p></div></a>
+      <a class="pcard reveal" href="/propiedades/smith-210.html"><span class="ptag">2 <span data-i="u">unidades</span> · <span data-i="dup">dúplex</span></span><img src="smith-210.jpg" alt="210 E Smith St, dúplex histórico en Bay View, Milwaukee"/><div class="pinfo"><h3>210 E Smith St</h3><p>Bay View · 1892</p></div></a>
     </div>
+  </div>
+</section>
+
+<section class="section mapsec" id="mapa" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="kicker">En el mapa · On the map</p>
+      <h2>Nuestro rincón del <em>sur de Milwaukee</em>.</h2>
+      <p>Seis edificios, cuatro barrios, un mismo apellido. Toca un pin para abrir la propiedad. / Six buildings, four neighborhoods, one name — tap a pin to open the home.</p>
+    </div>
+    <div id="gmap" class="gmap"></div>
+  </div>
+</section>
+
+<section class="voces reveal" id="voces">
+  <div class="vin">
+    <p class="vq" id="vq">“…”</p>
+    <p class="vsig">— La familia Gamino</p>
   </div>
 </section>
 
@@ -581,6 +615,48 @@ form.addEventListener('submit',async(e)=>{e.preventDefault();msg.className='form
   }catch(err){msg.textContent=T[lang].fail;msg.classList.add('err');}
   btn.disabled=false;btn.textContent=T[lang].sub;
 });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script>
+(function(){
+  try{var q=new URLSearchParams(location.search).get('prop');
+    if(q){var qa=q.split('—')[0].trim().toLowerCase();
+      document.querySelectorAll('select').forEach(function(s){Array.from(s.options).forEach(function(o){
+        var ot=o.text.split('—')[0].trim().toLowerCase();
+        if(o.text.trim()===q.trim()||(qa&&ot===qa)){s.value=o.value;}});});}
+  }catch(e){}
+  var V=[
+   ['Aquí la palabra vale más que un contrato.','Around here, your word means more than a contract.'],
+   ['Si algo se rompe, viene un Gamino — no un extraño.','If something breaks, a Gamino shows up — not a stranger.'],
+   ['Aprendimos los oficios con las manos, en dos idiomas.','We learned the trades with our hands, in two languages.'],
+   ['Rentas con vecinos, no con un fondo de inversión.','You rent from neighbors, not an investment fund.'],
+   ['El apellido está en la puerta; que signifique algo bueno.','Our name is on the door; may it mean something good.']
+  ];
+  var vq=document.getElementById('vq'),vi=0;
+  function showV(){if(!vq)return;var en=(typeof lang!=='undefined'&&lang==='en');var t=en?V[vi][1]:V[vi][0];vq.style.opacity=0;setTimeout(function(){vq.textContent='“'+t+'”';vq.style.opacity=1;},380);vi=(vi+1)%V.length;}
+  if(vq){showV();setInterval(showV,5200);}
+  var P=[
+   {s:'pierce-3110',a:'3110 W Pierce St',h:'Silver City',y:'1928',la:43.0189,ln:-87.9565,i:'pierce-3110.jpg'},
+   {s:'muskego-1750',a:'1750–1752 S Muskego Ave',h:'Mitchell Street',y:'1912',la:43.0106,ln:-87.9377,i:'muskego-1750.jpg'},
+   {s:'muskego-1968',a:'1968 S Muskego Ave',h:'Mitchell Street',y:'1900',la:43.0075,ln:-87.9385,i:'muskego-1968.jpg'},
+   {s:'muskego-1754',a:'1754–1756 S Muskego Ave',h:'Mitchell Street',y:'1913',la:43.0102,ln:-87.9379,i:'muskego-1754.jpg'},
+   {s:'eleventh-2176',a:'2176–2178 S 11th St',h:'Lincoln Village',y:'1900',la:43.0060,ln:-87.9283,i:'eleventh-2176.jpg'},
+   {s:'smith-210',a:'210 E Smith St',h:'Bay View',y:'1892',la:42.9985,ln:-87.9020,i:'smith-210.jpg'}
+  ];
+  var el=document.getElementById('gmap');
+  if(el&&window.L){
+    var map=L.map('gmap',{scrollWheelZoom:false}).setView([43.007,-87.933],13);
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{attribution:'&copy; OpenStreetMap &copy; CARTO',maxZoom:19,subdomains:'abcd'}).addTo(map);
+    var g=[];
+    P.forEach(function(p){
+      var ic=L.divIcon({className:'gpin',html:'<img src="/'+p.i+'" alt="'+p.a+'"/>',iconSize:[52,52],iconAnchor:[26,26],popupAnchor:[0,-26]});
+      L.marker([p.la,p.ln],{icon:ic}).addTo(map).bindPopup('<a class="gpop" href="/propiedades/'+p.s+'.html"><img src="/'+p.i+'"/><b>'+p.a+'</b><span>'+p.h+' · '+p.y+'</span><em>Ver propiedad / View →</em></a>');
+      g.push([p.la,p.ln]);
+    });
+    map.fitBounds(g,{padding:[50,50]});
+    setTimeout(function(){map.invalidateSize();},300);
+  }
+})();
 </script>
 </body>
 </html>
