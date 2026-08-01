@@ -42,6 +42,30 @@ export async function onRequestPost({ request, env }) {
       await env.LEADS.put(key, JSON.stringify(rec));
     }
 
+    // Mirror the lead into Supabase (source of truth) via the ingest webhook.
+    // Non-fatal: if this fails, the KV copy above still captured the lead.
+    try {
+      const ingestUrl = (env && env.INGEST_URL) || "https://mtieaukygxrcnggstvjf.supabase.co/functions/v1/ingest-lead";
+      const ingestToken = (env && env.INGEST_TOKEN) || "gamino_2026_ingest_x7q2";
+      await fetch(ingestUrl, {
+        method: "POST",
+        headers: { "content-type": "application/json", "x-gamino-token": ingestToken },
+        body: JSON.stringify({
+          source: "application_form",
+          name: rec.name,
+          phone: rec.phone,
+          email: rec.email,
+          property_interest: rec.property,
+          bedrooms: rec.bedrooms,
+          move_in_date: rec.movein,
+          preferred_language: rec.language,
+          preferred_contact: rec.contact_pref,
+          message: rec.message,
+          submittedFrom: rec.submittedFrom,
+        }),
+      });
+    } catch (_) { /* non-fatal */ }
+
     return json({ ok: true, id: rec.id });
   } catch (e) {
     return json({ ok: false, error: "server_error" }, 500);
