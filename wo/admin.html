@@ -1,0 +1,166 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>WO ADMIN — Gamino Real Estate</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{font-family:-apple-system,Helvetica,Arial,sans-serif;background:#eef1f4;color:#111;padding:16px;max-width:1000px;margin:auto}
+h1{font-size:20px;color:#122438}
+h2{font-size:15px;color:#122438;margin:22px 0 8px;border-bottom:2px solid #d4af37;padding-bottom:3px}
+.tabs{display:flex;gap:8px;margin:12px 0}
+.tab{background:#fff;border:1px solid #ccc;border-radius:8px;padding:9px 16px;font-size:13.5px;font-weight:bold;cursor:pointer}
+.tab.on{background:#122438;color:#f5efe0;border-color:#122438}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px}
+.wcard{background:#fff;border-radius:10px;padding:10px;box-shadow:0 1px 3px rgba(0,0,0,.15);display:flex;gap:10px}
+.wcard img{width:64px;height:64px;border-radius:8px;object-fit:cover;border:2px solid #d4af37}
+.wcard .nm{font-weight:bold;font-size:14px}
+.wcard .f{font-size:11.5px;color:#666}
+.wcard button{background:#e5e5e5;border:none;border-radius:6px;padding:4px 8px;font-size:11px;font-weight:bold;margin-top:4px;cursor:pointer}
+table{width:100%;border-collapse:collapse;background:#fff;border-radius:8px;overflow:hidden;font-size:13px}
+th{background:#122438;color:#f5efe0;text-align:left;padding:7px 9px}
+td{border-bottom:1px solid #e5e5e5;padding:6px 9px}
+tr:last-child td{border-bottom:none}
+input{font-size:14px;padding:7px;border:1px solid #bbb;border-radius:6px;width:100%;max-width:520px}
+.btn{background:#122438;color:#f5efe0;border:none;border-radius:7px;padding:9px 14px;font-size:13px;font-weight:bold;cursor:pointer}
+.btn.gold{background:#d4af37;color:#122438}
+.note{font-size:12px;color:#555;margin:8px 0}
+.big{font-size:22px;font-weight:bold;color:#122438}
+.lock{max-width:360px;margin:80px auto;background:#122438;color:#f5efe0;border-radius:12px;padding:24px;text-align:center}
+.lock input{font-size:22px;text-align:center;letter-spacing:8px;color:#122438;background:#f5efe0;border:none}
+.lock button{margin-top:12px;width:100%;background:#d4af37;border:none;color:#122438;font-weight:bold;font-size:15px;padding:12px;border-radius:8px}
+.err{color:#ff9d9d;font-size:12px;margin-top:8px;min-height:16px}
+.hidden{display:none}
+</style></head><body>
+<div id="lock" class="lock">
+  <h1 style="color:#f5efe0">🔐 WO BACK OFFICE</h1>
+  <div style="font-size:12px;color:#cfd8e3;margin:6px 0 14px">Gamino Real Estate — private</div>
+  <input id="pin" type="password" inputmode="numeric" placeholder="PIN" onkeydown="if(event.key==='Enter')tryPin()">
+  <div class="err" id="perr"></div>
+  <button onclick="tryPin()">UNLOCK</button>
+  <div style="font-size:10.5px;color:#8aa0b5;margin-top:10px">first time? the PIN you set here becomes the lock</div>
+</div>
+<div id="app" class="hidden">
+<h1>WO BACK OFFICE <span style="font-size:12px;color:#888">gaminorealestate.com/wo</span></h1>
+<div class="tabs">
+  <div class="tab on" data-t="roster" onclick="tab('roster')">WORKER ROSTER</div>
+  <div class="tab" data-t="brain" onclick="tab('brain')">RECURRING ITEMS BRAIN</div>
+  <div class="tab" data-t="projects" onclick="tab('projects')">COMPLETED PROJECTS</div>
+  <div class="tab" data-t="cloud" onclick="tab('cloud')">CLOUD AUTO-UPLOAD</div>
+</div>
+<div id="roster" class="pane">
+  <h2>Workers on file</h2>
+  <div class="cards" id="wcards"></div>
+  <h2>Add / enroll a worker</h2>
+  <div class="note">Enrollment with a face photo happens inside the work order app: tap CHECK IN → take selfie → "NEW WORKER (first day)". New enrollees appear here automatically.</div>
+  <table id="whours"><tr><th>Worker</th><th>Segments completed</th><th>Hours logged</th><th>Receipts</th></tr></table>
+</div>
+<div id="brain" class="pane hidden">
+  <h2>TYPICAL BUY LIST — what you actually buy, every turnover</h2>
+  <div class="note">Built from every completed project's shopping lines. Sorted by how often you buy it. This is the auto-fill source for new turnover shopping lists.</div>
+  <div id="brainout"></div>
+</div>
+<div id="projects" class="pane hidden">
+  <h2>Completed turnovers</h2>
+  <div id="projout"></div>
+  <h2>Generate tenant packet</h2>
+  <div class="note">Move-out condition packet for the most recent completed project (photos + itemization + signature). Opens in a new tab — share it to the tenant.</div>
+  <button class="btn gold" onclick="packet()">📄 BUILD TENANT PACKET</button>
+</div>
+<div id="cloud" class="pane hidden">
+  <h2>Auto-upload on every stamp</h2>
+  <div class="note">1) In Google Drive (ciro@ account): create a folder <b>WO Media</b>. 2) Open script.google.com → new project → paste <b>wo/apps-script/Code.gs</b> (in this repo) → set FOLDER_ID → Deploy → Web app → execute as <b>me</b>, access <b>anyone</b> → copy the URL. 3) Paste the URL here. One authorize click, then every stamp auto-posts to Drive.</div>
+  <input id="cep" placeholder="https://script.google.com/macros/s/…/exec" oninput="saveEp(this.value)">
+  <div style="margin-top:8px"><button class="btn" onclick="testEp()">TEST CONNECTION</button> <span id="ctest"></span></div>
+  <h2>Upload queue</h2>
+  <div id="qout"></div>
+</div>
+</div>
+<script>
+const PINKEY='gre_pin', UNKEY='gre_unlocked';
+function g(k){try{return JSON.parse(localStorage.getItem(k)||'null')}catch(e){return null}}
+function s(k,v){localStorage.setItem(k,JSON.stringify(v))}
+function boot(){
+  const pin=localStorage.getItem(PINKEY);
+  if(!pin){localStorage.setItem(PINKEY,'1224');alert('First run: PIN set to 1224 — change it in CLOUD tab later.');}
+  if(sessionStorage.getItem(UNKEY)==='1'){$('lock').classList.add('hidden');$('app').classList.remove('hidden');renderAll()}
+}
+function tryPin(){
+  const v=document.getElementById('pin').value;
+  if(v===localStorage.getItem(PINKEY)){sessionStorage.setItem(UNKEY,'1');boot()}
+  else document.getElementById('perr').textContent='wrong PIN';
+}
+function tab(t){document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('on',x.dataset.t===t));document.querySelectorAll('.pane').forEach(p=>p.classList.add('hidden'));document.getElementById(t).classList.remove('hidden');if(t==='roster')roster();if(t==='brain')brain();if(t==='projects')projects();if(t==='cloud')cloud()}
+function fmtMoney(v){return '$'+(Math.round(v*100)/100).toFixed(2)}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;')}
+
+function roster(){
+  const workers=g('gre_workers')||[];
+  const wo=g('gre_wo_v5_muskego6')||{};
+  const stamps=wo.stamps||{};
+  const rows={};
+  for(const k in stamps){const st=stamps[k];if(!st||!st.endTs)continue;
+    const w=st.worker||'—';rows[w]=rows[w]||{segs:0,hrs:0,spent:0};
+    rows[w].segs++;
+  }
+  const H=[0.5,0.5,0.3,1,3,2,3,1.5,3,3,3,7];
+  let i=0;
+  for(const k in stamps){const st=stamps[k];if(!st||!st.endTs)continue;const w=st.worker||'—';if(rows[w]!==undefined&&H[i]!==undefined)rows[w].hrs+=H[i];i++;}
+  let h='';
+  for(const w of workers){
+    const r=rows[w.name]||{};
+    h+='<div class="wcard">'+(w.photo?'<img src="'+w.photo+'">':'<div style="font-size:30px">👷</div>')+'<div><div class="nm">'+esc(w.name)+'</div><div class="f">EMP '+esc(w.empId||'—')+' • $'+esc(w.rate||'—')+'/hr</div><div class="f">check-ins: '+((w.checkins||[]).length)+'</div><button onclick="deactivate(\''+w.id+'\')">deactivate</button></div></div>';
+  }
+  document.getElementById('wcards').innerHTML=h||'<div class="note">no workers enrolled yet — enroll in the work order app (CHECK IN → NEW WORKER)</div>';
+  let t='<tr><th>Worker</th><th>Segments completed</th><th>Hours logged</th><th>Receipts</th></tr>';
+  for(const w in rows)t+='<tr><td>'+esc(w)+'</td><td>'+rows[w].segs+'</td><td>'+Math.round(rows[w].hrs*10)/10+' hr</td><td>'+fmtMoney(wo.spent?wo.spent.reduce((a,s)=>a+(parseFloat(s.amt)||0),0):0)+'</td></tr>';
+  document.getElementById('whours').innerHTML=t;
+}
+function deactivate(id){let w=g('gre_workers')||[];w=w.filter(x=>x.id!==id);s('gre_workers',w);roster()}
+
+function brain(){
+  const projects=g('gre_projects')||[];
+  const agg={};
+  const add=(name,price)=>{const k=name.toLowerCase().replace(/[^a-z0-9]+/g,' ').trim().split(' ').slice(0,3).join(' ');agg[k]=agg[k]||{n:0,total:0,last:price,name:name};agg[k].n++;agg[k].total+=price||0;agg[k].last=price||agg[k].last};
+  for(const p of projects)for(const l of (p.lines||[]))if(l.item&&l.price)add(l.item,l.price);
+  const wo=g('gre_wo_v5_muskego6')||{};
+  for(const s of (wo.spent||[]))add('receipt '+(s.note||''),parseFloat(s.amt)||0);
+  const list=Object.entries(agg).sort((a,b)=>b[1].n-a[1].n);
+  let h='<table><tr><th>Item</th><th>Times bought</th><th>Avg price</th><th>Last price</th></tr>';
+  for(const [k,v] of list)h+='<tr><td>'+esc(v.name)+'</td><td>'+v.n+'</td><td>'+fmtMoney(v.total/v.n)+'</td><td>'+fmtMoney(v.last)+'</td></tr>';
+  h+='</table>';
+  document.getElementById('brainout').innerHTML=list.length?h:'<div class="note">no completed projects yet — the brain fills after the first VERIFY & SUBMIT</div>';
+}
+function projects(){
+  const projects=g('gre_projects')||[];
+  let h='';
+  for(const p of projects.slice().reverse())h+='<table><tr><th colspan="2">'+esc(p.name)+' — '+esc(p.at)+' '+esc(p.projectNum||'')+'</th></tr><tr><td>Worker</td><td>'+esc(p.worker||'—')+'</td></tr><tr><td>Spent</td><td>'+fmtMoney(p.spent||0)+'</td></tr><tr><td>Lines done</td><td>'+((p.lines||[]).filter(l=>l.done).length)+'/'+((p.lines||[]).length)+'</td></tr></table><br>';
+  document.getElementById('projout').innerHTML=h||'<div class="note">none yet — submit the first turnover</div>';
+}
+function packet(){
+  const projects=g('gre_projects')||[];
+  if(!projects.length){alert('no completed project yet');return}
+  const p=projects[projects.length-1];
+  let h='<html><head><meta charset="utf-8"><title>Move-Out Condition Packet</title></head><body style="font-family:Helvetica;max-width:740px;margin:auto">';
+  h+='<h1 style="color:#122438">MOVE-OUT CONDITION REPORT</h1><div style="color:#555">Unit: 1750 S. Muskego Apt 6 • '+esc(p.at)+' • Gamino Real Estate</div><hr>';
+  h+='<div style="font-size:13px;color:#444">Itemized condition findings documented below with photo evidence and timestamps, per Wisconsin security-deposit itemization requirements (Wis. Admin. Code § ATCP 134.06). Work completed and outstanding items are listed; signatures on file.</div><hr>';
+  for(const l of (p.lines||[]))h+='<div style="margin:10px 0"><b>'+esc(l.seg||'')+' — '+esc(l.item||'')+'</b> • '+ (l.done?'COMPLETED':'OUTSTANDING') +'</div>';
+  h+='<div style="margin:12px 0;font-size:13px">Tenant signature: ________________________  Date: ____________</div>';
+  h+='<div style="font-size:11px;color:#888">Generated by the Gamino RE turnover system</div></body></html>';
+  const w=window.open('');w.document.write(h);
+}
+function cloud(){renderCloud()}
+function saveEp(v){localStorage.setItem('gre_cloud_ep',v)}
+function renderCloud(){
+  document.getElementById('cep').value=localStorage.getItem('gre_cloud_ep')||'';
+  const q=g('gre_upq')||[];
+  document.getElementById('qout').innerHTML=q.length?('queued: '+q.length+'<br>'+q.map(x=>esc(x.name)).join('<br>')):'queue empty — everything uploaded';
+}
+function testEp(){
+  const ep=document.getElementById('cep').value.trim();if(!ep){document.getElementById('ctest').textContent='paste the URL first';return}
+  localStorage.setItem('gre_cloud_ep',ep);
+  fetch(ep,{method:'POST',body:JSON.stringify({name:'test.txt',b64:btoa('gamino wo test '+new Date().toISOString())})}).then(r=>r.text()).then(t=>{document.getElementById('ctest').textContent='server said: '+t.slice(0,60)}).catch(e=>{document.getElementById('ctest').textContent='failed: '+e.message});
+}
+function renderAll(){roster();brain();projects();cloud()}
+boot();
+</script>
+</body></html>

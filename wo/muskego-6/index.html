@@ -94,6 +94,13 @@ canvas.sig{touch-action:none;width:100%;height:180px;background:#fbfaf5;border:2
 .foot{font-size:10.5px;color:#777;margin:16px 0;text-align:center}
 .statusline{font-size:12px;font-weight:bold;margin-top:6px}
 </style></head><body>
+<div id="pinlock" style="display:none;position:fixed;inset:0;background:#122438;z-index:99;padding-top:100px;text-align:center;color:#f5efe0">
+<div style="font-size:22px;font-weight:bold">🔐 TURNOVER SYSTEM</div>
+<div style="font-size:12px;color:#cfd8e3;margin:8px 0 16px">private — Gamino Real Estate</div>
+<input id="pinin" type="password" inputmode="numeric" placeholder="PIN" style="font-size:22px;text-align:center;letter-spacing:8px;border:none;border-radius:8px;padding:12px;color:#122438;background:#f5efe0;width:180px" onkeydown="if(event.key==='Enter')pinTry()">
+<div id="pinerr" style="color:#ff9d9d;font-size:12px;margin-top:8px;min-height:16px"></div>
+<button onclick="pinTry()" style="margin-top:10px;background:#d4af37;color:#122438;border:none;border-radius:8px;padding:12px 30px;font-weight:bold;font-size:15px">UNLOCK</button>
+</div>
 <div class="wrap">
 <div class="side"><div class="hdr">
   <h1>TURNOVER WORK ORDER</h1>
@@ -121,6 +128,7 @@ canvas.sig{touch-action:none;width:100%;height:180px;background:#fbfaf5;border:2
     <button onclick="captureFinal()">🎥 RECORD FINAL WALKTHROUGH</button>
     <span id="finalstate"></span>
     <button class="sub" onclick="verifySubmit()">✅ VERIFY & SUBMIT</button>
+    <button onclick="tenantPacket()">📄 TENANT PACKET</button>
     <div class="next" id="nextsteps"></div>
   </div>
 
@@ -168,6 +176,18 @@ const TASKS=[
 ];
 const HOURS_TOTAL=27;
 const KEY='gre_wo_v5';
+/* PIN gate — back office lock (PIN managed in /wo/admin.html CLOUD tab) */
+(function(){
+  if(sessionStorage.getItem('gre_unlocked')==='1')return;
+  const saved=localStorage.getItem('gre_pin');
+  document.body.style.visibility='hidden';
+  window.pinTry=function(){
+    const v=document.getElementById('pinin').value;
+    if(v===(saved||'1224')){sessionStorage.setItem('gre_unlocked','1');location.reload()}
+    else{document.getElementById('pinerr').textContent='wrong PIN'}
+  };
+  window.__locked=true;
+})();
 let DB=JSON.parse(localStorage.getItem(KEY)||'null')||{workers:[],session:null,shiftStart:null,review:false,stamps:{},sig:null,signame:'',spent:[],complete:null,finalVid:false};
 let mcb=null,faceReady=false;
 
@@ -177,7 +197,17 @@ function idbOpen(){return new Promise((res,rej)=>{const r=indexedDB.open('gre_wo
 function idbPut(k,b){return new Promise((res,rej)=>{const tx=idb.transaction('vids','readwrite');tx.objectStore('vids').put(b,k);tx.oncomplete=res;tx.onerror=()=>rej(tx.error)})}
 function idbGet(k){return new Promise((res,rej)=>{const tx=idb.transaction('vids','readonly');const q=tx.objectStore('vids').get(k);q.onsuccess=()=>res(q.result);q.onerror=()=>rej(q.error)})}
 
-function save(){try{localStorage.setItem(KEY,JSON.stringify(DB))}catch(e){alert('Storage full — EXPORT then clear.')}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(DB));localStorage.setItem('gre_workers',JSON.stringify(DB.workers||[]))}catch(e){alert('Storage full — EXPORT then clear.')}}
+/* cloud auto-upload queue: every stamp posts to the configured endpoint */
+function qUp(name,b64){DB.upQ=DB.upQ||[];DB.upQ.push({name,b64});save();flushQ()}
+async function flushQ(){
+  const ep=localStorage.getItem('gre_cloud_ep');if(!ep)return;
+  DB.upQ=DB.upQ||[];
+  while(DB.upQ.length){
+    const it=DB.upQ[0];
+    try{const r=await fetch(ep,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:it.name,b64:it.b64})});if(!r.ok)break;DB.upQ.shift();save();render()}catch(e){break}
+  }
+}
 function $(id){return document.getElementById(id)}
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;')}
 function nowStr(){const d=new Date();return d.toLocaleDateString('en-US',{month:'numeric',day:'numeric',year:'2-digit'})+' '+d.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'})}
@@ -439,6 +469,7 @@ function processPhoto(file,n,kind){
     else if(kind==='money'){st.spent=st.spent||[];st.spent.push({amt:parseFloat(window._amt||0),note:'receipt'});st.receiptImg=data}
     else{st.img=data;st.endTs=Date.now();st.when=nowStr();st.worker=w?w.name:'';st.kind='done'}
     save();render();cleanup();
+    qUp((n||'final')+'-'+kind+'-'+Date.now()+'.jpg',data.split(',')[1]);
   });
 }
 const VID_MAX=10.5;
@@ -453,7 +484,13 @@ function processVideo(file,n,kind){
     const st=DB.stamps[n]||(DB.stamps[n]={worker:activeWorker()?activeWorker().name:''});
     if(kind==='beforevid'){st.hasVidBefore=true;if(!st.startTs)st.startTs=Date.now();st.kind=st.kind||'started'}
     if(kind==='aftervid'){st.hasVidAfter=true;st.endTs=Date.now();st.when=nowStr();st.kind='done'}
-    save();render();URL.revokeObjectURL(url);
+    save();render();
+    try{
+      const ab=await file.arrayBuffer();const bytes=new Uint8Array(ab);let binary='';const CH=0x8000;
+      for(let i=0;i<bytes.length;i+=CH)binary+=String.fromCharCode.apply(null,bytes.subarray(i,i+CH));
+      qUp((n||'final')+'-'+kind+'-'+Date.now()+'.mp4',btoa(binary));
+    }catch(e){}
+    URL.revokeObjectURL(url);
   };
 }
 function captureFinal(){
@@ -467,6 +504,7 @@ function captureFinal(){
         v.onloadedmetadata=async()=>{
           if(v.duration>185){alert('Walkthrough is '+Math.round(v.duration)+'s — keep under 3 minutes. Walk room to room, show each done line.');URL.revokeObjectURL(url);inp.remove();return}
           await idbPut('final',file);DB.finalVid=true;save();render();
+          try{const ab=await file.arrayBuffer();const bytes=new Uint8Array(ab);let binary='';const CH=0x8000;for(let i=0;i<bytes.length;i+=CH)binary+=String.fromCharCode.apply(null,bytes.subarray(i,i+CH));qUp('final-walkthrough-'+Date.now()+'.mp4',btoa(binary));}catch(e){}
           alert('Walkthrough saved ✓ — now VERIFY & SUBMIT.');URL.revokeObjectURL(url);inp.remove();
         };
       }else inp.remove();
@@ -481,7 +519,13 @@ async function verifySubmit(){
   if(!DB.sig){alert('Get the sign-off signature (✍️ section below), then submit.');return}
   ask('SUBMIT PROJECT?','Marks '+CONFIG.project+' COMPLETE, stamps the time, and fires: invoice draft → gallery → condition letter → next-turnover template.',true,v=>{
     if(!v)return;
-    DB.complete=nowStr();save();render();exportReport();
+    DB.complete=nowStr();
+    const lines=TASKS.map(t=>({seg:t.seg,item:t.title,done:taskDone(t),spent:((DB.stamps[t.n]||{}).spent||[]).reduce((a,s)=>a+(parseFloat(s.amt)||0),0)}));
+    const rec={projectNum:CONFIG.projectNum,name:CONFIG.project,at:DB.complete,worker:(activeWorker()||{}).name||'',spent:spentTotal(),lines:lines};
+    const projects=JSON.parse(localStorage.getItem('gre_projects')||'[]');projects.push(rec);localStorage.setItem('gre_projects',JSON.stringify(projects));
+    save();render();
+    try{qUp('project-record-'+Date.now()+'.json',btoa(unescape(encodeURIComponent(JSON.stringify(rec,null,1)))))}catch(e){}
+    exportReport();
   });
 }
 function undo(n){if(confirm('Reset '+TASKS.find(x=>x.n===n).seg+'? Photos/stamps for it will be removed.')){const st=DB.stamps[n];if(st&&st.hasVidBefore)idbDel(n+':beforevid');if(st&&st.hasVidAfter)idbDel(n+':aftervid');delete DB.stamps[n];save();render()}}
@@ -574,8 +618,28 @@ processPhoto=function(file,n,kind){
   _origProcess(file,n,kind);
 };
 
-idbOpen().then(()=>{if(DB.finalVid)$('finalstate').textContent='🎥 recorded ✓'});
-if(DB.sig){$('signame').value=DB.signame;$('sigstatus').textContent='✔ signature saved — '+DB.signame+' — '+DB.sigwhen}
-render();
+function tenantPacket(){
+  let h='<html><head><meta charset="utf-8"><title>Move-Out Condition Packet — 1750 S. Muskego Apt 6</title></head><body style="font-family:Helvetica;max-width:740px;margin:auto">';
+  h+='<h1 style="color:#122438">MOVE-OUT CONDITION REPORT</h1>';
+  h+='<div style="color:#555;font-size:13px">Unit: 1750 S. Muskego — Apt 6 • '+CONFIG.projectNum+' • prepared '+nowStr()+' • Gamino Real Estate</div><hr>';
+  h+='<div style="font-size:13px;color:#444">Itemized condition findings with photo evidence and time stamps, per Wisconsin security-deposit itemization requirements (Wis. Admin. Code § ATCP 134.06). Completed work and outstanding items are listed below. Tenant signature on file.</div><hr>';
+  for(const t of TASKS){const st=DB.stamps[t.n]||{};const done=!!(st.endTs||st.img);
+    h+='<div style="margin:12px 0"><b>'+t.seg+' — '+t.title+'</b> • '+(done?'COMPLETED '+(st.when||''):'OUTSTANDING')+'</div>';
+    if(st.startImg)h+='<img src="'+st.startImg+'" style="width:32%;display:inline-block;margin-right:1%">';
+    if(st.img)h+='<img src="'+st.img+'" style="width:32%;display:inline-block;margin-right:1%">';
+    if(st.receiptImg)h+='<img src="'+st.receiptImg+'" style="width:32%;display:inline-block">';
+    h+='</div>';}
+  if(DB.sig)h+='<div style="margin:16px 0"><b>Sign-off:</b> '+esc(DB.signame)+' — '+DB.sigwhen+'<br><img src="'+DB.sig+'" style="border:1px solid #ccc;width:420px"></div>';
+  h+='<div style="margin:12px 0;font-size:13px">Tenant acknowledgment: ________________________  Date: ____________</div>';
+  h+='<div style="font-size:11px;color:#888">Generated by the Gamino RE turnover system</div></body></html>';
+  const w=window.open('');w.document.write(h);
+}
+if(!DB.workers||!DB.workers.length){try{const m=localStorage.getItem('gre_workers');if(m)DB.workers=JSON.parse(m)||[]}catch(e){}}
+if(window.__locked){document.getElementById('pinlock').style.display='block';document.getElementById('pinlock').style.visibility='visible'}
+else{
+  idbOpen().then(()=>{if(DB.finalVid)$('finalstate').textContent='🎥 recorded ✓'});
+  if(DB.sig){$('signame').value=DB.signame;$('sigstatus').textContent='✔ signature saved — '+DB.signame+' — '+DB.sigwhen}
+  render();flushQ();
+}
 </script>
 </body></html>
