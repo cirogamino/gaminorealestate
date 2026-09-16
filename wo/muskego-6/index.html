@@ -1,0 +1,581 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>TURNOVER WORK ORDER — Muskego Apt 6 — Gamino Real Estate</title>
+<script src="https://cdn.jsdelivr.net/npm/@vladmandic/face-api/dist/face-api.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{touch-action:manipulation}
+body{font-family:-apple-system,Helvetica,Arial,sans-serif;background:#eef1f4;color:#111}
+button{font-family:inherit;touch-action:manipulation;user-select:none;-webkit-user-select:none;cursor:pointer}
+.wrap{display:flex;min-height:100vh}
+.side{width:330px;flex:none;background:#122438;color:#f5efe0;padding:14px;position:sticky;top:0;height:100vh;overflow:auto}
+.main{flex:1;padding:12px;max-width:980px}
+@media (max-width:940px){.wrap{display:block}.side{width:100%;height:auto;position:static}}
+.hdr h1{font-size:19px}
+.hdr .sub{font-size:12px;color:#cfd8e3;margin-top:4px}
+.lifetimets{margin-top:8px;background:#0d1b2b;border-radius:8px;padding:8px;font-size:12.5px}
+.lifetimets b{color:#d4af37}
+.checkin{margin-top:10px}
+.checkin button{background:#d4af37;color:#122438;border:none;border-radius:9px;padding:12px;font-size:14px;font-weight:bold;width:100%}
+.idcard{margin-top:10px;background:#f5efe0;color:#122438;border-radius:10px;padding:10px;display:flex;gap:10px;align-items:center}
+.idcard img{width:64px;height:64px;border-radius:8px;object-fit:cover;border:2px solid #d4af37}
+.idcard .in{flex:1}
+.idcard .nm{font-weight:bold;font-size:15px}
+.idcard .f{font-size:11.5px;color:#5a4a10}
+.prog{margin-top:10px;background:#0d1b2b;border-radius:8px;padding:8px}
+.bar{height:14px;background:#2a3b4d;border-radius:7px;overflow:hidden}
+.bar div{height:100%;background:#d4af37;width:0%}
+.pline{font-size:12px;color:#e8dfc0;margin-top:5px;display:flex;justify-content:space-between;flex-wrap:wrap}
+.drift-ok{color:#7ee2a0}.drift-bad{color:#ff9d9d}
+.shiftrow{display:flex;gap:6px;margin-top:8px}
+.sbtn{flex:1;background:#d4af37;color:#122438;border:none;border-radius:7px;padding:8px;font-size:13px;font-weight:bold}
+.revbtn{flex:1;background:#2a3b4d;color:#fff;border:1px solid #556;border-radius:7px;padding:8px;font-size:13px;font-weight:bold}
+.revbtn.on{background:#b03030;border-color:#b03030}
+.totline{font-size:12px;margin-top:6px}
+.seg{margin:18px 0 6px;background:#122438;color:#d4af37;display:inline-block;font-weight:bold;font-size:13px;padding:4px 14px;border-radius:12px}
+.task{background:#fff;border-radius:12px;margin:10px 0;box-shadow:0 1px 4px rgba(0,0,0,.15);overflow:hidden}
+.task.started{outline:3px solid #3d5a80}
+.task.done{outline:3px solid #1a9c48}
+.task.rejected{outline:3px solid #b03030}
+.rejnote{background:#fff3f3;color:#b03030;font-size:12.5px;font-weight:bold;padding:8px 12px;border-bottom:1px solid #f0c9c9}
+.segrow{display:grid;grid-template-columns:160px 1fr 160px;gap:0}
+@media (max-width:640px){.segrow{grid-template-columns:1fr 1fr}.seginfo{grid-column:1/3;grid-row:1}}
+.pcol{background:#f4f4f4;padding:8px;display:flex;flex-direction:column;gap:4px}
+.pcol img{width:100%;border-radius:6px;display:block;border:1px solid #ddd}
+.pslot{width:100%;aspect-ratio:4/3;background:#e8e8e8;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:18px;color:#aaa}
+.ptag{font-size:9px;text-align:center;color:#666;margin-top:1px;font-weight:bold}
+.vidchip{font-size:10px;background:#122438;color:#7ee2a0;border-radius:5px;padding:3px 5px;text-align:center}
+.pafter{border-left:1px solid #e2e2e2}
+.seginfo{padding:10px 12px;min-width:0}
+.snum{font-size:11px;color:#888;font-weight:bold}
+.stitle{font-size:16px;font-weight:bold;margin:2px 0}
+.sinst{font-size:13px;color:#444;margin:5px 0}
+.smat{font-size:12px;color:#7a5c00;margin:5px 0}
+.sclock{font-size:12px;color:#122438;font-weight:bold;margin:4px 0;background:#eef1f4;border-radius:6px;padding:4px 8px;display:inline-block}
+.btns{margin-top:8px;display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+@media (max-width:640px){.btns{grid-template-columns:repeat(2,1fr)}}
+.b{border:none;border-radius:9px;padding:10px 6px;font-size:12.5px;font-weight:bold}
+.b-done{background:#1a9c48;color:#fff}
+.b-start{background:#3d5a80;color:#fff}
+.b-vid{background:#122438;color:#fff}
+.b-money{background:#7a5c00;color:#fff}
+.b-stuck{background:#fff;color:#b03030;border:2px solid #b03030}
+.stampinfo{font-size:12px;color:#1a6b2f;font-weight:bold}
+.review{display:none;margin-top:8px;padding-top:8px;border-top:1px dashed #ccc;gap:8px;align-items:center;flex-wrap:wrap}
+body.review .review{display:flex}
+.appr{background:#1a9c48;color:#fff;border:none;border-radius:7px;padding:8px 14px;font-size:12.5px;font-weight:bold}
+.rej{background:#b03030;color:#fff;border:none;border-radius:7px;padding:8px 14px;font-size:12.5px;font-weight:bold}
+.approved-seal{font-size:12px;color:#1a6b2f;font-weight:bold;background:#e6f6ea;border-radius:6px;padding:3px 8px}
+.finalsec{background:#122438;color:#f5efe0;border-radius:12px;margin:18px 0;padding:16px}
+.finalsec h2{font-size:17px;color:#d4af37}
+.finalsec .hint{color:#cfd8e3;font-size:12px}
+.finalsec button{background:#d4af37;color:#122438;border:none;border-radius:9px;padding:12px 16px;font-size:14px;font-weight:bold;margin:6px 6px 0 0}
+.finalsec button.sub{background:#1a9c48;color:#fff}
+.sigsec{background:#fff;border-radius:12px;margin:18px 0;padding:14px;box-shadow:0 1px 4px rgba(0,0,0,.15)}
+.sigsec h2{font-size:16px;color:#122438;margin-bottom:4px}
+canvas.sig{touch-action:none;width:100%;height:180px;background:#fbfaf5;border:2px dashed #bbb;border-radius:8px;display:block}
+.sigtools{display:flex;gap:8px;margin-top:8px;align-items:center;flex-wrap:wrap}
+.sigtools input{font-size:14px;padding:6px 8px;border:1px solid #bbb;border-radius:6px;flex:1;min-width:140px}
+.clr{background:#e5e5e5;border:none;border-radius:7px;padding:8px 12px;font-size:12.5px;font-weight:bold}
+.export{position:sticky;bottom:10px;margin-top:14px;z-index:5}
+.export button{width:100%;background:#122438;color:#f5efe0;border:none;border-radius:10px;padding:14px;font-size:15px;font-weight:bold;box-shadow:0 2px 8px rgba(0,0,0,.3)}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:center;justify-content:center;z-index:50;padding:16px}
+.modal .box{background:#fff;border-radius:12px;max-width:460px;width:100%;padding:16px;max-height:86vh;overflow:auto}
+.modal input[type=text]{width:100%;font-size:16px;padding:8px;border:1px solid #bbb;border-radius:6px;margin-top:6px}
+.modal .row{display:flex;gap:8px;margin-top:12px}
+.modal button{flex:1;padding:10px;border-radius:8px;font-size:14px;font-weight:bold;border:none}
+.mok{background:#122438;color:#fff}.mcancel{background:#e5e5e5;color:#333}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px;margin-top:10px}
+.card{border:2px solid #ddd;border-radius:10px;padding:8px;text-align:center;cursor:pointer;background:#fff}
+.card img{width:64px;height:64px;border-radius:8px;object-fit:cover}
+.card .nm{font-weight:bold;font-size:13px}
+.card .f{font-size:10.5px;color:#777}
+.foot{font-size:10.5px;color:#777;margin:16px 0;text-align:center}
+.statusline{font-size:12px;font-weight:bold;margin-top:6px}
+</style></head><body>
+<div class="wrap">
+<div class="side"><div class="hdr">
+  <h1>TURNOVER WORK ORDER</h1>
+  <div class="sub">1750 S. Muskego — Apt 6<br>Gamino Real Estate • #C1XNNXAATX</div>
+  <div class="lifetimets" id="lifetimets">not checked in</div>
+  <div class="checkin"><button onclick="checkinFlow()">📷 CHECK IN — take a selfie</button></div>
+  <div id="idcard"></div>
+  <div class="prog">
+    <div class="bar"><div id="barfill"></div></div>
+    <div class="pline"><span id="pct">0%</span><span id="segs">0/12 segments</span></div>
+    <div class="pline"><span id="drift" class="drift-ok">tap ▶ START SHIFT when the day begins</span></div>
+    <div class="shiftrow">
+      <button class="sbtn" id="shiftbtn" onclick="startShift()">▶ START SHIFT</button>
+      <button class="revbtn" id="revbtn" onclick="toggleReview()">REVIEW: OFF</button>
+    </div>
+    <div class="totline" id="spentline">💵 spent: $0.00</div>
+  </div>
+</div></div>
+<div class="main">
+  <div id="tasks"></div>
+
+  <div class="finalsec" id="finalsec">
+    <h2>🎬 END-OF-DAY WALKTHROUGH</h2>
+    <div class="hint">When every segment is done: record ONE video walking the unit showing each item done (under 3 min). Then verify + submit — submission completes the project and fires billing, gallery and the next turnover template.</div>
+    <button onclick="captureFinal()">🎥 RECORD FINAL WALKTHROUGH</button>
+    <span id="finalstate"></span>
+    <button class="sub" onclick="verifySubmit()">✅ VERIFY & SUBMIT</button>
+    <div class="next" id="nextsteps"></div>
+  </div>
+
+  <div class="sigsec">
+    <h2>✍️ SIGN-OFF (Apple Pencil or finger)</h2>
+    <div class="hint" style="font-size:12px;color:#666;margin-bottom:8px">Condition accepted — saved with the report.</div>
+    <canvas id="sig" class="sig"></canvas>
+    <div class="sigtools">
+      <input id="signame" placeholder="printed name + role">
+      <button class="clr" onclick="clearSig()">Clear</button>
+      <button class="clr" style="background:#1a9c48;color:#fff" onclick="saveSig()">Save</button>
+    </div>
+    <div id="sigstatus" style="font-size:12px;color:#1a6b2f;font-weight:bold;margin-top:4px"></div>
+  </div>
+
+  <div class="export"><button onclick="exportReport()">📤 EXPORT EVERYTHING</button></div>
+  <div class="foot">Gamino Real Estate • turnover system v5 • segments are independent — do them in any order, every start/stop is timestamped</div>
+</div>
+</div>
+
+<div class="modal" id="mwin"><div class="box">
+  <div id="mtitle" style="font-weight:bold;font-size:15px"></div>
+  <div id="mbody" style="font-size:13px;color:#555;margin-top:4px"></div>
+  <div id="mextra"></div>
+  <input type="text" id="minput" placeholder="type here" style="display:none">
+  <div class="row"><button class="mcancel" onclick="mclose(false)">Cancel</button><button class="mok" onclick="mclose(true)">OK</button></div>
+</div></div>
+
+<script>
+/* =================== TEMPLATE DATA — refill per property =================== */
+const CONFIG={company:'Gamino Real Estate',project:'Muskego Apt 6 Turnover',projectNum:'#C1XNNXAATX',address:'1750 S. Muskego — Apt 6'};
+const TASKS=[
+ {n:1,seg:'SEG 1 · BATH',h:0.5,title:'Corner threshold guard — install',inst:'Screw the corner guard over the sharp bath-doorway corner. 4 screws, snug not stripped.',mat:'Corner guard (shopping 22) + drill'},
+ {n:2,seg:'SEG 2 · BATH',h:0.5,title:'Bathroom sink — fix slow drain',inst:'Remove stopper, clear hair/gunk, reassemble, run water 30 sec, confirm fast drain.',mat:'Zip-It drain tool (shopping 24)'},
+ {n:3,seg:'SEG 3 · KITCHEN',h:0.3,title:'Verify stove + fridge working',inst:'Fridge: light on and cold. Stove: each burner ignites. Video: open fridge + light a burner.',mat:'None'},
+ {n:4,seg:'SEG 4 · BATH',h:1.0,title:'Replace cracked pipe access panel',inst:'Bath wall. Remove cracked panel, screw new 14x14 panel in. Snug, not stripped.',mat:'14x14 access panel (shopping 23)'},
+ {n:5,seg:'SEG 5 · HALL',h:3.0,title:'Bullet holes — patch, sand, paint (2)',inst:'Hallway + wall. Fill holes with spackle, dry, sand flat, wipe dust, 1 coat Whipped Cream eggshell feathered out.',mat:'Spackle (4), sponge (5), wall paint (6)'},
+ {n:6,seg:'SEG 6 · BACK WALL',h:2.0,title:'Back wall repair',inst:'Fill damaged spots (2 passes if deep), sand flat, wipe, paint Whipped Cream eggshell to blend.',mat:'Spackle (4), sponge (5), wall paint (6)'},
+ {n:7,seg:'SEG 7 · BATH FLOOR',h:3.0,title:'Bathroom tile floor repair',inst:'Pry loose/cracked tiles, scrape old thinset, back-butter new tiles, set level, spacers. Grout after 24h cure (next visit).',mat:'Tile (15), thinset (14), spacers (17); grout (16) later'},
+ {n:8,seg:'SEG 8 · KITCHEN',h:1.5,title:'Mangled pull-down cabinet — repair',inst:'Screw loose panel into solid wood; wrecked door → remove door + hinge halves cleanly, fill holes.',mat:'Hinge repair plates (27) if torn'},
+ {n:9,seg:'SEG 9 · KITCHEN/DINING',h:3.0,title:'Frame trim — replace',inst:'Cut colonial casing with 45° miters, nail on, set nails, fill, touch up paint.',mat:'Casing (10), nails (11), caulk (12), trim paint (7)'},
+ {n:10,seg:'SEG 10 · WHOLE UNIT',h:3.0,title:'Curtain nail holes + touch-up + missing trim',inst:'Fill holes, sand, touch up paint, replace missing trim pieces.',mat:'Spackle (4), sponge (5), wall paint (6), casing (10)'},
+ {n:11,seg:'SEG 11 · WINDOWS',h:3.0,title:'Window blinds — inside-mount W1–W6',inst:'One per window, measures on sheet §3. Brackets inside frame, snap rail, test pull. ~30 min each.',mat:'Blinds (ordered after §3 filled)'},
+ {n:12,seg:'SEG 12 · ENTRY',h:7.0,title:'ENTRY DOOR — frame rebuild + re-hang + lockset',inst:'Sister lumber full height on broken jamb, re-hang door even, fit Schlage keypad lockset, test deadbolt + keypad 5×.',mat:'Frame lumber, Schlage FE575 (line 1), casing (10), trim paint (7)'},
+];
+const HOURS_TOTAL=27;
+const KEY='gre_wo_v5';
+let DB=JSON.parse(localStorage.getItem(KEY)||'null')||{workers:[],session:null,shiftStart:null,review:false,stamps:{},sig:null,signame:'',spent:[],complete:null,finalVid:false};
+let mcb=null,faceReady=false;
+
+/* IndexedDB for video blobs */
+let idb=null;
+function idbOpen(){return new Promise((res,rej)=>{const r=indexedDB.open('gre_wo_vids',1);r.onupgradeneeded=()=>r.result.createObjectStore('vids');r.onsuccess=()=>{idb=r.result;res()};r.onerror=()=>rej(r.error)})}
+function idbPut(k,b){return new Promise((res,rej)=>{const tx=idb.transaction('vids','readwrite');tx.objectStore('vids').put(b,k);tx.oncomplete=res;tx.onerror=()=>rej(tx.error)})}
+function idbGet(k){return new Promise((res,rej)=>{const tx=idb.transaction('vids','readonly');const q=tx.objectStore('vids').get(k);q.onsuccess=()=>res(q.result);q.onerror=()=>rej(q.error)})}
+
+function save(){try{localStorage.setItem(KEY,JSON.stringify(DB))}catch(e){alert('Storage full — EXPORT then clear.')}}
+function $(id){return document.getElementById(id)}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;')}
+function nowStr(){const d=new Date();return d.toLocaleDateString('en-US',{month:'numeric',day:'numeric',year:'2-digit'})+' '+d.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'})}
+function fmtMoney(v){return '$'+(Math.round(v*100)/100).toFixed(2)}
+function spentTotal(){return (DB.spent||[]).reduce((a,s)=>a+(parseFloat(s.amt)||0),0)}
+function activeWorker(){return DB.workers.find(w=>w.id===DB.session)}
+function taskDone(t){const s=DB.stamps[t.n];return !!(s&&s.endTs&&!s.rejected)}
+function durStr(s){if(!s||!s.startTs||!s.endTs)return'';const m=Math.round((s.endTs-s.startTs)/60000);return m>=60?Math.floor(m/60)+'h '+(m%60)+'m':m+'m'}
+function tsStr(ts){return new Date(ts).toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'})}
+
+/* =================== FACE ENGINE =================== */
+async function ensureFace(){
+  if(faceReady)return true;
+  try{
+    $('mtitle').textContent='Loading face engine…';$('mbody').textContent='first time only — a few seconds';$('mwin').style.display='flex';
+    const U='https://cdn.jsdelivr.net/npm/@vladmandic/face-api/model/';
+    await faceapi.nets.tinyFaceDetector.loadFromUri(U);
+    await faceapi.nets.faceLandmark68Net.loadFromUri(U);
+    await faceapi.nets.faceRecognitionNet.loadFromUri(U);
+    faceReady=true;$('mwin').style.display='none';return true;
+  }catch(e){$('mwin').style.display='none';return false}
+}
+async function describe(imgEl){
+  const det=await faceapi.detectSingleFace(imgEl,new faceapi.TinyFaceDetectorOptions({inputSize:320})).withFaceLandmarks().withFaceDescriptor();
+  return det?det.descriptor:null;
+}
+function bestMatch(desc){
+  let best=null,bd=1;
+  for(const w of DB.workers){if(!w.desc||!w.desc.length)continue;
+    let sum=0;for(let i=0;i<128;i++){const d=desc[i]-w.desc[i];sum+=d*d}
+    const dist=Math.sqrt(sum);
+    if(dist<bd){bd=dist;best=w}}
+  return {w:best,dist:bd};
+}
+function shrink(file,max,cb){
+  const img=new Image();const url=URL.createObjectURL(file);
+  img.onload=()=>{const W=Math.min(img.width,max),sc=W/img.width,H=Math.round(img.height*sc);
+    const c=document.createElement('canvas');c.width=W;c.height=H;
+    c.getContext('2d').drawImage(img,0,0,W,H);
+    cb(c,()=>URL.revokeObjectURL(url))};
+  img.src=url;
+}
+
+/* =================== CHECK-IN =================== */
+function checkinFlow(){
+  const inp=document.createElement('input');
+  inp.type='file';inp.accept='image/*';inp.capture='user';inp.style.display='none';
+  inp.onchange=async()=>{
+    if(!inp.files||!inp.files[0]){inp.remove();return}
+    const file=inp.files[0];
+    const ok=await ensureFace();
+    shrink(file,640,async(canvas,cleanup)=>{
+      let desc=null,thumb=canvas.toDataURL('image/jpeg',0.8);
+      if(ok){desc=await describe(canvas)}
+      if(desc){
+        const {w,dist}=bestMatch(desc);
+        if(w&&dist<0.5){checkinAs(w,thumb);cleanup();inp.remove();return}
+        if(w&&dist<0.62){
+          ask('IS THIS YOU?','Face match ('+Math.round((1-dist)*100)+'%): '+w.name+' — '+w.empId,true,v=>{if(v){checkinAs(w,thumb)}else{pickCard(thumb,desc)}cleanup();inp.remove()});
+          return;
+        }
+        ask('FACE NOT RECOGNIZED','No roster match. Add as a new worker, or tap your ID card.',false,()=>{pickCard(thumb,desc);cleanup();inp.remove()});
+      }else{
+        ask('NO FACE SEEN','Take the selfie again with your whole face in frame — or tap your ID card.',false,()=>{pickCard(thumb,desc);cleanup();inp.remove()});
+      }
+    });
+  };
+  document.body.appendChild(inp);inp.click();
+}
+function checkinAs(w,thumb){
+  DB.session=w.id;
+  if(!w.photo&&thumb)w.photo=thumb;
+  if(thumb&&!w.checkins)w.checkins=[];
+  if(thumb)w.checkins.push({at:Date.now(),photo:thumb});
+  save();render();
+}
+function pickCard(thumb,desc){
+  if(!DB.workers.length){addWorkerFlow(thumb,desc);return}
+  let h='<div class="cards">';
+  for(const w of DB.workers)h+='<div class="card" onclick="pickCardId(\''+w.id+'\')">'+(w.photo?'<img src="'+w.photo+'">':'<div style="font-size:30px">👷</div>')+'<div class="nm">'+esc(w.name)+'</div><div class="f">'+esc(w.empId)+'</div></div>';
+  h+='</div><div style="text-align:center;margin-top:10px"><button class="clr" onclick="addWorkerFlow(window._cthumb,window._cdesc)">➕ NEW WORKER (first day)</button></div>';
+  window._cthumb=thumb;window._cdesc=desc;
+  $('mtitle').textContent='TAP YOUR ID CARD';$('mbody').textContent='';$('mextra').innerHTML=h;$('minput').style.display='none';
+  $('mwin').style.display='flex';mcb=v=>{};
+}
+function pickCardId(id){
+  const w=DB.workers.find(x=>x.id===id);
+  $('mwin').style.display='none';$('mextra').innerHTML='';
+  checkinAs(w,window._cthumb||null);
+  if(window._cdesc&&w&&!w.desc&&window._cdesc.length){w.desc=Array.from(window._cdesc);save()}
+}
+function addWorkerFlow(thumb,desc){
+  $('mextra').innerHTML='';window._cthumb=thumb;window._cdesc=desc;
+  ask('NEW WORKER','Full name:',true,name=>{
+    if(!name)return;
+    ask('EMPLOYEE ID','Employee ID number:',true,emp=>{
+      ask('HOURLY RATE','Hourly rate in dollars (e.g. 25):',true,rate=>{
+        const w={id:'w'+Date.now(),name:name,empId:emp||'',rate:rate||'',photo:thumb?(thumb.startsWith('data:')?thumb:null):null,desc:desc?Array.from(desc):null};
+        if(thumb&&!w.photo){/* thumb is a canvas-derived dataURL only when from shrink; keep if data */}
+        DB.workers.push(w);save();
+        checkinAs(w,thumb&&!w.photo?thumb:null);
+      });
+    });
+  });
+}
+
+/* =================== RENDER =================== */
+function render(){
+  const w=activeWorker();
+  $('lifetimets').innerHTML=(DB.session&&w)?('<b>'+esc(w.name)+'</b> checked in '+((DB.checkinAt?new Date(DB.checkinAt):new Date()).toLocaleString('en-US',{month:'numeric',day:'numeric',hour:'numeric',minute:'2-digit'}))):'not checked in';
+  $('idcard').innerHTML=w?('<div class="idcard">'+(w.photo?'<img src="'+w.photo+'">':'<div style="font-size:30px">👷</div>')+'<div class="in"><div class="nm">'+esc(w.name)+'</div><div class="f">EMP ID '+esc(w.empId||'—')+'</div><div class="f">Rate $'+esc(w.rate||'—')+'/hr</div></div></div>'):'';
+  $('shiftbtn').textContent=DB.shiftStart?'↻ RESET SHIFT':'▶ START SHIFT';
+  $('revbtn').textContent='CIRO REVIEW: '+(DB.review?'ON':'OFF');
+  $('revbtn').className='revbtn'+(DB.review?' on':'');
+  document.body.className=DB.review?'review':'';
+  let html='',lastSeg='';
+  for(const t of TASKS){
+    if(t.seg!==lastSeg){html+='<div class="seg">'+t.seg+'</div>';lastSeg=t.seg}
+    const st=DB.stamps[t.n]||null;
+    const rej=st&&st.rejected;
+    const isDone=taskDone(t);
+    const started=st&&st.startTs;
+    const cls='task'+(isDone?' done':'')+(started&&!isDone?' started':'')+(rej?' rejected':'');
+    let phB='<div class="pslot">📷</div><div class="ptag">BEFORE</div>';
+    if(st&&st.startImg)phB='<img src="'+st.startImg+'"><div class="ptag">BEFORE '+tsStr(st.startTs)+'</div>';
+    if(st&&st.hasVidBefore)phB+='<div class="vidchip">🎥 video ✓</div>';
+    let phA='<div class="pslot">✅</div><div class="ptag">AFTER</div>';
+    if(st&&st.img)phA='<img src="'+st.img+'"><div class="ptag">AFTER '+tsStr(st.endTs||Date.now())+'</div>';
+    if(st&&st.hasVidAfter)phA+='<div class="vidchip">🎥 video ✓</div>';
+    const spentOn=(st&&st.spent||[]).reduce((a,s)=>a+(parseFloat(s.amt)||0),0);
+    const clock=started?'<div class="sclock">▶ started '+tsStr(st.startTs)+(st.endTs?' → ✔ done '+tsStr(st.endTs)+' ('+durStr(st)+')':' — in progress')+'</div>':'';
+    html+='<div class="'+cls+'" id="task'+t.n+'"><div class="segrow">'
+      +'<div class="pcol">'+phB+'</div>'
+      +'<div class="seginfo"><div class="snum">'+t.seg+' • '+t.h+' hr target</div>'
+      +'<div class="stitle">'+esc(t.title)+'</div>'
+      +(rej?'<div class="rejnote">↩ SENT BACK: '+esc(st.rejNote||'')+'</div>':'')
+      +'<div class="sinst">'+esc(t.inst)+'</div>'
+      +'<div class="smat">🔧 '+esc(t.mat)+'</div>'
+      +clock
+      +'<div class="btns">'
+        +(isDone
+          ? '<button class="b-done" onclick="viewTask('+t.n+')">✓ DONE</button><button class="b-vid" onclick="capture('+t.n+',\'aftervid\')">🎥 AFTER VID</button><button class="b-money" onclick="addSpent('+t.n+')">🧾 $ RECEIPT</button>'
+          : (started
+            ? '<button class="b-done" onclick="needWorker(()=>capture('+t.n+',\'done\'))">✔ DONE + PHOTO</button><button class="b-vid" onclick="needWorker(()=>capture('+t.n+',\'aftervid\'))">🎥 DONE VID</button><button class="b-stuck" onclick="stuck('+t.n+')">⚠ STUCK</button>'
+            : '<button class="b-start" onclick="needWorker(()=>startSeg('+t.n+',true))">▶ START + BEFORE</button><button class="b-start" style="background:#8aa0b5" onclick="needWorker(()=>startSeg('+t.n+',false))">▶ START</button><button class="b-done" onclick="needWorker(()=>capture('+t.n+',\'done\'))">✔ DONE</button><button class="b-vid" onclick="needWorker(()=>capture('+t.n+',\'beforevid\'))">🎥 BEFORE VID</button><button class="b-money" onclick="addSpent('+t.n+')">🧾 $ RECEIPT</button><button class="b-stuck" onclick="stuck('+t.n+')">⚠ STUCK</button>'))
+      +'</div>'
+      +(st&&!isDone&&!rej&&st.kind==='stuck'?'<div class="stuckinfo" style="margin-top:6px">⚠ BLOCKED: '+esc(st.reason||'')+' — '+tsStr(st.startTs||Date.now())+'</div>':'')
+      +(isDone?'<div class="stampinfo" style="margin-top:6px">✓ '+tsStr(st.endTs)+' — '+esc(st.worker)+(st.approved?' <span class="approved-seal">✔ APPROVED</span>':'')+' <button class="undo" onclick="undo('+t.n+')">undo</button></div>':'')
+      +(spentOn?'<div class="moneyrow" style="margin-top:6px"><span class="moneyinfo" style="font-size:12px;color:#7a5c00;font-weight:bold">💵 '+fmtMoney(spentOn)+' receipts</span></div>':'')
+      +'<div class="review">'+(st?'<button class="appr" onclick="review('+t.n+',1)">✔ APPROVE</button><button class="rej" onclick="review('+t.n+',0)">✗ SEND BACK</button>':'')+'</div>'
+      +'</div>'
+      +'<div class="pcol pafter">'+phA+'</div>'
+      +'</div></div>';
+  }
+  $('tasks').innerHTML=html;
+  const doneList=TASKS.filter(taskDone);
+  const hrsDone=doneList.reduce((a,t)=>a+t.h,0);
+  const pct=Math.round(hrsDone/HOURS_TOTAL*100);
+  $('barfill').style.width=pct+'%';
+  $('pct').textContent=pct+'%';
+  $('segs').textContent=doneList.length+'/'+TASKS.length+' segments';
+  const d=driftText();$('drift').textContent=d.t;$('drift').className=d.ok?'drift-ok':'drift-bad';
+  $('spentline').textContent='💵 spent: '+fmtMoney(spentTotal());
+  $('finalstate').textContent=DB.finalVid?'🎥 recorded ✓':'';
+  if(DB.complete){$('nextsteps').innerHTML='<b style="color:#7ee2a0">✔ PROJECT COMPLETE — '+DB.complete+'</b><br>Next steps armed: invoice draft → photo/video gallery → condition letter → next-turnover template.'}
+  renderGallery();
+}
+function renderGallery(){
+  let g='';
+  for(const t of TASKS){const st=DB.stamps[t.n];if(st&&st.img)g+='<div class="gitem"><img src="'+st.img+'"><div class="cap">'+t.seg+' — '+esc(t.title)+'</div></div>'}
+  $('galgrid')&&($('galgrid').innerHTML=g||'<div style="font-size:12px;color:#888">receipt photos appear here</div>');
+}
+function startShift(){
+  if(DB.shiftStart){if(confirm('Reset shift clock?')){DB.shiftStart=Date.now();save();render()}return}
+  DB.shiftStart=Date.now();save();render();
+}
+function driftText(){
+  if(!DB.shiftStart)return{t:'tap ▶ START SHIFT when the day begins',ok:true};
+  const elapsedMin=(Date.now()-DB.shiftStart)/60000;
+  const doneHrs=TASKS.filter(taskDone).reduce((a,t)=>a+t.h,0);
+  const diffMin=Math.round(elapsedMin-doneHrs*60);
+  if(diffMin<=0)return{t:'⏱ ON SCHEDULE ('+Math.abs(diffMin)+' min ahead)',ok:true};
+  return{t:'⏱ '+diffMin+' min BEHIND schedule',ok:false};
+}
+function toggleReview(){DB.review=!DB.review;save();render()}
+
+/* =================== SEGMENT STAMPS =================== */
+function needWorker(cb){
+  if(DB.session){cb();return}
+  checkinFlow();
+}
+function startSeg(n,withPhoto){
+  needWorker(()=>{
+    const st=DB.stamps[n]||(DB.stamps[n]={worker:activeWorker().name});
+    st.startTs=Date.now();st.worker=activeWorker().name;st.kind=st.kind||'started';
+    save();render();
+    if(withPhoto)capture(n,'start');
+  });
+}
+function ask(title,body,withInput,cb){
+  $('mtitle').textContent=title;$('mbody').textContent=body;
+  const inp=$('minput');inp.style.display=withInput?'block':'none';inp.value='';
+  $('mextra').innerHTML='';
+  mcb=v=>cb(v);$('mwin').style.display='flex';if(withInput)inp.focus();
+}
+function mclose(ok){
+  const v=ok?($('minput').style.display!=='none'?$('minput').value.trim():true):false;
+  $('mwin').style.display='none';const cb=mcb;mcb=null;if(cb&&v!==false)cb(v);
+}
+function stuck(n){
+  needWorker(()=>{
+    ask('STUCK — '+TASKS.find(x=>x.n===n).seg,'Video/photo of the problem, then type what is blocking you.',true,reason=>{
+      if(!reason)return;window._stuckReason=reason;
+      const st=DB.stamps[n]||(DB.stamps[n]={worker:activeWorker().name});
+      st.kind='stuck';if(!st.startTs)st.startTs=Date.now();st.reason=reason;st.when=nowStr();save();render();pick(n,'stuck');
+    });
+  });
+}
+function addSpent(n){
+  ask('RECEIPT — '+TASKS.find(x=>x.n===n).seg,'Snap the receipt, then type the dollar amount (e.g. 12.48).',true,v=>{
+    if(!v||isNaN(parseFloat(v)))return;
+    needWorker(()=>{window._amt=v;pick(n,'money')});
+  });
+}
+function pick(n,kind){
+  const isVid=(kind==='beforevid'||kind==='aftervid'||kind==='final'||kind==='stuckvid');
+  const inp=document.createElement('input');
+  inp.type='file';inp.accept=isVid?'video/*':'image/*';inp.capture='environment';inp.style.display='none';
+  inp.onchange=()=>{
+    if(inp.files&&inp.files[0]){
+      if(isVid)processVideo(inp.files[0],n,kind);
+      else processPhoto(inp.files[0],n,kind);
+    }
+    inp.remove();
+  };
+  document.body.appendChild(inp);inp.click();
+}
+function stampBar(x,W,H,barH,kind,t,n){
+  x.fillStyle='rgba(18,36,56,0.92)';x.fillRect(0,H-barH,W,barH);
+  x.fillStyle=kind==='start'?'#7ec8ff':kind==='money'?'#d4af37':kind==='stuck'?'#ff9d9d':'#d4af37';x.fillRect(0,H-barH,W,4);
+  x.fillStyle='#fff';x.font='bold '+Math.round(W*0.033)+'px Helvetica';
+  const label=kind==='start'?'BEFORE — ':kind==='money'?'RECEIPT — ':kind==='stuck'?'⚠ BLOCKED — ':'DONE — ';
+  x.fillText(label+(t.title?t.title.slice(0,48):''),14,H-barH+Math.round(W*0.048));
+  x.font=Math.round(W*0.028)+'px Helvetica';
+  x.fillText('Worker: '+(activeWorker()?activeWorker().name:'—')+'   '+nowStr(),14,H-barH+Math.round(W*0.086));
+  x.fillStyle='#cfd8e3';x.font=Math.round(W*0.024)+'px Helvetica';
+  x.fillText(CONFIG.company+' • '+CONFIG.projectNum+' • '+(n?t.seg:'final'),14,H-8);
+}
+function processPhoto(file,n,kind){
+  const w=activeWorker();
+  shrink(file,1280,(canvas,cleanup)=>{
+    const t=TASKS.find(z=>z.n===n)||{title:'FINAL',seg:'final'};
+    const W=canvas.width,H=canvas.height,x=canvas.getContext('2d');
+    const barH=Math.max(84,Math.round(H*0.12));
+    stampBar(x,W,H,barH,kind,t,n);
+    const data=canvas.toDataURL('image/jpeg',0.7);
+    const st=DB.stamps[n]||(DB.stamps[n]={worker:w?w.name:''});
+    if(kind==='start'){st.startImg=data;if(!st.startTs)st.startTs=Date.now();st.kind=st.kind||'started'}
+    else if(kind==='money'){st.spent=st.spent||[];st.spent.push({amt:parseFloat(window._amt||0),note:'receipt'});st.receiptImg=data}
+    else{st.img=data;st.endTs=Date.now();st.when=nowStr();st.worker=w?w.name:'';st.kind='done'}
+    save();render();cleanup();
+  });
+}
+const VID_MAX=10.5;
+function processVideo(file,n,kind){
+  const url=URL.createObjectURL(file);
+  const v=document.createElement('video');v.preload='metadata';v.src=url;
+  v.onloadedmetadata=async()=>{
+    const dur=v.duration;
+    if(!isFinite(dur)){alert('Could not read that video — try again.');URL.revokeObjectURL(url);return}
+    if(dur>VID_MAX){alert('CLIP TOO LONG ('+Math.round(dur)+'s). Under 10 seconds — short and steady beats long.');URL.revokeObjectURL(url);return}
+    await idbPut(n+':'+kind,file);
+    const st=DB.stamps[n]||(DB.stamps[n]={worker:activeWorker()?activeWorker().name:''});
+    if(kind==='beforevid'){st.hasVidBefore=true;if(!st.startTs)st.startTs=Date.now();st.kind=st.kind||'started'}
+    if(kind==='aftervid'){st.hasVidAfter=true;st.endTs=Date.now();st.when=nowStr();st.kind='done'}
+    save();render();URL.revokeObjectURL(url);
+  };
+}
+function captureFinal(){
+  needWorker(()=>{
+    const inp=document.createElement('input');
+    inp.type='file';inp.accept='video/*';inp.capture='environment';inp.style.display='none';
+    inp.onchange=()=>{
+      if(inp.files&&inp.files[0]){
+        const file=inp.files[0];const url=URL.createObjectURL(file);
+        const v=document.createElement('video');v.preload='metadata';v.src=url;
+        v.onloadedmetadata=async()=>{
+          if(v.duration>185){alert('Walkthrough is '+Math.round(v.duration)+'s — keep under 3 minutes. Walk room to room, show each done line.');URL.revokeObjectURL(url);inp.remove();return}
+          await idbPut('final',file);DB.finalVid=true;save();render();
+          alert('Walkthrough saved ✓ — now VERIFY & SUBMIT.');URL.revokeObjectURL(url);inp.remove();
+        };
+      }else inp.remove();
+    };
+    document.body.appendChild(inp);inp.click();
+  });
+}
+async function verifySubmit(){
+  const missing=TASKS.filter(t=>!taskDone(t)).map(t=>t.seg+' '+t.title);
+  if(missing.length){alert('NOT DONE YET:\n'+missing.join('\n')+'\n\nFinish or flag STUCK before submitting.');return}
+  if(!DB.finalVid){alert('Record the final walkthrough video first (🎬 above), then submit.');return}
+  if(!DB.sig){alert('Get the sign-off signature (✍️ section below), then submit.');return}
+  ask('SUBMIT PROJECT?','Marks '+CONFIG.project+' COMPLETE, stamps the time, and fires: invoice draft → gallery → condition letter → next-turnover template.',true,v=>{
+    if(!v)return;
+    DB.complete=nowStr();save();render();exportReport();
+  });
+}
+function undo(n){if(confirm('Reset '+TASKS.find(x=>x.n===n).seg+'? Photos/stamps for it will be removed.')){const st=DB.stamps[n];if(st&&st.hasVidBefore)idbDel(n+':beforevid');if(st&&st.hasVidAfter)idbDel(n+':aftervid');delete DB.stamps[n];save();render()}}
+function review(n,ok){
+  const st=DB.stamps[n];if(!st)return;
+  if(ok){st.approved=true;delete st.rejected;delete st.rejNote}
+  else{
+    ask('SEND BACK — '+TASKS.find(x=>x.n===n).seg,'Why is it going back? (worker sees this note)',true,v=>{
+      if(!v)return;st.approved=false;st.rejected=true;st.rejNote=v;delete st.img;delete st.endTs;st.kind='started';save();render();
+    });
+    return;
+  }
+  save();render();
+}
+function viewTask(n){const st=DB.stamps[n];if(!st||!st.img)return;const w=window.open('');w.document.write('<img src="'+st.img+'" style="width:100%">')}
+
+/* signature */
+const sig=$('sig');let sctx=sig.getContext('2d'),drawing=false,last=null;
+function sigResize(){const r=sig.getBoundingClientRect();if(!r.width)return;if(sig.width===Math.round(r.width*2))return;sig.width=Math.round(r.width*2);sig.height=Math.round(r.height*2);sctx.scale(2,2);sctx.lineWidth=2.5;sctx.lineCap='round';sctx.lineJoin='round';sctx.strokeStyle='#122438'}
+setTimeout(sigResize,80);window.addEventListener('resize',()=>setTimeout(sigResize,100));
+function sigPos(e){const r=sig.getBoundingClientRect();return{x:e.clientX-r.left,y:e.clientY-r.top,p:e.pressure&&e.pressure>0?e.pressure:0.5}}
+sig.addEventListener('pointerdown',e=>{sigResize();drawing=true;last=sigPos(e);sig.setPointerCapture(e.pointerId)});
+sig.addEventListener('pointermove',e=>{if(!drawing)return;const p=sigPos(e);sctx.beginPath();sctx.lineWidth=1.2+p.p*3.2;sctx.moveTo(last.x,last.y);sctx.lineTo(p.x,p.y);sctx.stroke();last=p});
+sig.addEventListener('pointerup',()=>{drawing=false});
+function clearSig(){sctx.clearRect(0,0,sig.width,sig.height);$('sigstatus').textContent=''}
+function saveSig(){
+  const w=activeWorker();
+  if(!w&&!DB.signameUser){alert('Check in first (selfie at the top).');return}
+  const name=$('signame').value.trim();
+  if(!name){alert('Type the printed name + role first.');return}
+  DB.sig=sig.toDataURL('image/png');DB.signame=name;DB.sigwhen=nowStr();save();
+  $('sigstatus').textContent='✔ signature saved — '+name+' — '+DB.sigwhen;
+}
+async function exportReport(){
+  const stamped=TASKS.filter(t=>DB.stamps[t.n]&&(DB.stamps[t.n].img||DB.stamps[t.n].endTs));
+  if(!stamped.length&&!DB.complete){alert('Nothing stamped yet.');return}
+  const w=activeWorker();
+  let h='<html><head><meta charset="utf-8"><title>Report — '+CONFIG.project+'</title></head><body style="font-family:Helvetica;max-width:740px;margin:auto">';
+  if(DB.complete)h+='<div style="background:#1a9c48;color:#fff;padding:10px 14px;border-radius:8px"><b>✔ PROJECT COMPLETE</b> — '+DB.complete+'</div>';
+  h+='<h2 style="color:#122438">COMPLETION REPORT — '+CONFIG.project+'</h2>';
+  h+='<div style="color:#666;font-size:13px">'+CONFIG.address+' • '+CONFIG.projectNum+' • exported '+nowStr()+' • worker: '+(w?w.name+' (EMP '+w.empId+')':'—')+' • spent: '+fmtMoney(spentTotal())+'</div><hr>';
+  for(const t of TASKS){const st=DB.stamps[t.n];if(!st)continue;
+    h+='<div style="margin:14px 0"><b>'+t.seg+' — '+t.title+'</b>';
+    h+='<div style="font-size:12px;color:#122438">▶ started '+(st.startTs?tsStr(st.startTs):'—')+' • ✔ done '+(st.endTs?tsStr(st.endTs):'—')+(durStr(st)?' ('+durStr(st)+')':'')+'</div>';
+    if(st.startImg)h+='<div style="font-size:11px;color:#555">BEFORE:</div><img src="'+st.startImg+'" style="width:49%;display:inline-block">';
+    if(st.img)h+='<div style="font-size:11px;color:#1a6b2f">'+(st.kind||'done').toUpperCase()+' '+st.when+' — '+st.worker+(st.approved?' — ✔ APPROVED':'')+(st.reason?' — BLOCKED: '+st.reason:'')+'</div><img src="'+st.img+'" style="width:49%">';
+    if(st.hasVidBefore||st.hasVidAfter)h+='<div style="font-size:12px;color:#122438">🎥 videos: '+(st.hasVidBefore?'before ':'')+(st.hasVidAfter?'after':'')+' (attached)</div>';
+    if(st.spent&&st.spent.length)h+='<div style="font-size:12px;color:#7a5c00">Receipts: '+st.spent.map(s=>fmtMoney(s.amt)+' '+s.note).join(', ')+'</div>';
+    h+='</div>';}
+  if(DB.finalVid)h+='<div style="background:#122438;color:#fff;padding:10px;border-radius:8px;margin:10px 0">🎥 FINAL WALKTHROUGH attached</div>';
+  if(DB.sig)h+='<h3>Sign-off</h3><div style="font-size:13px">'+esc(DB.signame)+' — '+DB.sigwhen+'</div><img src="'+DB.sig+'" style="border:1px solid #ccc;width:420px">';
+  h+='<div style="font-size:11px;color:#888">Spent total: '+fmtMoney(spentTotal())+'</div></body></html>';
+  const blob=new Blob([h],{type:'text/html'});
+  const files=[new File([blob],'muskego-appt6-report.html',{type:'text/html'})];
+  for(const t of TASKS){
+    const st=DB.stamps[t.n];if(!st)continue;
+    if(st.hasVidBefore){const b=await idbGet(t.n+':beforevid');if(b)files.push(new File([b],t.seg.replace(/[^\w]+/g,'-').toLowerCase()+'-before.mp4',{type:'video/mp4'}))}
+    if(st.hasVidAfter){const b=await idbGet(t.n+':aftervid');if(b)files.push(new File([b],t.seg.replace(/[^\w]+/g,'-').toLowerCase()+'-after.mp4',{type:'video/mp4'}))}
+  }
+  if(DB.finalVid){const b=await idbGet('final');if(b)files.push(new File([b],'final-walkthrough.mp4',{type:'video/mp4'}))}
+  if(navigator.canShare&&navigator.canShare({files})){navigator.share({files,title:CONFIG.project+' report'+(DB.complete?' — COMPLETE':'')}).catch(()=>{})}
+  else{files.forEach(f=>{const a=document.createElement('a');a.href=URL.createObjectURL(f);a.download=f.name;a.click()})}
+}
+/* money flow: photo + amount */
+function _moneyPick(n,kind){
+  const inp=document.createElement('input');
+  inp.type='file';inp.accept='image/*';inp.capture='environment';inp.style.display='none';
+  inp.onchange=()=>{if(inp.files&&inp.files[0])processPhoto(inp.files[0],n,'money');inp.remove()};
+  document.body.appendChild(inp);inp.click();
+}
+const _origPick=pick;
+pick=function(n,kind){
+  if(kind==='money'){needWorker(()=>_moneyPick(n,kind));return}
+  _origPick(n,kind);
+};
+const _origProcess=processPhoto;
+processPhoto=function(file,n,kind){
+  if(kind==='money'){
+    shrink(file,1280,(canvas,cleanup)=>{
+      const t=TASKS.find(z=>z.n===n)||{title:'RECEIPT',seg:''};
+      const W=canvas.width,H=canvas.height,x=canvas.getContext('2d');
+      stampBar(x,W,H,Math.max(84,Math.round(H*0.12)),'money',t,n);
+      const data=canvas.toDataURL('image/jpeg',0.7);
+      const st=DB.stamps[n]||(DB.stamps[n]={worker:activeWorker()?activeWorker().name:''});
+      st.spent=st.spent||[];st.spent.push({amt:parseFloat(window._amt||0),note:'receipt'});
+      st.receiptImg=data;save();render();cleanup();
+    });
+    return;
+  }
+  _origProcess(file,n,kind);
+};
+
+idbOpen().then(()=>{if(DB.finalVid)$('finalstate').textContent='🎥 recorded ✓'});
+if(DB.sig){$('signame').value=DB.signame;$('sigstatus').textContent='✔ signature saved — '+DB.signame+' — '+DB.sigwhen}
+render();
+</script>
+</body></html>
