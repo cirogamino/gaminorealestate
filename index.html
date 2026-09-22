@@ -79,6 +79,7 @@ img{max-width:100%;display:block}
 .brand em{color:var(--gold);font-style:normal}
 .nav-right{display:flex;align-items:center;gap:16px}
 .nav-links{display:flex;gap:24px;align-items:center;font-size:.73rem;letter-spacing:.15em;text-transform:uppercase;font-weight:600}
+.nav-links a.avail{color:var(--red);letter-spacing:.12em;font-weight:700}.nav-links a.avail:hover{color:var(--gold)}
 .nav-links a{color:var(--text-dim);transition:color .25s}
 .nav-links a:hover{color:var(--gold)}
 @media(max-width:1000px){.nav-links a{display:none}}
@@ -111,6 +112,18 @@ img{max-width:100%;display:block}
 .btn{display:inline-flex;align-items:center;gap:10px;padding:16px 34px;border-radius:999px;font-size:.92rem;font-weight:600;letter-spacing:.04em;cursor:pointer;border:1px solid transparent;transition:transform .25s,background .25s,color .25s,border-color .25s,box-shadow .25s;font-family:var(--sans)}
 .btn-gold{background:var(--gold);color:#fff;box-shadow:0 10px 30px rgba(179,135,47,.35)}
 .btn-gold:hover{background:var(--gold-soft);transform:translateY(-3px);box-shadow:0 16px 40px rgba(179,135,47,.45)}
+.avail-strip{background:rgba(19,16,9,.9);color:#f7f2e9;border-top:1px solid rgba(228,200,135,.35);border-bottom:1px solid rgba(228,200,135,.35);margin-top:34px}
+.avail-in{display:flex;justify-content:space-between;align-items:center;gap:18px;padding:14px 22px;flex-wrap:wrap}
+.avail-l{display:flex;gap:12px;align-items:center}
+.avail-stars{color:var(--red);font-size:1.1rem}
+.avail-l b{display:block;font-size:.92rem;letter-spacing:.02em}
+.avail-l span{display:block;font-size:.78rem;color:#c9c0ad}
+.avail-form{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.avail-form input{padding:11px 15px;border-radius:999px;border:1px solid rgba(228,200,135,.4);background:rgba(247,242,233,.08);color:#f7f2e9;font-size:.88rem;min-width:210px;font-family:var(--sans)}
+.avail-form input::placeholder{color:#c9c0ad}
+.avail-form button{padding:11px 22px;border-radius:999px;border:0;background:var(--gold);color:#131009;font-weight:700;font-size:.88rem;cursor:pointer;font-family:var(--sans)}
+.avail-book{color:#e4c887;font-size:.85rem;font-weight:600;text-decoration:none;border-bottom:1px dotted #e4c887}
+.hp{position:absolute;left:-9999px}
 .btn-ghost{border-color:var(--line);color:var(--text);background:var(--panel);backdrop-filter:blur(6px)}
 .btn-ghost:hover{border-color:var(--gold);color:var(--gold);transform:translateY(-3px)}
 .stats{border-block:1px solid var(--line);background:var(--bg2)}
@@ -293,6 +306,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
     <a href="#" class="brand"><img src="logo-crest-gold.jpg?v=2" alt="Gamino Real Estate logo"/><span>Gamino <em>Real Estate</em></span></a>
     <div class="nav-right">
       <div class="nav-links">
+        <a href="/disponible-hoy" class="avail" data-i="nav.avail">★ Disponible Hoy ★</a>
         <a href="#propiedades" data-i="nav.prop">Propiedades</a>
         <a href="#familia" data-i="nav.fam">Nuestra familia</a>
         <a href="#proceso" data-i="nav.proc">Cómo rentar</a>
@@ -326,6 +340,23 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
   <div class="hero-dots" id="dots"></div>
 </header>
 
+<div class="avail-strip">
+  <div class="wrap avail-in">
+    <div class="avail-l">
+      <span class="avail-stars">★</span>
+      <div>
+        <b data-i="avail.t">Disponible hoy: Apto 6 + 2 locales en 1750 S. Muskego</b>
+        <span data-i="avail.s">Nuevo en el mercado — y si te avisamos primero, nunca se llena.</span>
+      </div>
+    </div>
+    <form id="heroNotify" class="avail-form" novalidate>
+      <input type="text" name="company" class="hp" tabindex="-1" autocomplete="off"/>
+      <input type="email" name="email" required placeholder="tu@correo.com"/>
+      <button type="submit" data-i="avail.btn">Avisenme</button>
+      <a class="avail-book" href="/agenda" data-i="avail.book">Agendar visita</a>
+    </form>
+  </div>
+</div>
 <div class="trust"><div class="wrap trust-in">
 <span><b>★</b> Family-owned, two generations</span>
 <span><b>·</b> Milwaukee's south side since 1892</span>
@@ -537,7 +568,10 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 
 <script>
 const D={en:{
- 'nav.prop':'Properties','nav.fam':'Our family','nav.proc':'How to rent','nav.apply':'Apply',
+ 'nav.avail':'★ Available Today ★', 'avail.t':'Available today: Apt 6 + 2 storefronts at 1750 S. Muskego',
+ 'avail.s':'Fresh on the market — get notified before anyone else.',
+ 'avail.btn':'Notify me',
+ 'avail.book':'Book a viewing', 'nav.prop':'Properties','nav.fam':'Our family','nav.proc':'How to rent','nav.apply':'Apply',
  'hero.kicker':'Family-owned · Milwaukee, Wisconsin',
  'hero.h1':'Your next home<br/>has <em>history</em>.',
  'hero.p':"We're the Gamino family. Two generations caring for historic buildings on Milwaukee's south side, with our own hands, and for the people who live in them. No call centers, no middlemen, just direct personal service in your language.",
@@ -683,5 +717,12 @@ form.addEventListener('submit',async(e)=>{e.preventDefault();msg.className='form
 <a class="callfab" href="tel:+14148502272" aria-label="Llamar a Gamino Real Estate / Call Gamino Real Estate"><svg viewBox="0 0 24 24"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.6.1.4 0 .8-.3 1l-2.2 2.2z"/></svg><span>(414) 850-CASA (2272)</span></a>
 <a class="talkfab" href="https://app.reception.ai/smb-public/book/gamino-real-estate" target="_blank" rel="noopener" aria-label="Talk to our AI receptionist / Habla con nuestra recepcionista"><svg viewBox="0 0 24 24"><path d="M4 4h16a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1H8l-4 4V5a1 1 0 0 1 1-1z"/></svg><span>Talk to us now</span></a>
 <div class="welcomecut" aria-hidden="true"><div class="wc-bubble">¡Bienvenidos!<span>Welcome to the family</span></div><img src="/carlos-rosario-welcome.png" alt="Carlos y Rosario Gamino les dan la bienvenida"/></div>
+
+// hero avail strip
+const hf=document.getElementById('heroNotify');
+if(hf){hf.addEventListener('submit',async(e)=>{e.preventDefault();const d=Object.fromEntries(new FormData(hf).entries());
+ if(d.company){return;} if(!d.email){return;}
+ try{const r=await fetch('/api/apply',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({...d,source:'listing_alert',property:'Lista de anuncios / mailing list',submittedFrom:location.href,lang:document.documentElement.lang||'es'})});
+ const j=await r.json(); const b=hf.querySelector('button'); b.textContent=j.ok?'\u2713 Listo':'(414) 850-CASA'; if(j.ok){hf.querySelector('input[name=email]').value='';}}catch(_){}});}
 </body>
 </html>

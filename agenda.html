@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Agenda una visita — Gamino Real Estate | Book a viewing</title>
+<meta name="description" content="Agenda una visita con la familia Gamino: apartamentos y locales comerciales en el sur de Milwaukee. Elige el día y la hora — confirmamos por texto. Book a viewing, direct with the family."/>
+<meta name="robots" content="index, follow"/>
+<link rel="canonical" href="https://gaminorealestate.com/agenda"/>
+<meta property="og:type" content="website"/>
+<meta property="og:title" content="Agenda una visita — Gamino Real Estate"/>
+<meta property="og:description" content="Elige día y hora para conocer apartamentos y locales en el sur de Milwaukee. Confirmamos por texto."/>
+<meta property="og:image" content="https://gaminorealestate.com/og.jpg?v=2"/>
+<meta name="theme-color" content="#f7f2e7"/>
+<link rel="icon" type="image/jpeg" href="/logo-crest-gold.jpg?v=2"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+:root{--bg:#f7f2e9;--ink:#131009;--dim:#6d5f49;--gold:#b3872f;--panel:#efe6d5;--serif:'Fraunces',Georgia,serif;--sans:'Archivo',-apple-system,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.55}
+.wrap{max-width:760px;margin:0 auto;padding:0 22px}
+.nav{display:flex;justify-content:space-between;align-items:center;padding:16px 0}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);font-family:var(--serif);font-weight:700;font-size:1.05rem}
+.brand img{width:42px;height:42px;border-radius:10px;object-fit:cover;border:1px solid rgba(179,135,47,.5)}
+.navback{color:var(--dim);text-decoration:none;font-size:.85rem}
+.hero{text-align:center;padding:26px 0 10px}
+h1{font-family:var(--serif);font-size:clamp(1.9rem,5vw,2.9rem);line-height:1.1;margin-bottom:10px}
+.sub{color:var(--dim);font-size:1rem;max-width:560px;margin:0 auto 26px}
+form{background:#fff;border:1px solid rgba(34,26,16,.1);border-radius:16px;padding:26px;display:grid;gap:14px;box-shadow:0 12px 34px rgba(19,16,9,.07)}
+label{font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--dim);display:block;margin-bottom:5px}
+input,select,textarea{width:100%;padding:13px 15px;border-radius:10px;border:1px solid rgba(34,26,16,.2);font-size:.95rem;font-family:var(--sans);background:var(--bg)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:620px){.row{grid-template-columns:1fr}}
+button{padding:16px;border-radius:999px;border:0;background:var(--gold);color:#fff;font-weight:700;font-size:1rem;cursor:pointer;font-family:var(--sans)}
+button:hover{background:#9a7226}
+.hp{position:absolute;left:-9999px}
+.msg{margin-top:16px;font-weight:600;text-align:center;min-height:1.4em}
+.msg.ok{color:#2e7d32}
+.call{text-align:center;margin-top:18px;color:var(--dim);font-size:.92rem}
+.call a{color:var(--gold);font-weight:700;text-decoration:none}
+footer{margin-top:26px;padding:20px 0 40px;text-align:center;color:var(--dim);font-size:.85rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="nav">
+    <a class="brand" href="/"><img src="/logo-crest-gold.jpg?v=2" alt="Gamino Real Estate"/>Gamino <em style="color:var(--gold)">Real Estate</em></a>
+    <a class="navback" href="/">← Inicio / Home</a>
+  </nav>
+  <header class="hero">
+    <h1>Agenda una visita</h1>
+    <p class="sub">Elige el día y la hora que te acomodan — confirmamos por texto o correo el mismo día. / Pick a day and time — we confirm the same day, in English or Spanish.</p>
+  </header>
+  <form id="bookForm" novalidate>
+    <input type="text" name="company" class="hp" tabindex="-1" autocomplete="off"/>
+    <div class="row">
+      <div><label for="name">Nombre / Name *</label><input id="name" name="name" required/></div>
+      <div><label for="phone">Teléfono / Phone *</label><input id="phone" name="phone" type="tel" required placeholder="(414) ..."/></div>
+    </div>
+    <div><label for="email">Correo / Email</label><input id="email" name="email" type="email"/></div>
+    <div><label for="property">¿Qué quieres ver? / What do you want to see? *</label>
+      <select id="property" name="property" required>
+        <option value="">— elige / choose —</option>
+        <option>Apto 6 · 1750 S. Muskego Ave (2º piso / 2nd floor)</option>
+        <option>Local comercial izquierdo · 1750 S. Muskego (1er piso / 1st floor)</option>
+        <option>Local comercial derecho · 1750 S. Muskego (1er piso / 1st floor)</option>
+        <option>Otro / Other — cuéntame / tell me below</option>
+      </select>
+    </div>
+    <div class="row">
+      <div><label for="movein">Fecha preferida / Preferred day</label><input id="movein" name="movein" type="date"/></div>
+      <div><label for="time">Hora / Time</label>
+        <select id="time" name="time">
+          <option>Mañana / Morning (9a–12p)</option>
+          <option>Mediodía / Midday (12p–3p)</option>
+          <option>Tarde / Afternoon (3p–6p)</option>
+          <option>Noche / Evening (6p–8p)</option>
+        </select>
+      </div>
+    </div>
+    <div><label for="message">Notas / Notes</label><textarea id="message" name="message" rows="3"></textarea></div>
+    <button type="submit">Pedir mi visita / Request my viewing</button>
+    <div class="msg" id="msg"></div>
+    <p class="call">¿Prefieres hablar ya? <a href="tel:+14148502272">(414) 850-CASA</a> — 24/7 · Se habla español</p>
+  </form>
+  <footer>Familia Gamino · Two generations · <b style="color:var(--gold)">gaminorealestate.com</b></footer>
+</div>
+<script>
+document.getElementById('bookForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const f = e.target, m = document.getElementById('msg');
+  const d = Object.fromEntries(new FormData(f).entries());
+  if (d.company) { m.textContent = '¡Listo!'; return; }
+  if (!d.name || !d.phone || !d.property) { m.textContent = 'Falta: nombre, teléfono y propiedad / Name, phone and property required'; return; }
+  m.textContent = 'Enviando…';
+  try {
+    const r = await fetch('/api/apply', { method: 'POST', headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ ...d, company: d.company, contact_pref: 'text', source: 'appointment_request',
+        submittedFrom: location.href, lang: 'es' }) });
+    const j = await r.json();
+    if (j.ok) {
+      m.className = 'msg ok';
+      m.textContent = '¡Listo, ' + (d.name.split(' ')[0] || '') + '! Te confirmamos hoy por texto. Te llamamos al ' + d.phone + '.';
+      f.reset();
+    } else { m.textContent = 'Algo falló — llámanos: (414) 850-CASA'; }
+  } catch (_) { m.textContent = 'Sin conexión — llámanos: (414) 850-CASA'; }
+});
+</script>
+</body>
+</html>
