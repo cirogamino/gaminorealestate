@@ -64,9 +64,13 @@ h1{font-family:var(--serif);font-weight:700;font-size:clamp(2rem,5.4vw,3.4rem);l
 .btn.call:hover,.btn.book:hover{transform:translateY(-2px)}
 footer{border-top:1px solid rgba(34,26,16,.1);margin-top:20px;padding:22px 0 40px;text-align:center;color:var(--dim);font-size:.85rem}
 footer b{color:var(--gold)}
+
+.langbtn{position:fixed;top:14px;right:14px;z-index:50;padding:8px 14px;border-radius:999px;border:1px solid var(--gold);background:rgba(247,242,233,.92);color:var(--gold);font-weight:700;font-size:.8rem;cursor:pointer;font-family:var(--sans)}
+.langbtn:hover{background:var(--gold);color:#fff}
 </style>
 </head>
 <body>
+<button class="langbtn" id="langbtn">EN</button>
 <div class="wrap">
   <nav class="nav">
     <a class="brand" href="/"><img src="/logo-crest-gold.jpg?v=2" alt="Gamino Real Estate"/>Gamino <em style="color:var(--gold)">Real Estate</em></a>
@@ -75,60 +79,64 @@ footer b{color:var(--gold)}
 </div>
 <div class="wrap">
   <header class="hero">
-    <div class="stars"><span class="s">★</span> Disponible Hoy <span class="s">★</span></div>
-    <div style="font-size:.78rem;letter-spacing:.3em;color:var(--dim);text-transform:uppercase;margin-top:4px">Available Today</div>
-    <h1>3 espacios esperándote<br/>en 1750 S. Muskego Ave</h1>
+    <div class="stars" data-es="★ Disponible Hoy ★" data-en="★ Available Today ★"><span class="s">★</span> Disponible Hoy <span class="s">★</span></div>
+    <div style="font-size:.78rem;letter-spacing:.3em;color:var(--dim);text-transform:uppercase;margin-top:4px" data-es="Disponible hoy" data-en="Available today">Available today</div>
+    <h1 data-es="3 espacios esperándote en 1750 S. Muskego Ave" data-en="3 spaces waiting for you at 1750 S. Muskego Ave">3 espacios esperándote<br/>en 1750 S. Muskego Ave</h1>
     <p class="sub">Un apartamento en el segundo piso y dos locales comerciales flanqueando el acceso principal. Trato directo con la familia Gamino — sin intermediarios. / One second-floor apartment and two storefronts flanking the main entrance. Direct, family-owned.</p>
 
     <div class="cards">
       <div class="card">
         <img src="1750-s-muskego-ave-mitchell-street-milwaukee-apartments.jpg" alt="1750 S. Muskego Ave"/>
         <div class="in">
-          <span class="tag apt">Apartamento · 2º piso</span>
+          <span class="tag apt" data-es="Apartamento · 2º piso" data-en="Apartment · 2nd floor">Apartamento · 2º piso</span>
           <h3>Apartamento #6</h3>
           <p>En el corazón de Historic Mitchell Street, en el segundo piso de un edificio histórico de la familia.</p>
           <span class="where">1750 S. Muskego Ave · Milwaukee</span>
-          <span class="stamp gold">Disponible ya</span>
+          <span class="stamp gold" data-es="Disponible ya" data-en="Available now">Disponible ya</span>
           <a class="more" href="/propiedades/muskego-1750">Conoce el edificio →</a>
+          <a class="more" href="/#solicitar" style="color:var(--red)">Solicita ya / Apply now →</a>
         </div>
       </div>
       <div class="card">
-        <div class="in" style="padding-top:22px">
-          <span class="tag com">Local comercial · 1er piso</span>
+        <img src="1750-s-muskego-ave-mitchell-street-milwaukee-apartments.jpg" alt="Local izquierdo" style="object-position:left center"/>
+        <div class="in" style="padding-top:16px">
+          <span class="tag com" data-es="Local comercial · 1er piso" data-en="Storefront · 1st floor">Local comercial · 1er piso</span>
           <h3>Local lado izquierdo</h3>
           <p>Espacio comercial a la <b>izquierda del acceso principal</b>. Ideal para negocio de barrio con tráfico de Mitchell Street.</p>
           <span class="where">1750 S. Muskego Ave · Milwaukee</span>
-          <span class="stamp">Para renta / For lease</span>
-          <p style="font-size:.8rem">Pregunta por medidas y renta: (414) 850-CASA</p>
+          <span class="stamp" data-es="Para renta" data-en="For lease">Para renta / For lease</span>
+          <p style="font-size:.8rem">Pregunta por medidas y renta: <a href="tel:+14148502272" style="color:var(--gold);font-weight:600">(414) 850-CASA</a> · <a href="/#solicitar" style="color:var(--red);font-weight:600">Solicita ya / Apply →</a></p>
         </div>
       </div>
       <div class="card">
-        <div class="in" style="padding-top:22px">
-          <span class="tag com">Local comercial · 1er piso</span>
+        <img src="1750-s-muskego-ave-mitchell-street-milwaukee-apartments.jpg" alt="Local derecho" style="object-position:right center"/>
+        <div class="in" style="padding-top:16px">
+          <span class="tag com" data-es="Local comercial · 1er piso" data-en="Storefront · 1st floor">Local comercial · 1er piso</span>
           <h3>Local lado derecho</h3>
           <p>Espacio comercial a la <b>derecha del acceso principal</b>. Misma esquina histórica, vitrina con presencia.</p>
           <span class="where">1750 S. Muskego Ave · Milwaukee</span>
           <span class="stamp">Para renta / For lease</span>
-          <p style="font-size:.8rem">Pregunta por medidas y renta: (414) 850-CASA</p>
+          <p style="font-size:.8rem">Pregunta por medidas y renta: <a href="tel:+14148502272" style="color:var(--gold);font-weight:600">(414) 850-CASA</a> · <a href="/#solicitar" style="color:var(--red);font-weight:600">Solicita ya / Apply →</a></p>
         </div>
       </div>
     </div>
 
     <div class="signup" id="lista">
-      <h2>Sé el primero en saberlo</h2>
+      <h2 data-es="Sé el primero en saberlo" data-en="Be the first to know">Sé el primero en saberlo</h2>
       <p class="es">Deja tu correo y te avisamos antes que a nadie cuando algo se desocupe. / Be first to hear about every new listing.</p>
       <form class="frm" id="notifyForm" novalidate>
         <input type="text" name="company" class="hp" tabindex="-1" autocomplete="off"/>
         <input type="email" name="email" required placeholder="tu@correo.com"/>
         <input type="text" name="name" placeholder="Tu nombre (opcional)" style="min-width:180px"/>
-        <button type="submit">Avisenme / Notify me</button>
+        <button type="submit" data-es="Avisenme" data-en="Notify me">Avisenme</button>
       </form>
       <div class="msg" id="msg"></div>
     </div>
 
     <div class="cta-strip">
       <a class="btn call" href="tel:+14148502272">📞 (414) 850-CASA · 24/7 · Se habla español</a>
-      <a class="btn book" href="/agenda">📅 Agenda una visita / Book a viewing</a>
+      <a class="btn book" href="/agenda" data-es="📅 Agenda una visita" data-en="📅 Book a viewing">📅 Agenda una visita / Book a viewing</a>
+      <a class="btn book" href="https://wa.me/12624208842?text=Hola%20Gamino%20Real%20Estate%2C%20quiero%20info%20de%20los%20espacios%20en%201750%20S.%20Muskego" target="_blank" rel="noopener">💬 WhatsApp</a>
     </div>
   </header>
 
@@ -156,5 +164,16 @@ document.getElementById('notifyForm').addEventListener('submit', async (e) => {
   } catch (_) { m.textContent = 'Sin conexión — llámanos: (414) 850-CASA'; }
 });
 </script>
+
+// EN/ES toggle
+const LANG_BTN = document.getElementById('langbtn');
+function applyLang(l){
+  document.querySelectorAll('[data-es]').forEach(el => { el.textContent = l === 'en' ? el.dataset.en : el.dataset.es; });
+  localStorage.setItem('gamino-lang', l);
+  if (LANG_BTN) LANG_BTN.textContent = l === 'es' ? 'EN' : 'ES';
+  document.documentElement.lang = l;
+}
+if (LANG_BTN) LANG_BTN.addEventListener('click', () => applyLang(localStorage.getItem('gamino-lang') === 'en' ? 'es' : 'en'));
+applyLang(localStorage.getItem('gamino-lang') || 'es');
 </body>
 </html>

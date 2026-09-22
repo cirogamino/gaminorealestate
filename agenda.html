@@ -41,26 +41,30 @@ button:hover{background:#9a7226}
 .call{text-align:center;margin-top:18px;color:var(--dim);font-size:.92rem}
 .call a{color:var(--gold);font-weight:700;text-decoration:none}
 footer{margin-top:26px;padding:20px 0 40px;text-align:center;color:var(--dim);font-size:.85rem}
+
+.langbtn{position:fixed;top:14px;right:14px;z-index:50;padding:8px 14px;border-radius:999px;border:1px solid var(--gold);background:rgba(247,242,233,.92);color:var(--gold);font-weight:700;font-size:.8rem;cursor:pointer;font-family:var(--sans)}
+.langbtn:hover{background:var(--gold);color:#fff}
 </style>
 </head>
 <body>
+<button class="langbtn" id="langbtn">EN</button>
 <div class="wrap">
   <nav class="nav">
     <a class="brand" href="/"><img src="/logo-crest-gold.jpg?v=2" alt="Gamino Real Estate"/>Gamino <em style="color:var(--gold)">Real Estate</em></a>
     <a class="navback" href="/">← Inicio / Home</a>
   </nav>
   <header class="hero">
-    <h1>Agenda una visita</h1>
+    <h1 data-es="Agenda una visita" data-en="Book a viewing">Agenda una visita</h1>
     <p class="sub">Elige el día y la hora que te acomodan — confirmamos por texto o correo el mismo día. / Pick a day and time — we confirm the same day, in English or Spanish.</p>
   </header>
   <form id="bookForm" novalidate>
     <input type="text" name="company" class="hp" tabindex="-1" autocomplete="off"/>
     <div class="row">
-      <div><label for="name">Nombre / Name *</label><input id="name" name="name" required/></div>
-      <div><label for="phone">Teléfono / Phone *</label><input id="phone" name="phone" type="tel" required placeholder="(414) ..."/></div>
+      <div><label for="name" data-es="Nombre *" data-en="Name *">Nombre / Name *</label><input id="name" name="name" required/></div>
+      <div><label for="phone" data-es="Teléfono *" data-en="Phone *">Teléfono / Phone *</label><input id="phone" name="phone" type="tel" required placeholder="(414) ..."/></div>
     </div>
     <div><label for="email">Correo / Email</label><input id="email" name="email" type="email"/></div>
-    <div><label for="property">¿Qué quieres ver? / What do you want to see? *</label>
+    <div><label for="property" data-es="¿Qué quieres ver? *" data-en="What do you want to see? *">¿Qué quieres ver? / What do you want to see? *</label>
       <select id="property" name="property" required>
         <option value="">— elige / choose —</option>
         <option>Apto 6 · 1750 S. Muskego Ave (2º piso / 2nd floor)</option>
@@ -70,8 +74,8 @@ footer{margin-top:26px;padding:20px 0 40px;text-align:center;color:var(--dim);fo
       </select>
     </div>
     <div class="row">
-      <div><label for="movein">Fecha preferida / Preferred day</label><input id="movein" name="movein" type="date"/></div>
-      <div><label for="time">Hora / Time</label>
+      <div><label for="movein" data-es="Fecha preferida" data-en="Preferred day">Fecha preferida / Preferred day</label><input id="movein" name="movein" type="date"/></div>
+      <div><label for="time" data-es="Hora" data-en="Time">Hora / Time</label>
         <select id="time" name="time">
           <option>Mañana / Morning (9a–12p)</option>
           <option>Mediodía / Midday (12p–3p)</option>
@@ -80,10 +84,11 @@ footer{margin-top:26px;padding:20px 0 40px;text-align:center;color:var(--dim);fo
         </select>
       </div>
     </div>
-    <div><label for="message">Notas / Notes</label><textarea id="message" name="message" rows="3"></textarea></div>
-    <button type="submit">Pedir mi visita / Request my viewing</button>
+    <div><label for="message" data-es="Notas" data-en="Notes">Notas / Notes</label><textarea id="message" name="message" rows="3"></textarea></div>
+    <button type="submit" data-es="Pedir mi visita" data-en="Request my viewing">Pedir mi visita</button>
     <div class="msg" id="msg"></div>
     <p class="call">¿Prefieres hablar ya? <a href="tel:+14148502272">(414) 850-CASA</a> — 24/7 · Se habla español</p>
+  <p class="call">o escríbenos por WhatsApp: <a href="https://wa.me/12624208842?text=Hola%20Gamino%20Real%20Estate%2C%20quiero%20agendar%20una%20visita" target="_blank" rel="noopener" style="color:var(--gold);font-weight:700">💬 WhatsApp</a></p>
   </form>
   <footer>Familia Gamino · Two generations · <b style="color:var(--gold)">gaminorealestate.com</b></footer>
 </div>
@@ -108,5 +113,16 @@ document.getElementById('bookForm').addEventListener('submit', async (e) => {
   } catch (_) { m.textContent = 'Sin conexión — llámanos: (414) 850-CASA'; }
 });
 </script>
+
+// EN/ES toggle
+const LANG_BTN = document.getElementById('langbtn');
+function applyLang(l){
+  document.querySelectorAll('[data-es]').forEach(el => { el.textContent = l === 'en' ? el.dataset.en : el.dataset.es; });
+  localStorage.setItem('gamino-lang', l);
+  if (LANG_BTN) LANG_BTN.textContent = l === 'es' ? 'EN' : 'ES';
+  document.documentElement.lang = l;
+}
+if (LANG_BTN) LANG_BTN.addEventListener('click', () => applyLang(localStorage.getItem('gamino-lang') === 'en' ? 'es' : 'en'));
+applyLang(localStorage.getItem('gamino-lang') || 'es');
 </body>
 </html>
