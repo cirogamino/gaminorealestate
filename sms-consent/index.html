@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SMS consent · GaminoRealEstate.com</title>
+<meta name="description" content="SMS opt-in for GaminoRealEstate.com">
+<style>
+  :root { --bg:#0b1220; --card:#121a2b; --text:#eef3ff; --muted:#9aa8c7; --accent:#5b8cff; --ok:#3dcf8e; --line:#243049; }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; background:linear-gradient(180deg,#0b1220,#10182a); color:var(--text); line-height:1.5; }
+  main { max-width:720px; margin:0 auto; padding:32px 20px 64px; }
+  .brand { font-size:14px; letter-spacing:.08em; text-transform:uppercase; color:var(--accent); font-weight:700; }
+  h1 { font-size:clamp(1.6rem,3vw,2.2rem); margin:8px 0 12px; }
+  p, label { color:var(--muted); }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:16px; padding:24px; margin-top:24px; }
+  label.field { display:block; margin:16px 0 6px; color:var(--text); font-weight:600; }
+  input[type=tel], input[type=text] { width:100%; padding:12px 14px; border-radius:10px; border:1px solid var(--line); background:#0d1524; color:var(--text); font-size:16px; }
+  .consent { display:flex; gap:12px; align-items:flex-start; margin-top:18px; padding:14px; border:1px solid var(--line); border-radius:12px; background:#0d1524; }
+  .consent input { margin-top:4px; width:18px; height:18px; flex:0 0 auto; }
+  .consent span { color:var(--text); font-size:15px; }
+  button { margin-top:20px; width:100%; padding:14px 16px; border:0; border-radius:12px; background:var(--accent); color:white; font-weight:700; font-size:16px; cursor:pointer; }
+  button:disabled { opacity:.5; cursor:not-allowed; }
+  .note { font-size:13px; margin-top:12px; }
+  .ok { display:none; margin-top:16px; padding:14px; border-radius:12px; background:rgba(61,207,142,.12); border:1px solid rgba(61,207,142,.35); color:var(--ok); }
+  a { color:var(--accent); }
+  footer { margin-top:28px; font-size:13px; color:var(--muted); }
+</style>
+</head>
+<body>
+<main>
+  <div class="brand">GaminoRealEstate.com</div>
+  <h1>SMS sign-up</h1>
+  <p>Optional SMS for Gamino Real Estate leads and residents about rentals, showings, and property notices.</p>
+  <p>SMS number: <strong style="color:#eef3ff">+1 (414) 850-2272</strong>. Message frequency varies. Message and data rates may apply.</p>
+  <div class="card">
+    <form id="sms-consent-form" novalidate>
+      <label class="field" for="name">Name</label>
+      <input id="name" name="name" type="text" autocomplete="name" maxlength="120" placeholder="Your name">
+      <label class="field" for="phone">Mobile phone number <span style="color:#5b8cff">(required)</span></label>
+      <input id="phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" required maxlength="24" placeholder="(608) 555-0123">
+      <p class="note">Use a US mobile number you control. Entering a number alone does not enroll you.</p>
+      <label class="consent" for="sms_consent">
+        <input id="sms_consent" name="sms_consent" type="checkbox" value="yes" required>
+        <span>Yes — I consent to receive automated SMS messages from <strong>GaminoRealEstate.com</strong> about Gamino Real Estate rental updates, showing reminders, application status, and maintenance notices. Message frequency varies. Message and data rates may apply. Reply <strong>STOP</strong> to opt out (you will receive no further messages) or <strong>HELP</strong> for help. Consent is optional. Mobile information will not be sold or shared with third parties for promotional or marketing purposes.</span>
+      </label>
+      <button type="submit">Save my SMS consent</button>
+      <div class="ok" id="result" role="status" aria-live="polite">Thanks — your consent choice was recorded. GaminoRealEstate.com will only text numbers with affirmative SMS consent.</div>
+    </form>
+  </div>
+  <footer>Sender: <strong style="color:#eef3ff">GaminoRealEstate.com</strong> · Reply STOP anytime</footer>
+</main>
+<script>
+(function(){var f=document.getElementById('sms-consent-form'),r=document.getElementById('result');f.addEventListener('submit',function(e){e.preventDefault();var p=document.getElementById('phone'),b=document.getElementById('sms_consent');if(!p.value.trim()){p.focus();return;}if(!b.checked){b.focus();return;}r.style.display='block';f.querySelector('button').disabled=true;});})();
+</script>
+</body>
+</html>
