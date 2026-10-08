@@ -72,6 +72,7 @@ a{color:var(--gold-d)}
 .toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:10px;font-weight:600;opacity:0;transition:opacity .2s;pointer-events:none;z-index:9}
 .toast.on{opacity:1}
 .hidden{display:none!important}
+@media print{header,.bar,.toast,#loginView{display:none!important}body{background:#fff}.card{break-inside:avoid}}
 </style>
 </head>
 <body>
@@ -107,6 +108,7 @@ a{color:var(--gold-d)}
     <button data-t="maint">🔧 Maintenance</button>
     <button data-t="leads">📥 Leads</button>
     <button data-t="list">✉️ Mailing list</button>
+    <button data-t="market">📊 Market rents</button>
   </nav>
 </div></header>
 <main class="wrap">
@@ -173,6 +175,14 @@ a{color:var(--gold-d)}
   <div id="subsBoard"></div>
 </section>
 
+<section id="t-market" class="hidden">
+  <h2>Our rents vs. the neighborhood</h2>
+  <p class="sub" id="mktSub">Going rates for comparable older walk-up units near each building, from live listings. Private: only visible after login.</p>
+  <div class="bar"><button class="btn ghost" onclick="window.print()">🖨️ Print for Dad</button></div>
+  <div class="kpis" id="mktKpis"></div>
+  <div id="marketBoard"></div>
+</section>
+
 </main>
 </div>
 <div class="toast" id="toast"></div>
@@ -220,7 +230,7 @@ $('#resetForm').addEventListener('submit',async e=>{e.preventDefault();const {er
 $('#logout').addEventListener('click',async()=>{await sb.auth.signOut();location.reload()});
 
 // ---------- tabs ----------
-const loaders = {rent:loadRent,units:loadUnits,tenants:loadTenants,maint:loadMaint,leads:loadLeads,list:loadList};
+const loaders = {rent:loadRent,units:loadUnits,tenants:loadTenants,maint:loadMaint,leads:loadLeads,list:loadList,market:loadMarketTab};
 function openTab(t){document.querySelectorAll('#tabs button').forEach(b=>b.classList.toggle('on',b.dataset.t===t));
   Object.keys(loaders).forEach(k=>$('#t-'+k).classList.toggle('hidden',k!==t));loaders[t]().catch(fail)}
 $('#tabs').addEventListener('click',e=>{const b=e.target.closest('button');if(b)openTab(b.dataset.t)});
@@ -392,6 +402,50 @@ async function sendCamp(test){const id=await saveCamp();if(!id)return;
 $('#cSend').addEventListener('click',()=>sendCamp(false));$('#cTest').addEventListener('click',()=>sendCamp(true));
 $('#copyBcc').addEventListener('click',async()=>{await navigator.clipboard.writeText(subs.map(s=>s.email).join(', '));toast(subs.length+' emails copied')});
 $('#exportSubs').addEventListener('click',()=>csv([['email','name','language','source','date']].concat(subs.map(s=>[s.email,s.name,s.lang,s.source,s.created_at])),'mailing-list.csv'));
+
+// ---------- market rents ----------
+async function loadMarketTab(){
+  MARKET=null; await loadMarket();
+  const [{data:us,error:e1},{data:ls,error:e2}]=await Promise.all([
+    sb.from('units').select('id,unit_number,unit_type,status,rent,sort,properties(slug)'),
+    sb.from('leases').select('unit_id,rent_amount').eq('status','active')]);
+  if(e1)throw e1;if(e2)throw e2;
+  const order=['pierce-3110','muskego-1750','muskego-1754','muskego-1968','eleventh-2176','smith-210'];
+  let ourTotal=0;
+  const cards=order.map(slug=>{
+    const m=MARKET[slug]; const rows=us.filter(u=>u.properties.slug===slug&&u.unit_type!=='commercial').sort((a,b)=>(a.sort??99)-(b.sort??99));
+    const rents=rows.map(u=>{const l=ls.find(x=>x.unit_id===u.id);return{unit:u.unit_number,rent:Number(l?l.rent_amount:u.rent||0),vacant:!l}}).filter(r=>r.rent);
+    rents.filter(r=>!r.vacant).forEach(r=>ourTotal+=r.rent);
+    if(!m) return '';
+    const src=m.sources||{}, hud=src.hud_fy2027||{}, rg=src.ranges||{};
+    const types=[['Studio',m.studio,rg.studio],['1BR',m.one_br,rg['1br']],['2BR',m.two_br,rg['2br']]].filter(x=>x[1]);
+    const lo=Math.min(...types.map(t=>(t[2]&&t[2].low)||t[1])), hi=Math.max(...types.map(t=>(t[2]&&t[2].high)||t[1]));
+    const avg=rents.length?rents.reduce((a,r)=>a+r.rent,0)/rents.length:0;
+    // Compare each unit to the building's main unit type (Ciro: Pierce = studios; Smith = 2BR flats; others = 1BR–2BR band).
+    const REF={'pierce-3110':[['studio','Studio']],'smith-210':[['two_br','2BR flat']]}[slug]||[['one_br','1BR'],['two_br','2BR']];
+    const refVals=REF.map(r=>Number(m[r[0]])).filter(Boolean), bandLo=Math.min(...refVals), bandHi=Math.max(...refVals);
+    const refLabel=REF.map(r=>r[1]).join('–')+' typical '+(bandLo===bandHi?money(bandLo):money(bandLo)+'–'+money(bandHi));
+    const under=m.summary&&/UNDERPRICED/.test(m.summary);
+    return `<div class="card"><h3>${esc(BUILDINGS[slug])} <small>${under?'<b style="color:var(--red)">BELOW MARKET</b> · ':''}our avg ${money(avg)} · area range ${money(lo)}–${money(hi)}</small></h3>
+      <div style="padding:12px 14px" class="grid2">
+        <div><div class="muted" style="font-size:.75rem;text-transform:uppercase;letter-spacing:.06em">Area going rate (typical)</div>
+          <table><tr><th>Type</th><th class="num">Typical</th><th class="num">Range</th><th class="num">HUD 2027</th></tr>
+          ${types.map(t=>`<tr><td>${t[0]}</td><td class="num"><b>${money(t[1])}</b></td><td class="num">${t[2]?money(t[2].low)+'–'+money(t[2].high):''}</td><td class="num">${hud[{Studio:'studio','1BR':'1br','2BR':'2br'}[t[0]]]?money(hud[{Studio:'studio','1BR':'1br','2BR':'2br'}[t[0]]]):''}</td></tr>`).join('')}
+          ${m.storefront_month?`<tr><td>Storefront</td><td class="num"><b>~${money(m.storefront_month)}</b></td><td class="num" colspan="2">per 1,000 sq ft / mo</td></tr>`:''}</table>
+          <p style="margin-top:8px;font-size:.9rem">${esc(m.summary)}</p></div>
+        <div><div class="muted" style="font-size:.75rem;text-transform:uppercase;letter-spacing:.06em">Our rents (by unit)</div>
+          <div class="muted" style="font-size:.8rem;margin:2px 0 4px">Compared to ${esc(refLabel)}</div>
+          <table><tr><th>Unit</th><th class="num">Rent</th><th>vs. market</th></tr>
+          ${rents.map(r=>{const d=r.rent<bandLo?r.rent-bandLo:r.rent>bandHi?r.rent-bandHi:0;
+            const tag=d<=-50?`<span class="pill due">${money(-d)} below</span>`:d>=50?`<span class="pill part">${money(d)} above</span>`:'<span class="pill paid">at market</span>';
+            return `<tr><td>${esc(r.unit)}${r.vacant?' <span class="muted">(vacant)</span>':''}</td><td class="num">${money(r.rent)}</td><td>${tag}</td></tr>`}).join('')}</table></div>
+      </div>
+      <div style="padding:0 14px 12px;font-size:.84rem"><b>Comparable listings:</b> ${(src.examples||[]).map(e=>`<a href="${esc(e.source)}" target="_blank" rel="noopener">${esc(e.where)}</a> (${e.beds===0?'studio':e.beds+'BR'} ${money(e.rent)}${e.rent_high?'–'+money(e.rent_high):''})`).join(' · ')}</div></div>`}).join('');
+  const asof=Object.values(MARKET)[0]?.as_of||'';
+  $('#mktSub').textContent=`Going rates for comparable older walk-up units near each building, from live listings seen ${asof}. Unit bed counts are not on the rent roll yet, so "vs. area" compares each rent to the building's full studio-to-2BR range. Private: only visible after login.`;
+  $('#mktKpis').innerHTML=`<div class="kpi"><span>Our monthly rent (occupied)</span><b>${money(ourTotal)}</b></div><div class="kpi"><span>Buildings below market</span><b>${Object.values(MARKET).filter(m=>/UNDERPRICED/.test(m.summary||'')).length} of ${Object.keys(MARKET).length}</b></div>`;
+  $('#marketBoard').innerHTML=cards;
+}
 
 boot();
 </script>
