@@ -407,18 +407,20 @@ $('#exportSubs').addEventListener('click',()=>csv([['email','name','language','s
 async function loadMarketTab(){
   MARKET=null; await loadMarket();
   const [{data:us,error:e1},{data:ls,error:e2}]=await Promise.all([
-    sb.from('units').select('id,unit_number,unit_type,status,rent,sort,properties(slug)'),
+    sb.from('units').select('id,unit_number,unit_type,status,rent,sort,bedrooms,sqft,properties(slug)'),
     sb.from('leases').select('unit_id,rent_amount').eq('status','active')]);
   if(e1)throw e1;if(e2)throw e2;
   const order=['pierce-3110','muskego-1750','muskego-1754','muskego-1968','eleventh-2176','smith-210'];
   let ourTotal=0;
   const cards=order.map(slug=>{
     const m=MARKET[slug]; const rows=us.filter(u=>u.properties.slug===slug&&u.unit_type!=='commercial').sort((a,b)=>(a.sort??99)-(b.sort??99));
-    const rents=rows.map(u=>{const l=ls.find(x=>x.unit_id===u.id);return{unit:u.unit_number,rent:Number(l?l.rent_amount:u.rent||0),vacant:!l}}).filter(r=>r.rent);
+    const rents=rows.map(u=>{const l=ls.find(x=>x.unit_id===u.id);return{unit:u.unit_number,beds:u.bedrooms,rent:Number(l?l.rent_amount:u.rent||0),vacant:!l}}).filter(r=>r.rent);
+    const shops=us.filter(u=>u.properties.slug===slug&&u.unit_type==='commercial');
     rents.filter(r=>!r.vacant).forEach(r=>ourTotal+=r.rent);
     if(!m) return '';
     const src=m.sources||{}, hud=src.hud_fy2027||{}, rg=src.ranges||{};
-    const types=[['Studio',m.studio,rg.studio],['1BR',m.one_br,rg['1br']],['2BR',m.two_br,rg['2br']]].filter(x=>x[1]);
+    const types=[['Studio',m.studio,rg.studio],['1BR',m.one_br,rg['1br']],['2BR',m.two_br,rg['2br']],['3BR',m.three_br,rg['3br']]].filter(x=>x[1]);
+    const TYP={0:m.studio,1:m.one_br,2:m.two_br,3:m.three_br}, BEDL={0:'studio',1:'1BR',2:'2BR',3:'3BR'};
     const lo=Math.min(...types.map(t=>(t[2]&&t[2].low)||t[1])), hi=Math.max(...types.map(t=>(t[2]&&t[2].high)||t[1]));
     const avg=rents.length?rents.reduce((a,r)=>a+r.rent,0)/rents.length:0;
     // Compare each unit to the building's main unit type (Ciro: Pierce = studios; Smith = 2BR flats; others = 1BR–2BR band).
@@ -430,15 +432,19 @@ async function loadMarketTab(){
       <div style="padding:12px 14px" class="grid2">
         <div><div class="muted" style="font-size:.75rem;text-transform:uppercase;letter-spacing:.06em">Area going rate (typical)</div>
           <table><tr><th>Type</th><th class="num">Typical</th><th class="num">Range</th><th class="num">HUD 2027</th></tr>
-          ${types.map(t=>`<tr><td>${t[0]}</td><td class="num"><b>${money(t[1])}</b></td><td class="num">${t[2]?money(t[2].low)+'–'+money(t[2].high):''}</td><td class="num">${hud[{Studio:'studio','1BR':'1br','2BR':'2br'}[t[0]]]?money(hud[{Studio:'studio','1BR':'1br','2BR':'2br'}[t[0]]]):''}</td></tr>`).join('')}
+          ${types.map(t=>`<tr><td>${t[0]}</td><td class="num"><b>${money(t[1])}</b></td><td class="num">${t[2]?money(t[2].low)+'–'+money(t[2].high):''}</td><td class="num">${hud[{Studio:'studio','1BR':'1br','2BR':'2br','3BR':'3br'}[t[0]]]?money(hud[{Studio:'studio','1BR':'1br','2BR':'2br','3BR':'3br'}[t[0]]]):''}</td></tr>`).join('')}
           ${m.storefront_month?`<tr><td>Storefront</td><td class="num"><b>~${money(m.storefront_month)}</b></td><td class="num" colspan="2">per 1,000 sq ft / mo</td></tr>`:''}</table>
           <p style="margin-top:8px;font-size:.9rem">${esc(m.summary)}</p></div>
         <div><div class="muted" style="font-size:.75rem;text-transform:uppercase;letter-spacing:.06em">Our rents (by unit)</div>
-          <div class="muted" style="font-size:.8rem;margin:2px 0 4px">Compared to ${esc(refLabel)}</div>
-          <table><tr><th>Unit</th><th class="num">Rent</th><th>vs. market</th></tr>
-          ${rents.map(r=>{const d=r.rent<bandLo?r.rent-bandLo:r.rent>bandHi?r.rent-bandHi:0;
+          <div class="muted" style="font-size:.8rem;margin:2px 0 4px">Each unit vs. the typical rent for its bedroom count${rents.some(r=>r.beds==null)?' (units without beds use '+esc(refLabel)+')':''}</div>
+          <table><tr><th>Unit</th><th>Type</th><th class="num">Rent</th><th class="num">Market</th><th>vs. market</th></tr>
+          ${rents.map(r=>{const t=r.beds!=null&&TYP[r.beds]?Number(TYP[r.beds]):null;
+            const d=t!=null?r.rent-t:(r.rent<bandLo?r.rent-bandLo:r.rent>bandHi?r.rent-bandHi:0);
             const tag=d<=-50?`<span class="pill due">${money(-d)} below</span>`:d>=50?`<span class="pill part">${money(d)} above</span>`:'<span class="pill paid">at market</span>';
-            return `<tr><td>${esc(r.unit)}${r.vacant?' <span class="muted">(vacant)</span>':''}</td><td class="num">${money(r.rent)}</td><td>${tag}</td></tr>`}).join('')}</table></div>
+            return `<tr><td>${esc(r.unit)}${r.vacant?' <span class="muted">(vacant)</span>':''}</td><td>${r.beds!=null?BEDL[r.beds]||r.beds+'BR':'—'}</td><td class="num">${money(r.rent)}</td><td class="num">${t!=null?money(t):'—'}</td><td>${tag}</td></tr>`}).join('')}</table>
+          ${(()=>{const under=rents.filter(r=>!r.vacant&&r.beds!=null&&TYP[r.beds]&&r.rent<Number(TYP[r.beds])).reduce((a,r)=>a+(Number(TYP[r.beds])-r.rent),0);return under?`<p style="margin-top:6px;font-size:.9rem"><b style="color:var(--red)">Upside to market: ${money(under)}/mo (${money(under*12)}/yr)</b> on occupied units below their type's typical rent.</p>`:''})()}
+          ${shops.length&&m.storefront_month?`<div class="muted" style="font-size:.75rem;text-transform:uppercase;letter-spacing:.06em;margin-top:10px">Storefronts (at ~$14/sq ft/yr)</div><table><tr><th>Space</th><th class="num">Sq ft</th><th class="num">Est. rent/mo</th></tr>${shops.map(u=>`<tr><td>${esc(u.unit_number)}</td><td class="num">${u.sqft?Number(u.sqft).toLocaleString():'—'}</td><td class="num">${u.sqft?money(u.sqft*14/12):'—'}</td></tr>`).join('')}<tr><td><b>Both</b></td><td class="num">${shops.reduce((a,u)=>a+Number(u.sqft||0),0).toLocaleString()}</td><td class="num"><b>${money(shops.reduce((a,u)=>a+Number(u.sqft||0),0)*14/12)}</b></td></tr></table>`:''}
+          </div>
       </div>
       <div style="padding:0 14px 12px;font-size:.84rem"><b>Comparable listings:</b> ${(src.examples||[]).map(e=>`<a href="${esc(e.source)}" target="_blank" rel="noopener">${esc(e.where)}</a> (${e.beds===0?'studio':e.beds+'BR'} ${money(e.rent)}${e.rent_high?'–'+money(e.rent_high):''})`).join(' · ')}</div></div>`}).join('');
   const asof=Object.values(MARKET)[0]?.as_of||'';
