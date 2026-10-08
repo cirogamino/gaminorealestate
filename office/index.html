@@ -216,13 +216,13 @@ $('#loginForm').addEventListener('submit',async e=>{e.preventDefault();const m=$
   boot()});
 $('#signupBtn').addEventListener('click',async()=>{const m=$('#loginMsg');const email=$('#em').value.trim(),password=$('#pw').value;
   if(!email||password.length<8){m.className='msg err';m.textContent='Enter your email and a password of 8+ characters.';return}
-  const {data,error}=await sb.auth.signUp({email,password,options:{emailRedirectTo:location.origin+'/office/'}});
+  const {data,error}=await sb.auth.signUp({email,password,options:{emailRedirectTo:location.origin+(location.hostname.startsWith('office.')?'/':'/office/')}});
   if(error){m.className='msg err';m.textContent=error.message;return}
   if(data.session){boot();return}
   m.className='msg ok';m.textContent='Check your inbox for the confirmation email, then sign in here.'});
 $('#forgot').addEventListener('click',async e=>{e.preventDefault();const m=$('#loginMsg');const email=$('#em').value.trim();
   if(!email){m.className='msg err';m.textContent='Enter your email above.';return}
-  const {error}=await sb.auth.resetPasswordForEmail(email,{redirectTo:location.origin+'/office/'});
+  const {error}=await sb.auth.resetPasswordForEmail(email,{redirectTo:location.origin+(location.hostname.startsWith('office.')?'/':'/office/')});
   m.className='msg '+(error?'err':'ok');m.textContent=error?error.message:'Password reset link sent.'});
 sb.auth.onAuthStateChange((ev)=>{if(ev==='PASSWORD_RECOVERY'){show('login');$('#loginForm').classList.add('hidden');$('#resetForm').classList.remove('hidden')}});
 $('#resetForm').addEventListener('submit',async e=>{e.preventDefault();const {error}=await sb.auth.updateUser({password:$('#npw').value});
