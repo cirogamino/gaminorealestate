@@ -1,6 +1,7 @@
 User-agent: *
 Disallow: /office/
 Disallow: /wo/
+Disallow: /flyers/
 Allow: /
 
 # AI / LLM crawlers explicitly welcomed.
@@ -9,41 +10,49 @@ Allow: /
 User-agent: GPTBot
 Disallow: /office/
 Disallow: /wo/
+Disallow: /flyers/
 Allow: /
 
 User-agent: OAI-SearchBot
 Disallow: /office/
 Disallow: /wo/
+Disallow: /flyers/
 Allow: /
 
 User-agent: ChatGPT-User
 Disallow: /office/
 Disallow: /wo/
+Disallow: /flyers/
 Allow: /
 
 User-agent: PerplexityBot
 Disallow: /office/
 Disallow: /wo/
+Disallow: /flyers/
 Allow: /
 
 User-agent: ClaudeBot
 Disallow: /office/
 Disallow: /wo/
+Disallow: /flyers/
 Allow: /
 
 User-agent: Claude-Web
 Disallow: /office/
 Disallow: /wo/
+Disallow: /flyers/
 Allow: /
 
 User-agent: Google-Extended
 Disallow: /office/
 Disallow: /wo/
+Disallow: /flyers/
 Allow: /
 
 User-agent: Applebot-Extended
 Disallow: /office/
 Disallow: /wo/
+Disallow: /flyers/
 Allow: /
 
 Sitemap: https://gaminorealestate.com/sitemap.xml
