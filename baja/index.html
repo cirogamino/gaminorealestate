@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><meta name="robots" content="noindex"/>
+<title>Darme de baja — Gamino Real Estate</title><link rel="icon" href="/logo-crest-gold.jpg"/>
+<style>:root{--bg:#f7f2e9;--ink:#131009;--dim:#6d5f49;--gold:#b3872f}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 -apple-system,Arial,sans-serif;display:grid;place-items:center;min-height:100vh;padding:16px}
+.box{max-width:440px;background:#fff;border:1px solid #e4d9c4;border-radius:16px;padding:28px;text-align:center}img{width:56px;height:56px;border-radius:12px}h1{font-family:Georgia,serif;font-size:1.4rem}p{color:var(--dim)}a{color:var(--gold);font-weight:600}</style></head>
+<body><div class="box"><img src="/logo-crest-gold.webp" alt="Gamino Real Estate"/><h1 id="h">Un momento…</h1><p id="p"></p><p><a href="/">gaminorealestate.com</a></p></div>
+<script>
+const t=new URLSearchParams(location.search).get('t'),h=document.getElementById('h'),p=document.getElementById('p');
+if(!t){h.textContent='Enlace incompleto / Incomplete link';}
+else fetch('/api/unsubscribe',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({t})}).then(r=>r.json()).then(j=>{
+  h.textContent=j.ok?'Listo, te dimos de baja.':'No pudimos procesarlo.';
+  p.textContent=j.ok?'Ya no recibirás avisos de nuevas unidades. / You are unsubscribed from listing alerts.':'Escríbenos a info@gaminorealestate.com / Email us and we will remove you.';
+}).catch(()=>{h.textContent='Sin conexión / Offline'});
+</script></body></html>

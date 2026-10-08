@@ -12,11 +12,12 @@ export async function onRequestPost({ request, env }) {
     // Honeypot: bots fill the hidden "company" field. Pretend success, store nothing.
     if (d.company) return json({ ok: true });
 
-    // Minimal validation: need a name and at least one way to reach them.
+    // Listing alerts only need an email; full applications need a name + a way to reach them.
+    const isAlert = d.source === "listing_alert";
     const name = (d.name || "").toString().trim();
     const phone = (d.phone || "").toString().trim();
     const email = (d.email || "").toString().trim();
-    if (!name || (!phone && !email)) return json({ ok: false, error: "missing_fields" }, 400);
+    if (isAlert ? !email : (!name || (!phone && !email))) return json({ ok: false, error: "missing_fields" }, 400);
 
     const rec = {
       id: Date.now() + "-" + Math.random().toString(36).slice(2, 8),
@@ -41,6 +42,21 @@ export async function onRequestPost({ request, env }) {
       const key = "lead:" + rec.receivedAt + ":" + rec.id;
       await env.LEADS.put(key, JSON.stringify(rec));
     }
+
+    // Mailing list: alerts always subscribe; applicants subscribe when they tick "notify me".
+    if (email && (isAlert || d.notify === "on" || d.notify === true)) {
+      try {
+        const key = (env && env.SUPABASE_ANON_KEY) || "sb_publishable_2O_tZWnUVt9wtz-LDJ55fQ_G8kEObt3";
+        await fetch("https://mtieaukygxrcnggstvjf.supabase.co/rest/v1/rpc/subscribe", {
+          method: "POST",
+          headers: { apikey: key, authorization: "Bearer " + key, "content-type": "application/json" },
+          body: JSON.stringify({ p_email: email, p_name: name || null, p_lang: rec.formLang === "en" ? "en" : "es", p_source: isAlert ? "listing_alert" : "application" }),
+        });
+      } catch (_) { /* non-fatal */ }
+    }
+
+    // Listing alerts are subscribers, not leads.
+    if (isAlert) return json({ ok: true, id: rec.id });
 
     // Mirror the lead into Supabase (source of truth) via the ingest webhook.
     // Non-fatal: if this fails, the KV copy above still captured the lead.

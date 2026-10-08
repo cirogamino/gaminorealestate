@@ -1,0 +1,399 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<meta name="robots" content="noindex,nofollow"/>
+<title>Back Office — Gamino Real Estate</title>
+<link rel="icon" href="/logo-crest-gold.jpg"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet"/>
+<style>
+:root{--bg:#f7f2e9;--panel:#fff;--soft:#efe6d5;--ink:#131009;--dim:#6d5f49;--line:rgba(34,26,16,.12);--gold:#b3872f;--gold-d:#8e6a22;--red:#c0392b;--green:#2e7d4f;--serif:'Fraunces',Georgia,serif;--sans:'Archivo',-apple-system,sans-serif}
+@media (prefers-color-scheme:dark){:root{--bg:#14110c;--panel:#1d1912;--soft:#2a241a;--ink:#f3ecdf;--dim:#b3a58c;--line:rgba(243,236,223,.12)}}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font:15px/1.45 var(--sans)}
+button,input,select,textarea{font:inherit;color:inherit}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+header{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+.top{display:flex;align-items:center;gap:12px;padding:12px 0}
+.top img{width:36px;height:36px;border-radius:8px;object-fit:cover}
+.top h1{font:700 1.1rem var(--serif);flex:1}
+.top .who{color:var(--dim);font-size:.85rem}
+nav.tabs{display:flex;gap:4px;overflow-x:auto;padding-bottom:8px}
+nav.tabs button{border:1px solid var(--line);background:var(--panel);padding:7px 13px;border-radius:999px;cursor:pointer;white-space:nowrap;font-weight:600;font-size:.88rem}
+nav.tabs button.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+main{padding:18px 0 60px}
+h2{font:700 1.35rem var(--serif);margin:0 0 4px}
+.sub{color:var(--dim);font-size:.9rem;margin-bottom:14px}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:12px 0 18px}
+@media(max-width:700px){.kpis{grid-template-columns:repeat(2,1fr)}}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.kpi b{display:block;font:700 1.4rem var(--serif)}
+.kpi span{color:var(--dim);font-size:.8rem;text-transform:uppercase;letter-spacing:.06em}
+.bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px}
+.btn{border:1px solid var(--gold);background:var(--gold);color:#fff;padding:8px 14px;border-radius:9px;cursor:pointer;font-weight:600}
+.btn.ghost{background:transparent;color:var(--gold-d)}
+.btn.sm{padding:4px 10px;font-size:.82rem;border-radius:7px}
+.btn.red{background:var(--red);border-color:var(--red)}
+.btn:disabled{opacity:.5;cursor:default}
+input,select,textarea{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:7px 9px;min-width:0}
+textarea{width:100%;min-height:80px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;margin-bottom:16px;overflow:hidden}
+.card h3{font:700 1rem var(--serif);padding:12px 14px;background:var(--soft);display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.mkt{padding:9px 14px;background:rgba(179,135,47,.10);border-top:1px solid var(--line);font-size:.86rem}.mkt span{color:var(--red);font-weight:700}.mkt small{color:var(--dim)}
+.card h3 small{font:500 .82rem var(--sans);color:var(--dim)}
+.tbl{width:100%;overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:.9rem}
+th,td{padding:8px 10px;border-top:1px solid var(--line);text-align:left;vertical-align:middle}
+th{font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;color:var(--dim);font-weight:600;border-top:0}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+.pill{display:inline-block;padding:2px 9px;border-radius:999px;font-size:.75rem;font-weight:700}
+.pill.paid{background:rgba(46,125,79,.14);color:var(--green)}
+.pill.due{background:rgba(192,57,43,.12);color:var(--red)}
+.pill.part{background:rgba(179,135,47,.16);color:var(--gold-d)}
+.pill.none{background:var(--soft);color:var(--dim)}
+.muted{color:var(--dim)}
+a{color:var(--gold-d)}
+.login{max-width:380px;margin:12vh auto 0;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:26px}
+.login h1{font:700 1.5rem var(--serif);margin-bottom:6px}
+.login label{display:block;font-size:.82rem;color:var(--dim);margin:12px 0 4px}
+.login input{width:100%}
+.login .row{display:flex;gap:8px;margin-top:16px}
+.login .row .btn{flex:1}
+.msg{margin-top:12px;font-size:.88rem;min-height:1.2em}
+.msg.err{color:var(--red)} .msg.ok{color:var(--green)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:700px){.grid2{grid-template-columns:1fr}}
+.field label{display:block;font-size:.78rem;color:var(--dim);margin-bottom:3px}
+.field input,.field select{width:100%}
+.unitform{padding:12px 14px;border-top:1px solid var(--line);display:none}
+.unitform.open{display:block}
+.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:10px;font-weight:600;opacity:0;transition:opacity .2s;pointer-events:none;z-index:9}
+.toast.on{opacity:1}
+.hidden{display:none!important}
+</style>
+</head>
+<body>
+
+<div id="loginView" class="wrap hidden">
+  <div class="login">
+    <img src="/logo-crest-gold.jpg" alt="" style="width:54px;height:54px;border-radius:12px;margin-bottom:10px"/>
+    <h1>Back Office</h1>
+    <p class="muted" style="font-size:.9rem">Gamino Real Estate · private: authorized family only</p>
+    <form id="loginForm">
+      <label for="em">Email</label><input id="em" type="email" autocomplete="username" required/>
+      <label for="pw">Password</label><input id="pw" type="password" autocomplete="current-password" minlength="8" required/>
+      <div class="row"><button class="btn" type="submit">Sign in</button></div>
+      <div class="row"><button class="btn ghost" type="button" id="signupBtn">First time? Create your login</button></div>
+      <p style="margin-top:10px;font-size:.85rem"><a href="#" id="forgot">Forgot password?</a></p>
+      <p class="msg" id="loginMsg"></p>
+    </form>
+    <form id="resetForm" class="hidden">
+      <label for="npw">New password</label><input id="npw" type="password" minlength="8" autocomplete="new-password" required/>
+      <div class="row"><button class="btn" type="submit">Save</button></div>
+      <p class="msg" id="resetMsg"></p>
+    </form>
+  </div>
+</div>
+
+<div id="appView" class="hidden">
+<header><div class="wrap">
+  <div class="top"><img src="/logo-crest-gold.jpg" alt=""/><h1>Gamino Real Estate · Back Office</h1><span class="who" id="who"></span><button class="btn ghost sm" id="logout">Sign out</button></div>
+  <nav class="tabs" id="tabs">
+    <button data-t="rent" class="on">💵 Rent</button>
+    <button data-t="units">🏠 Units & listings</button>
+    <button data-t="tenants">👥 Tenants</button>
+    <button data-t="maint">🔧 Maintenance</button>
+    <button data-t="leads">📥 Leads</button>
+    <button data-t="list">✉️ Mailing list</button>
+  </nav>
+</div></header>
+<main class="wrap">
+
+<section id="t-rent">
+  <h2>Rent roll</h2>
+  <p class="sub">Mark who paid. Totals come straight from the database.</p>
+  <div class="bar">
+    <input type="month" id="month"/>
+    <button class="btn" id="chargeBtn">Create this month’s charges</button>
+    <select id="payMethod" title="Payment method"><option value="cash">Cash</option><option value="check">Check</option><option value="money_order">Money order</option><option value="transfer">Zelle / transfer</option><option value="card">Card</option><option value="other">Other</option></select>
+    <button class="btn ghost" id="exportRent">Export CSV</button>
+  </div>
+  <div class="kpis">
+    <div class="kpi"><span>Expected</span><b id="kExp">—</b></div>
+    <div class="kpi"><span>Collected</span><b id="kPaid">—</b></div>
+    <div class="kpi"><span>Outstanding</span><b id="kDue">—</b></div>
+    <div class="kpi"><span>Paid in full</span><b id="kCount">—</b></div>
+  </div>
+  <div id="rentBoard"></div>
+</section>
+
+<section id="t-units" class="hidden">
+  <h2>Units & listings</h2>
+  <p class="sub">Check <b>“List on website”</b> and the unit appears on gaminorealestate.com right away. Uncheck it when it rents.</p>
+  <div id="unitsBoard"></div>
+</section>
+
+<section id="t-tenants" class="hidden">
+  <h2>Tenants</h2>
+  <p class="sub">Active leases. “Moved out” ends the lease and frees the unit. On a vacant unit, “New tenant” starts a lease.</p>
+  <div id="tenantsBoard"></div>
+</section>
+
+<section id="t-maint" class="hidden">
+  <h2>Maintenance</h2>
+  <p class="sub">Repair requests from gaminorealestate.com/mantenimiento.</p>
+  <div id="maintBoard"></div>
+</section>
+
+<section id="t-leads" class="hidden">
+  <h2>Leads</h2>
+  <p class="sub">Applications from the website and the AI receptionist.</p>
+  <div id="leadsBoard"></div>
+</section>
+
+<section id="t-list" class="hidden">
+  <h2>Mailing list & campaigns</h2>
+  <p class="sub">People who asked to hear about new openings.</p>
+  <div class="kpis"><div class="kpi"><span>Subscribers</span><b id="kSubs">—</b></div><div class="kpi"><span>Campaigns sent</span><b id="kSent">—</b></div></div>
+  <div class="bar"><button class="btn ghost" id="copyBcc">Copy emails (BCC)</button><button class="btn ghost" id="exportSubs">Export CSV</button></div>
+  <div class="card"><h3>New campaign <small id="sendMode"></small></h3>
+    <div style="padding:14px" class="grid2">
+      <div class="field"><label>Internal name</label><input id="cName" placeholder="e.g. Apt 6 available"/></div>
+      <div class="field"><label>Send to</label><select id="cAud"><option value="subscribers">Mailing list</option></select></div>
+      <div class="field"><label>Subject (Spanish — what most subscribers read)</label><input id="cSubEs"/></div>
+      <div class="field"><label>Subject (English)</label><input id="cSubEn"/></div>
+      <div class="field" style="grid-column:1/-1"><label>Message (Spanish)</label><textarea id="cBodyEs"></textarea></div>
+      <div class="field" style="grid-column:1/-1"><label>Message (English)</label><textarea id="cBodyEn"></textarea></div>
+      <div class="bar" style="grid-column:1/-1;margin:0"><button class="btn ghost" id="cSave">Save draft</button><button class="btn" id="cSend">Send to list</button><button class="btn ghost" id="cTest">Send me a test</button></div>
+    </div>
+  </div>
+  <div id="campBoard"></div>
+  <div id="subsBoard"></div>
+</section>
+
+</main>
+</div>
+<div class="toast" id="toast"></div>
+
+<script src="/assets/supa-config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script>
+const sb = supabase.createClient(GRE_SUPA.url, GRE_SUPA.key);
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const money = n => '$' + Number(n || 0).toLocaleString('en-US', {maximumFractionDigits: 0});
+const BUILDINGS = {'pierce-3110':'3110 W Pierce St','muskego-1750':'1750–1752 S Muskego Ave','muskego-1754':'1754–1756 S Muskego Ave','muskego-1968':'1968 S Muskego Ave','eleventh-2176':'2176–2178 S 11th St','smith-210':'210 E Smith St'};
+function toast(t){const el=$('#toast');el.textContent=t;el.classList.add('on');clearTimeout(toast.h);toast.h=setTimeout(()=>el.classList.remove('on'),2200)}
+function fail(e){console.error(e);toast('Error: '+(e.message||e))}
+function csv(rows,name){const s=rows.map(r=>r.map(v=>'"'+String(v??'').replace(/"/g,'""')+'"').join(',')).join('\n');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([s],{type:'text/csv'}));a.download=name;a.click()}
+function tel(p){if(!p)return'';const first=String(p).split('/')[0];let d=first.replace(/\D/g,'');if(d.length===7)d='414'+d;return d.length>=10?`<a href="tel:+1${d.slice(-10)}">${esc(p)}</a>`:esc(p)}
+
+// ---------- auth ----------
+let me = null;
+async function boot(){
+  const {data:{session}} = await sb.auth.getSession();
+  if(!session){show('login');return}
+  const {data:prof} = await sb.from('profiles').select('role,email').eq('id',session.user.id).maybeSingle();
+  if(!prof || prof.role!=='admin'){show('login');$('#loginMsg').className='msg err';$('#loginMsg').textContent='This account does not have back-office access.';await sb.auth.signOut();return}
+  me = prof; $('#who').textContent = prof.email; show('app'); openTab('rent');
+}
+function show(v){$('#loginView').classList.toggle('hidden',v!=='login');$('#appView').classList.toggle('hidden',v!=='app')}
+$('#loginForm').addEventListener('submit',async e=>{e.preventDefault();const m=$('#loginMsg');m.className='msg';m.textContent='…';
+  const {error}=await sb.auth.signInWithPassword({email:$('#em').value.trim(),password:$('#pw').value});
+  if(error){m.className='msg err';m.textContent=error.message==='Email not confirmed'?'Confirm your email first (check your inbox).':error.message;return}
+  boot()});
+$('#signupBtn').addEventListener('click',async()=>{const m=$('#loginMsg');const email=$('#em').value.trim(),password=$('#pw').value;
+  if(!email||password.length<8){m.className='msg err';m.textContent='Enter your email and a password of 8+ characters.';return}
+  const {data,error}=await sb.auth.signUp({email,password,options:{emailRedirectTo:location.origin+'/office/'}});
+  if(error){m.className='msg err';m.textContent=error.message;return}
+  if(data.session){boot();return}
+  m.className='msg ok';m.textContent='Check your inbox for the confirmation email, then sign in here.'});
+$('#forgot').addEventListener('click',async e=>{e.preventDefault();const m=$('#loginMsg');const email=$('#em').value.trim();
+  if(!email){m.className='msg err';m.textContent='Enter your email above.';return}
+  const {error}=await sb.auth.resetPasswordForEmail(email,{redirectTo:location.origin+'/office/'});
+  m.className='msg '+(error?'err':'ok');m.textContent=error?error.message:'Password reset link sent.'});
+sb.auth.onAuthStateChange((ev)=>{if(ev==='PASSWORD_RECOVERY'){show('login');$('#loginForm').classList.add('hidden');$('#resetForm').classList.remove('hidden')}});
+$('#resetForm').addEventListener('submit',async e=>{e.preventDefault();const {error}=await sb.auth.updateUser({password:$('#npw').value});
+  const m=$('#resetMsg');m.className='msg '+(error?'err':'ok');m.textContent=error?error.message:'Password saved.';if(!error){$('#resetForm').classList.add('hidden');$('#loginForm').classList.remove('hidden');boot()}});
+$('#logout').addEventListener('click',async()=>{await sb.auth.signOut();location.reload()});
+
+// ---------- tabs ----------
+const loaders = {rent:loadRent,units:loadUnits,tenants:loadTenants,maint:loadMaint,leads:loadLeads,list:loadList};
+function openTab(t){document.querySelectorAll('#tabs button').forEach(b=>b.classList.toggle('on',b.dataset.t===t));
+  Object.keys(loaders).forEach(k=>$('#t-'+k).classList.toggle('hidden',k!==t));loaders[t]().catch(fail)}
+$('#tabs').addEventListener('click',e=>{const b=e.target.closest('button');if(b)openTab(b.dataset.t)});
+
+// ---------- rent ----------
+const now = new Date(); $('#month').value = now.toISOString().slice(0,7);
+$('#month').addEventListener('change',()=>loadRent().catch(fail));
+const monthDate = () => $('#month').value + '-01';
+let rentRows = [];
+let MARKET=null;
+async function loadMarket(){if(MARKET)return MARKET;const {data}=await sb.from('market_rents').select('*,properties(slug)');MARKET={};(data||[]).forEach(m=>MARKET[m.properties.slug]=m);return MARKET}
+function marketLine(slug,rows){const m=MARKET&&MARKET[slug];if(!m)return '';
+  const parts=[['Studio',m.studio],['1BR',m.one_br],['2BR',m.two_br]].filter(x=>x[1]).map(x=>x[0]+' '+money(x[1]));
+  const res=rows.filter(r=>r.unit_type!=='commercial'&&r.rent);const avg=res.length?res.reduce((a,r)=>a+Number(r.rent),0)/res.length:0;
+  return `<div class="mkt">Area going rate (${esc(m.as_of)}): <b>${parts.join(' · ')}</b>${m.storefront_month?' · Storefront ~'+money(m.storefront_month)+'/mo':''}${avg?` · <span>Our avg ${money(avg)}</span>`:''}${m.summary?`<br><small>${esc(m.summary)}</small>`:''}</div>`}
+async function loadRent(){
+  await loadMarket().catch(()=>{});
+  const {data,error} = await sb.rpc('office_rent_board',{p_month:monthDate()}); if(error) throw error;
+  rentRows = data || [];
+  const exp=rentRows.reduce((a,r)=>a+Number(r.charged||0),0), paid=rentRows.reduce((a,r)=>a+Number(r.paid||0),0);
+  const charged=rentRows.some(r=>Number(r.charged)>0);
+  $('#kExp').textContent=charged?money(exp):money(rentRows.reduce((a,r)=>a+Number(r.rent||0),0))+'*';
+  $('#kPaid').textContent=money(paid); $('#kDue').textContent=money(exp-paid);
+  $('#kCount').textContent=rentRows.filter(r=>Number(r.charged)>0&&Number(r.balance)<=0).length+' / '+rentRows.length;
+  $('#chargeBtn').textContent = charged ? 'Charges created ✓ (add missing)' : 'Create this month’s charges';
+  const groups = {}; rentRows.forEach(r=>(groups[r.property_slug]=groups[r.property_slug]||[]).push(r));
+  $('#rentBoard').innerHTML = (charged?'':'<p class="sub">* Aún no hay cargos para este mes. Toca “Create this month’s charges” (una vez al mes).</p>') +
+   Object.entries(groups).map(([slug,rows])=>{
+    const tot=rows.reduce((a,r)=>a+Number(r.charged||r.rent),0), pd=rows.reduce((a,r)=>a+Number(r.paid),0);
+    return `<div class="card"><h3>${esc(BUILDINGS[slug]||slug)} <small>${money(pd)} of ${money(tot)} · ${rows.length} units</small></h3>${marketLine(slug,rows)}<div class="tbl"><table>
+    <tr><th>Unit</th><th>Tenant</th><th>Phone</th><th class="num">Rent</th><th class="num">Paid</th><th class="num">Owes</th><th>Status</th><th></th></tr>
+    ${rows.map(r=>{const c=Number(r.charged),p=Number(r.paid),b=Number(r.balance);
+      const st=!c?'<span class="pill none">no charge</span>':b<=0?'<span class="pill paid">PAID</span>':p>0?'<span class="pill part">PARTIAL</span>':'<span class="pill due">DUE</span>';
+      const acts=!c?'':b>0?`<button class="btn sm" data-pay="${r.lease_id}" data-charge="${r.charge_id}" data-amt="${b}">Paid ${money(b)}</button> <button class="btn ghost sm" data-part="${r.lease_id}" data-charge="${r.charge_id}">Partial</button>`:`<button class="btn ghost sm" data-undo="${r.charge_id}">Undo</button>`;
+      return `<tr><td><b>${esc(r.unit_number)}</b></td><td>${esc(r.tenant_name)}</td><td>${tel(r.tenant_phone)}</td><td class="num">${money(r.rent)}</td><td class="num">${money(p)}</td><td class="num">${b>0?money(b):''}</td><td>${st}</td><td style="white-space:nowrap">${acts}</td></tr>`}).join('')}
+    </table></div></div>`}).join('');
+}
+$('#chargeBtn').addEventListener('click',async()=>{const {data,error}=await sb.rpc('office_charge_month',{p_month:monthDate()});if(error)return fail(error);toast(data+' charges created');loadRent()});
+async function pay(lease,charge,amount){
+  const {error}=await sb.from('rent_payments').insert({lease_id:lease,charge_id:charge,amount,paid_on:new Date().toISOString().slice(0,10),method:$('#payMethod').value,recorded_by:(await sb.auth.getUser()).data.user.id});
+  if(error)return fail(error);toast('Payment saved');loadRent()}
+$('#rentBoard').addEventListener('click',async e=>{const t=e.target;
+  if(t.dataset.pay) pay(t.dataset.pay,t.dataset.charge,Number(t.dataset.amt));
+  if(t.dataset.part){const v=prompt('Amount paid?');if(v&&Number(v)>0)pay(t.dataset.part,t.dataset.charge,Number(v))}
+  if(t.dataset.undo){if(!confirm('Remove the last payment for this unit this month?'))return;
+    const {data}=await sb.from('rent_payments').select('id').eq('charge_id',t.dataset.undo).order('created_at',{ascending:false}).limit(1);
+    if(data&&data[0]){const {error}=await sb.from('rent_payments').delete().eq('id',data[0].id);if(error)return fail(error);toast('Payment removed');loadRent()}}});
+$('#exportRent').addEventListener('click',()=>csv([['Building','Unit','Tenant','Phone','Rent','Charged','Paid','Owes','Last paid']].concat(rentRows.map(r=>[BUILDINGS[r.property_slug],r.unit_number,r.tenant_name,r.tenant_phone,r.rent,r.charged,r.paid,r.balance,r.last_paid])),'rent-roll-'+$('#month').value+'.csv'));
+
+// ---------- units ----------
+let units=[];
+async function loadUnits(){
+  await loadMarket().catch(()=>{});
+  const {data,error}=await sb.from('units').select('*,properties(slug,name)').order('sort',{nullsFirst:false}); if(error) throw error;
+  units=data;const groups={};units.forEach(u=>(groups[u.properties.slug]=groups[u.properties.slug]||[]).push(u));
+  $('#unitsBoard').innerHTML=Object.entries(groups).map(([slug,rows])=>`<div class="card"><h3>${esc(BUILDINGS[slug]||slug)} <small>${rows.filter(u=>u.status==='occupied').length} occupied · ${rows.filter(u=>u.status!=='occupied').length} vacant · ${rows.filter(u=>u.listed).length} listed</small></h3>${marketLine(slug,rows)}
+   <div class="tbl"><table><tr><th>Unit</th><th>Status</th><th class="num">Rent</th><th>Beds</th><th>Listing</th><th></th></tr>
+   ${rows.map(u=>`<tr><td><b>${esc(u.unit_number)}</b>${u.unit_type==='commercial'?' <span class="pill none">storefront</span>':''}</td><td>${{occupied:'<span class="pill paid">occupied</span>',vacant:'<span class="pill due">vacant</span>',turnover:'<span class="pill part">turnover</span>'}[u.status]||esc(u.status)}</td>
+   <td class="num">${u.rent?money(u.rent):'—'}</td><td>${u.bedrooms??'—'}</td><td>${u.listed?'<b style="color:var(--green)">● on website</b>':'<span class="muted">—</span>'}</td><td><button class="btn ghost sm" data-edit="${u.id}">Edit</button></td></tr>
+   <tr><td colspan="6" style="padding:0;border:0"><div class="unitform" id="uf-${u.id}"></div></td></tr>`).join('')}</table></div></div>`).join('');
+}
+function unitForm(u){return `<div class="grid2">
+  <div class="field"><label>Status</label><select name="status">${['occupied','vacant','turnover'].map(s=>`<option value="${s}" ${u.status===s?'selected':''}>${{occupied:'Occupied',vacant:'Vacant',turnover:'Turnover (being fixed up)'}[s]}</option>`).join('')}</select></div>
+  <div class="field"><label>Monthly rent ($)</label><input name="rent" type="number" min="0" step="5" value="${u.rent??''}"/></div>
+  <div class="field"><label>Bedrooms (0 = studio)</label><input name="bedrooms" type="number" min="0" step="1" value="${u.bedrooms??''}"/></div>
+  <div class="field"><label>Bathrooms</label><input name="bathrooms" type="number" min="0" step="0.5" value="${u.bathrooms??''}"/></div>
+  <div class="field"><label>Available from</label><input name="available_on" type="date" value="${u.available_on??''}"/></div>
+  <div class="field"><label>Sq ft (optional)</label><input name="sqft" type="number" min="0" value="${u.sqft??''}"/></div>
+  <div class="field" style="grid-column:1/-1"><label><input type="checkbox" name="listed" ${u.listed?'checked':''}/> <b>List on website</b> (shows on gaminorealestate.com)</label></div>
+  <div class="field"><label>Listing title (Spanish)</label><input name="listing_title_es" value="${esc(u.listing_title_es)}"/></div>
+  <div class="field"><label>Listing title (English)</label><input name="listing_title_en" value="${esc(u.listing_title_en)}"/></div>
+  <div class="field"><label>Description (Spanish)</label><textarea name="listing_desc_es">${esc(u.listing_desc_es)}</textarea></div>
+  <div class="field"><label>Description (English)</label><textarea name="listing_desc_en">${esc(u.listing_desc_en)}</textarea></div>
+  <div class="field"><label>Photo (URL)</label><input name="listing_photo" value="${esc(u.listing_photo)}"/></div>
+  <div class="field"><label>Video (URL)</label><input name="listing_video" value="${esc(u.listing_video)}"/></div>
+  <div class="field" style="grid-column:1/-1"><label>Internal notes (never published)</label><textarea name="notes">${esc(u.notes)}</textarea></div>
+  <div class="bar" style="grid-column:1/-1;margin:0"><button class="btn" data-save="${u.id}">Save</button>${u.listed?`<button class="btn ghost" data-announce="${u.id}">✉️ Email the mailing list about this unit</button>`:''}</div></div>`}
+$('#unitsBoard').addEventListener('click',async e=>{const t=e.target;
+  if(t.dataset.edit){const u=units.find(x=>x.id===t.dataset.edit),f=$('#uf-'+u.id);f.innerHTML=unitForm(u);f.classList.toggle('open')}
+  if(t.dataset.save){const f=$('#uf-'+t.dataset.save),g=n=>f.querySelector(`[name=${n}]`);const num=n=>g(n).value===''?null:Number(g(n).value);
+    const patch={status:g('status').value,rent:num('rent'),bedrooms:num('bedrooms'),bathrooms:num('bathrooms'),sqft:num('sqft'),available_on:g('available_on').value||null,listed:g('listed').checked,
+      listing_title_es:g('listing_title_es').value||null,listing_title_en:g('listing_title_en').value||null,listing_desc_es:g('listing_desc_es').value||null,listing_desc_en:g('listing_desc_en').value||null,
+      listing_photo:g('listing_photo').value||null,listing_video:g('listing_video').value||null,notes:g('notes').value||null};
+    const {error}=await sb.from('units').update(patch).eq('id',t.dataset.save);if(error)return fail(error);toast(patch.listed?'Saved · now on the website':'Saved');loadUnits()}
+  if(t.dataset.announce){const u=units.find(x=>x.id===t.dataset.announce);openTab('list');
+    const addr=BUILDINGS[u.properties.slug]||u.properties.name;$('#cName').value='Available: '+addr+' '+u.unit_number;
+    $('#cSubEs').value=`Disponible ya: ${u.listing_title_es||u.unit_number} en ${addr}`;$('#cSubEn').value=`Available now: ${u.listing_title_en||u.unit_number} at ${addr}`;
+    $('#cBodyEs').value=`Hola,\n\nTe avisamos primero: ${u.listing_title_es||'una unidad'} en ${addr} está disponible${u.rent&&u.unit_type!=='commercial'?' por $'+u.rent+' al mes':''}.\n\n${u.listing_desc_es||''}\n\nVer y solicitar: https://gaminorealestate.com/#disponibles\nLlámanos 24/7: (414) 850-CASA\n\n— Familia Gamino`;
+    $('#cBodyEn').value=`Hi,\n\nYou're hearing it first: ${u.listing_title_en||'a unit'} at ${addr} is available${u.rent&&u.unit_type!=='commercial'?' for $'+u.rent+'/month':''}.\n\n${u.listing_desc_en||''}\n\nSee it and apply: https://gaminorealestate.com/#disponibles\nCall us 24/7: (414) 850-CASA\n\n— The Gamino family`}});
+
+// ---------- tenants ----------
+async function loadTenants(){
+  const [{data:leases,error:e1},{data:us,error:e2}]=await Promise.all([
+    sb.from('leases').select('id,unit_id,tenant_name,tenant_phone,tenant_email,start_date,rent_amount,deposit_amount,notes,units(unit_number,sort,status,properties(slug))').eq('status','active'),
+    sb.from('units').select('id,unit_number,status,rent,sort,unit_type,properties(slug)')]);
+  if(e1)throw e1;if(e2)throw e2;
+  const occ=new Set(leases.map(l=>l.unit_id));const groups={};
+  us.forEach(u=>(groups[u.properties.slug]=groups[u.properties.slug]||[]).push(u));
+  $('#tenantsBoard').innerHTML=Object.entries(groups).map(([slug,rows])=>`<div class="card"><h3>${esc(BUILDINGS[slug]||slug)}</h3><div class="tbl"><table>
+   <tr><th>Unit</th><th>Tenant</th><th>Phone</th><th class="num">Rent</th><th>Since</th><th></th></tr>
+   ${rows.sort((a,b)=>(a.sort??99)-(b.sort??99)).map(u=>{const l=leases.find(x=>x.unit_id===u.id);
+     return l?`<tr><td><b>${esc(u.unit_number)}</b></td><td>${esc(l.tenant_name)}</td><td>${tel(l.tenant_phone)}</td><td class="num">${money(l.rent_amount)}</td><td>${esc(l.start_date)}</td>
+       <td style="white-space:nowrap"><button class="btn ghost sm" data-ledit="${l.id}">Edit</button> <button class="btn ghost sm" data-out="${l.id}" data-unit="${u.id}">Moved out</button></td></tr>`
+     :`<tr><td><b>${esc(u.unit_number)}</b></td><td class="muted" colspan="4">${u.unit_type==='commercial'?'Storefront vacant':'Vacant'}</td><td><button class="btn sm" data-new="${u.id}" data-rent="${u.rent??''}">New tenant</button></td></tr>`}).join('')}
+   </table></div></div>`).join('');
+  $('#tenantsBoard').onclick=async e=>{const t=e.target;
+    if(t.dataset.ledit){const l=leases.find(x=>x.id===t.dataset.ledit);
+      const name=prompt('Tenant name',l.tenant_name||'');if(name===null)return;const phone=prompt('Phone',l.tenant_phone||'');if(phone===null)return;const rent=prompt('Monthly rent',l.rent_amount);if(rent===null)return;
+      const {error}=await sb.from('leases').update({tenant_name:name,tenant_phone:phone,rent_amount:Number(rent)}).eq('id',l.id);if(error)return fail(error);
+      await sb.from('units').update({rent:Number(rent)}).eq('id',l.unit_id);toast('Saved');loadTenants()}
+    if(t.dataset.out){if(!confirm('End this lease and mark the unit for turnover?'))return;
+      const {error}=await sb.from('leases').update({status:'ended',end_date:new Date().toISOString().slice(0,10)}).eq('id',t.dataset.out);if(error)return fail(error);
+      await sb.from('units').update({status:'turnover'}).eq('id',t.dataset.unit);toast('Lease ended · unit set to turnover');loadTenants()}
+    if(t.dataset.new){const name=prompt('New tenant name');if(!name)return;const phone=prompt('Phone')||'';const rent=Number(prompt('Monthly rent',t.dataset.rent)||0);
+      const start=prompt('Move-in date (YYYY-MM-DD)',new Date().toISOString().slice(0,10));if(!start)return;
+      const {error}=await sb.from('leases').insert({unit_id:t.dataset.new,tenant_name:name,tenant_phone:phone,rent_amount:rent,start_date:start,status:'active'});if(error)return fail(error);
+      await sb.from('units').update({status:'occupied',listed:false,rent}).eq('id',t.dataset.new);toast('Tenant added · listing removed from website');loadTenants()}};
+}
+
+// ---------- maintenance ----------
+async function loadMaint(){
+  const {data,error}=await sb.from('maintenance_requests').select('*,units(unit_number,properties(slug))').order('created_at',{ascending:false}).limit(200);if(error)throw error;
+  const ST={new:'New',acknowledged:'Seen',scheduled:'Scheduled',in_progress:'In progress',resolved:'Resolved',closed:'Closed'};
+  $('#maintBoard').innerHTML=data.length?`<div class="card"><div class="tbl"><table><tr><th>Date</th><th>Where</th><th>Who</th><th>Problem</th><th>Priority</th><th>Status</th></tr>
+   ${data.map(m=>`<tr><td>${new Date(m.created_at).toLocaleDateString()}</td><td>${esc(m.units?(BUILDINGS[m.units.properties.slug]+' #'+m.units.unit_number):(m.building_text||'')+' '+(m.unit_text||''))}</td>
+   <td>${esc(m.reporter_name)}<br>${tel(m.reporter_phone)}</td><td>${esc(m.description||m.title)}<br><small class="muted">${esc(m.admin_notes)}</small></td>
+   <td>${m.priority==='emergency'?'<span class="pill due">EMERGENCY</span>':m.priority==='high'?'<span class="pill part">urgent</span>':'normal'}</td>
+   <td><select data-mst="${m.id}">${Object.entries(ST).map(([k,v])=>`<option value="${k}" ${m.status===k?'selected':''}>${v}</option>`).join('')}</select></td></tr>`).join('')}</table></div></div>`:'<p class="muted">No requests yet.</p>';
+  $('#maintBoard').onchange=async e=>{const id=e.target.dataset.mst;if(!id)return;const patch={status:e.target.value};if(['resolved','closed'].includes(patch.status))patch.resolved_at=new Date().toISOString();
+    const {error}=await sb.from('maintenance_requests').update(patch).eq('id',id);if(error)return fail(error);toast('Updated')};
+}
+
+// ---------- leads ----------
+async function loadLeads(){
+  const {data,error}=await sb.from('leads').select('*').order('created_at',{ascending:false}).limit(300);if(error)throw error;
+  const ST=['new','contacted','toured','applied','approved','rented','lost'];
+  $('#leadsBoard').innerHTML=`<div class="card"><div class="tbl"><table><tr><th>Date</th><th>Name</th><th>Contact</th><th>Looking for</th><th>Source</th><th>Status</th></tr>
+   ${data.map(l=>`<tr><td>${new Date(l.created_at).toLocaleDateString()}</td><td>${esc(l.full_name)}</td><td>${tel(l.phone)}<br>${l.email?`<a href="mailto:${esc(l.email)}">${esc(l.email)}</a>`:''}</td>
+   <td>${esc(l.property_interest)} ${l.bedrooms_needed?esc(l.bedrooms_needed)+' bd':''} ${l.move_in_date?'· '+esc(l.move_in_date):''}<br><small class="muted">${esc((l.message||'').slice(0,160))}</small></td>
+   <td>${esc(l.source)}</td><td><select data-lst="${l.id}">${ST.map(s=>`<option ${l.status===s?'selected':''}>${s}</option>`).join('')}</select></td></tr>`).join('')}</table></div></div>`;
+  $('#leadsBoard').onchange=async e=>{const id=e.target.dataset.lst;if(!id)return;const {error}=await sb.from('leads').update({status:e.target.value}).eq('id',id);if(error)return fail(error);toast('Updated')};
+}
+
+// ---------- mailing list + campaigns ----------
+let subs=[];
+async function loadList(){
+  const [{data:s,error:e1},{data:c,error:e2}]=await Promise.all([sb.from('subscribers').select('*').order('created_at',{ascending:false}),sb.from('campaigns').select('*').order('created_at',{ascending:false})]);
+  if(e1)throw e1;if(e2)throw e2;subs=s.filter(x=>!x.unsubscribed_at);
+  $('#kSubs').textContent=subs.length;$('#kSent').textContent=c.filter(x=>x.status==='sent').length;
+  $('#subsBoard').innerHTML=`<div class="card"><h3>Subscribers <small>${subs.length}</small></h3><div class="tbl"><table><tr><th>Email</th><th>Name</th><th>Language</th><th>Source</th><th>Since</th></tr>
+    ${subs.map(x=>`<tr><td>${esc(x.email)}</td><td>${esc(x.name)}</td><td>${esc(x.lang)}</td><td>${esc(x.source)}</td><td>${new Date(x.created_at).toLocaleDateString()}</td></tr>`).join('')}</table></div></div>`;
+  $('#campBoard').innerHTML=c.length?`<div class="card"><h3>Campaigns</h3><div class="tbl"><table><tr><th>Name</th><th>Subject</th><th>Status</th><th>Sent</th><th></th></tr>
+    ${c.map(x=>`<tr><td>${esc(x.name)}</td><td>${esc(x.subject_es)}</td><td>${esc(x.status)}</td><td>${x.sent_count??''} ${x.sent_at?'· '+new Date(x.sent_at).toLocaleDateString():''}</td><td><button class="btn ghost sm" data-load="${x.id}">Open</button></td></tr>`).join('')}</table></div></div>`:'';
+  $('#campBoard').onclick=e=>{const id=e.target.dataset.load;if(!id)return;const x=c.find(y=>y.id===id);$('#cName').value=x.name;$('#cSubEs').value=x.subject_es||'';$('#cSubEn').value=x.subject_en||'';$('#cBodyEs').value=x.body_es||'';$('#cBodyEn').value=x.body_en||'';$('#cSave').dataset.id=id};
+  const r=await fetch('/api/campaign',{method:'GET'}).then(r=>r.json()).catch(()=>({}));
+  $('#sendMode').textContent=r.configured?'automatic sending is on':'automatic sending not set up yet (needs Resend key): use “Copy emails”';
+  $('#cSend').disabled=$('#cTest').disabled=!r.configured;
+}
+function campPayload(){return{name:$('#cName').value||'Campaign',subject_es:$('#cSubEs').value,subject_en:$('#cSubEn').value,body_es:$('#cBodyEs').value,body_en:$('#cBodyEn').value,audience:$('#cAud').value}}
+async function saveCamp(){const p=campPayload();const id=$('#cSave').dataset.id;
+  const q=id?sb.from('campaigns').update(p).eq('id',id).select('id').single():sb.from('campaigns').insert(p).select('id').single();
+  const {data,error}=await q;if(error){fail(error);return null}$('#cSave').dataset.id=data.id;return data.id}
+$('#cSave').addEventListener('click',async()=>{if(await saveCamp()){toast('Draft saved');loadList()}});
+async function sendCamp(test){const id=await saveCamp();if(!id)return;
+  if(!test&&!confirm(`Send to ${subs.length} people?`))return;
+  const {data:{session}}=await sb.auth.getSession();
+  const r=await fetch('/api/campaign',{method:'POST',headers:{'content-type':'application/json',authorization:'Bearer '+session.access_token},body:JSON.stringify({campaign_id:id,test})}).then(r=>r.json()).catch(e=>({ok:false,error:String(e)}));
+  if(!r.ok)return fail(r.error||'send failed');toast(test?'Test sent to '+me.email:'Sent to '+r.sent);loadList()}
+$('#cSend').addEventListener('click',()=>sendCamp(false));$('#cTest').addEventListener('click',()=>sendCamp(true));
+$('#copyBcc').addEventListener('click',async()=>{await navigator.clipboard.writeText(subs.map(s=>s.email).join(', '));toast(subs.length+' emails copied')});
+$('#exportSubs').addEventListener('click',()=>csv([['email','name','language','source','date']].concat(subs.map(s=>[s.email,s.name,s.lang,s.source,s.created_at])),'mailing-list.csv'));
+
+boot();
+</script>
+</body>
+</html>

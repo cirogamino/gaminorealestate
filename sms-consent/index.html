@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-2BN0X8EMFE"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-2BN0X8EMFE');
+</script>
+
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>SMS consent · GaminoRealEstate.com</title>
@@ -51,7 +60,7 @@
   <footer>Sender: <strong style="color:#eef3ff">GaminoRealEstate.com</strong> · Reply STOP anytime</footer>
 </main>
 <script>
-(function(){var f=document.getElementById('sms-consent-form'),r=document.getElementById('result');f.addEventListener('submit',function(e){e.preventDefault();var p=document.getElementById('phone'),b=document.getElementById('sms_consent');if(!p.value.trim()){p.focus();return;}if(!b.checked){b.focus();return;}r.style.display='block';f.querySelector('button').disabled=true;});})();
+(function(){var f=document.getElementById('sms-consent-form'),r=document.getElementById('result');f.addEventListener('submit',function(e){e.preventDefault();var p=document.getElementById('phone'),b=document.getElementById('sms_consent');if(!p.value.trim()){p.focus();return;}if(!b.checked){b.focus();return;}f.querySelector('button').disabled=true;var nm=f.querySelector('[name=name],#name');fetch('/api/apply',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({name:(nm&&nm.value.trim())||'SMS consent',phone:p.value.trim(),source:'sms_consent',property:'SMS consent',message:'SMS consent: YES (checkbox) at '+new Date().toISOString(),submittedFrom:location.href})}).then(function(x){r.style.display='block';if(!x.ok)r.textContent='Could not record right now. Call (414) 850-CASA.';}).catch(function(){r.style.display='block';r.textContent='Could not record right now. Call (414) 850-CASA.';});});})();
 </script>
 </body>
 </html>

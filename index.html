@@ -23,6 +23,7 @@
 <link rel="alternate" hreflang="es" href="https://gaminorealestate.com/"/>
 <link rel="alternate" hreflang="en" href="https://gaminorealestate.com/?lang=en"/>
 <link rel="alternate" hreflang="x-default" href="https://gaminorealestate.com/"/>
+<link rel="preload" as="image" href="3110-w-pierce-st-silver-city-milwaukee-apartments.webp" fetchpriority="high"/>
 <link rel="icon" type="image/jpeg" href="logo-crest-gold.jpg?v=2"/>
 <link rel="apple-touch-icon" href="logo-crest-gold.jpg?v=2"/>
 <meta property="og:type" content="website"/>
@@ -287,13 +288,32 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 .faq-item.open .faq-a{max-height:340px}
 .faq-a p{padding:0 22px 20px;font-size:.97rem}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition-duration:.01ms!important}}
+
+.dispo{padding-top:56px}
+.dgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:20px}
+.dcard{background:var(--card,#fff);border:1px solid rgba(179,135,47,.28);border-radius:18px;overflow:hidden;box-shadow:0 14px 36px rgba(0,0,0,.08);display:flex;flex-direction:column}
+.dimg{aspect-ratio:16/10;background-size:cover;background-position:center;position:relative}
+.dimg .now{position:absolute;top:12px;left:12px;background:#c0392b;color:#fff;font-size:.7rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:5px 10px;border-radius:999px}
+.din{padding:16px 18px 18px;display:flex;flex-direction:column;gap:6px;flex:1}
+.dtag{font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold,#b3872f);font-weight:700}
+.din h3{font-family:var(--serif,'Fraunces',serif);font-size:1.2rem;line-height:1.2}
+.din .dmeta{font-size:.88rem;opacity:.75}
+.din .ddesc{font-size:.9rem;opacity:.85}
+.drent{font-family:var(--serif,'Fraunces',serif);font-size:1.5rem;font-weight:700;margin-top:2px}
+.drent small{font-size:.85rem;font-weight:500;opacity:.7}
+.dact{display:flex;gap:8px;flex-wrap:wrap;margin-top:auto;padding-top:8px}
+.dact .btn{padding:10px 16px;font-size:.88rem}
+.dvid{font-size:.85rem;font-weight:600;color:var(--gold,#b3872f);text-decoration:none}
+.dnote{margin-top:22px;text-align:center;font-size:.95rem}
+.dnote a{color:var(--gold,#b3872f);font-weight:600}
 </style>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
 {"@type":"Question","name":"How do I apply, and is there a fee?","acceptedAnswer":{"@type":"Answer","text":"Applying is free. Fill out the short form and the Gamino family contacts you within 1-2 business days, in English or Spanish."}},
 {"@type":"Question","name":"Do you speak Spanish?","acceptedAnswer":{"@type":"Answer","text":"Yes. We are a bilingual family and help you in Spanish or English, start to finish."}},
 {"@type":"Question","name":"What do I need to qualify?","acceptedAnswer":{"@type":"Answer","text":"Typically proof of income and references. We look at the whole picture and talk it through with you personally."}},
-{"@type":"Question","name":"Who handles repairs?","acceptedAnswer":{"@type":"Answer","text":"We do it ourselves: plumbing, electrical, carpentry. You reach the family, not a call center, and it gets fixed fast."}},
+{"@type":"Question","name":"Who handles repairs?","acceptedAnswer":{"@type":"Answer","text":"We do it ourselves: plumbing, electrical, carpentry. Tenants can request a repair any time at gaminorealestate.com/mantenimiento or call (414) 850-CASA, and the family handles it fast."}},
+{"@type":"Question","name":"What apartments are available right now?","acceptedAnswer":{"@type":"Answer","text":"The live list of available apartments and storefronts, with rent, is at gaminorealestate.com/#disponibles. Call (414) 850-CASA 24/7, in English or Spanish."}},
 {"@type":"Question","name":"Where are your buildings?","acceptedAnswer":{"@type":"Answer","text":"Across Milwaukee south side: Lincoln Village, Historic Mitchell Street, Silver City, and Bay View."}},
 {"@type":"Question","name":"How do I reach you?","acceptedAnswer":{"@type":"Answer","text":"Use the form on the site or email info@gaminorealestate.com. A real Gamino replies."}}
 ]}
@@ -306,7 +326,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
     <a href="#" class="brand"><img src="logo-crest-gold.jpg?v=2" alt="Gamino Real Estate logo"/><span>Gamino <em>Real Estate</em></span></a>
     <div class="nav-right">
       <div class="nav-links">
-        <a href="/disponible-hoy" class="avail" data-i="nav.avail">★ Disponible Hoy ★</a>
+        <a href="#disponibles" class="avail" data-i="nav.avail">★ Disponible Hoy ★</a>
         <a href="#propiedades" data-i="nav.prop">Propiedades</a>
         <a href="#familia" data-i="nav.fam">Nuestra familia</a>
         <a href="#proceso" data-i="nav.proc">Cómo rentar</a>
@@ -321,11 +341,11 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 
 <header class="hero">
   <div class="hero-stage" data-parallax="0.18">
-    <div class="hero-slide" style="background-image:url('3110-w-pierce-st-silver-city-milwaukee-apartments.jpg')"></div>
-    <div class="hero-slide" style="background-image:url('1750-s-muskego-ave-mitchell-street-milwaukee-apartments.jpg')"></div>
-    <div class="hero-slide" style="background-image:url('2176-s-11th-st-lincoln-village-milwaukee-apartments.jpg')"></div>
-    <div class="hero-slide" style="background-image:url('210-e-smith-st-bay-view-milwaukee-duplex.jpg')"></div>
-    <div class="hero-slide" style="background-image:url('1754-s-muskego-ave-mitchell-street-milwaukee-apartments.jpg')"></div>
+    <div class="hero-slide" style="background-image:url('3110-w-pierce-st-silver-city-milwaukee-apartments.webp')"></div>
+    <div class="hero-slide" style="background-image:url('1750-s-muskego-ave-mitchell-street-milwaukee-apartments.webp')"></div>
+    <div class="hero-slide" style="background-image:url('2176-s-11th-st-lincoln-village-milwaukee-apartments.webp')"></div>
+    <div class="hero-slide" style="background-image:url('210-e-smith-st-bay-view-milwaukee-duplex.webp')"></div>
+    <div class="hero-slide" style="background-image:url('1754-s-muskego-ave-mitchell-street-milwaukee-apartments.webp')"></div>
   </div>
   <div class="hero-scrim"></div>
   <div class="wrap">
@@ -333,7 +353,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
     <h1 data-i="hero.h1" data-html>Tu próximo hogar<br/>tiene <em>historia</em>.</h1>
     <p class="lead" data-i="hero.p">Somos la familia Gamino. Dos generaciones cuidando edificios históricos en el sur de Milwaukee, con nuestras propias manos, y a la gente que vive en ellos. Sin call centers ni intermediarios: trato directo, en tu idioma.</p>
     <div class="ctas">
-      <a href="#propiedades" class="btn btn-gold" data-i="hero.c1">Ver propiedades →</a>
+      <a href="#disponibles" class="btn btn-gold" data-i="hero.c1">Ver disponibles →</a>
       <a href="#solicitar" class="btn btn-ghost" data-i="hero.c2">Solicitar una renta</a>
     </div>
   </div>
@@ -345,7 +365,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
     <div class="avail-l">
       <span class="avail-stars">★</span>
       <div>
-        <b data-i="avail.t">Disponible hoy: Apto 6 + 2 locales en 1750 S. Muskego</b>
+        <b data-i="avail.t" id="availT">Disponible hoy: apartamentos y locales comerciales</b>
         <span data-i="avail.s">Nuevo en el mercado — y si te avisamos primero, nunca se llena.</span>
       </div>
     </div>
@@ -364,6 +384,22 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 <span><b>·</b> We answer in English &amp; Spanish</span>
 <span><b>·</b> Equal Housing Opportunity</span>
 </div></div>
+
+<section class="section dispo" id="disponibles">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="kicker">★ <span data-i="dp.k">Disponible ahora</span> ★</p>
+      <h2 data-i="dp.h2" data-html>Lo que está <em>disponible hoy</em>.</h2>
+      <p data-i="dp.p">Actualizado directamente por la familia. Llama, agenda una visita o solicita en minutos, sin costo.</p>
+    </div>
+    <div class="dgrid" id="dgrid">
+      <article class="dcard"><div class="dimg" style="background-image:url('3110-w-pierce-st-silver-city-milwaukee-apartments-800.webp')"></div><div class="din"><span class="dtag">Silver City</span><h3>Unidad #23 · 3110 W Pierce St</h3><p class="drent">$900<small>/mes</small></p><div class="dact"><a class="btn btn-gold" href="#solicitar">Solicitar</a><a class="btn btn-ghost" href="tel:+14148502272">(414) 850-CASA</a></div></div></article>
+      <article class="dcard"><div class="dimg" style="background-image:url('1750-s-muskego-ave-mitchell-street-milwaukee-apartments-800.webp')"></div><div class="din"><span class="dtag">Historic Mitchell Street</span><h3>Apartamento #6 · 1750 S Muskego Ave</h3><p class="drent">$1,000<small>/mes</small></p><div class="dact"><a class="btn btn-gold" href="#solicitar">Solicitar</a><a class="btn btn-ghost" href="tel:+14148502272">(414) 850-CASA</a></div></div></article>
+      <article class="dcard"><div class="dimg" style="background-image:url('1750-s-muskego-ave-mitchell-street-milwaukee-apartments-800.webp')"></div><div class="din"><span class="dtag">Local comercial</span><h3>2 locales · 1750 S Muskego Ave</h3><p class="drent">Pregunta por renta</p><div class="dact"><a class="btn btn-gold" href="tel:+14148502272">(414) 850-CASA</a></div></div></article>
+    </div>
+    <div class="dnote"><span data-i="dp.none">¿No ves lo que buscas? Déjanos tu correo y te avisamos primero.</span> <a href="#heroNotify" data-i="dp.notify">Avísenme →</a> · <a href="/agenda" data-i="avail.book">Agendar visita</a></div>
+  </div>
+</section>
 
 <div class="stats">
   <div class="wrap stats-in">
@@ -396,12 +432,12 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
       <p data-i="pr.p">Ladrillo y madera de principios de siglo, mantenidos por manos que los conocen desde hace décadas. Seis propiedades, un mismo apellido detrás.</p>
     </div>
     <div class="pgrid">
-      <a class="pcard wide reveal" href="/propiedades/pierce-3110.html"><span class="ptag">14 <span data-i="u">unidades</span></span><img src="3110-w-pierce-st-silver-city-milwaukee-apartments.jpg" alt="3110 W Pierce St, edificio histórico en Silver City, Milwaukee"/><div class="pinfo"><h3>3110 W Pierce St</h3><p class="paddr">Milwaukee, WI 53215</p><p class="psub">Silver City · 1928</p></div></a>
-      <a class="pcard wide reveal" href="/propiedades/muskego-1750.html"><span class="ptag">9 <span data-i="u">unidades</span></span><img src="1750-s-muskego-ave-mitchell-street-milwaukee-apartments.jpg" alt="1750–1752 S Muskego Ave, Historic Mitchell Street, Milwaukee"/><div class="pinfo"><h3>1750–1752 S Muskego Ave</h3><p class="paddr">Milwaukee, WI 53204</p><p class="psub">Historic Mitchell Street · 1912</p></div></a>
-      <a class="pcard reveal" href="/propiedades/muskego-1968.html"><span class="ptag">4 <span data-i="u">unidades</span></span><img src="1968-s-muskego-ave-mitchell-street-milwaukee-apartments.jpg" alt="1968 S Muskego Ave, Mitchell Street, Milwaukee"/><div class="pinfo"><h3>1968 S Muskego Ave</h3><p class="paddr">Milwaukee, WI 53204</p><p class="psub">Mitchell Street · 1900</p></div></a>
-      <a class="pcard reveal" href="/propiedades/muskego-1754.html"><span class="ptag">4 <span data-i="u">unidades</span></span><img src="1754-s-muskego-ave-mitchell-street-milwaukee-apartments.jpg" alt="1754–1756 S Muskego Ave, Mitchell Street, Milwaukee"/><div class="pinfo"><h3>1754–1756 S Muskego Ave</h3><p class="paddr">Milwaukee, WI 53204</p><p class="psub">Mitchell Street · 1913</p></div></a>
-      <a class="pcard reveal" href="/propiedades/eleventh-2176.html"><span class="ptag">4 <span data-i="u">unidades</span></span><img src="2176-s-11th-st-lincoln-village-milwaukee-apartments.jpg" alt="2176–2178 S 11th St, Lincoln Village, Milwaukee"/><div class="pinfo"><h3>2176–2178 S 11th St</h3><p class="paddr">Milwaukee, WI 53215</p><p class="psub">Lincoln Village · 1900</p></div></a>
-      <a class="pcard reveal" href="/propiedades/smith-210.html"><span class="ptag">2 <span data-i="u">unidades</span> · <span data-i="dup">dúplex</span></span><img src="210-e-smith-st-bay-view-milwaukee-duplex.jpg" alt="210 E Smith St, dúplex histórico en Bay View, Milwaukee"/><div class="pinfo"><h3>210 E Smith St</h3><p class="paddr">Milwaukee, WI 53207</p><p class="psub">Bay View · 1892</p></div></a>
+      <a class="pcard wide reveal" href="/propiedades/pierce-3110.html"><span class="ptag">14 <span data-i="u">unidades</span></span><img src="3110-w-pierce-st-silver-city-milwaukee-apartments-800.webp" loading="lazy" decoding="async" alt="3110 W Pierce St, edificio histórico en Silver City, Milwaukee"/><div class="pinfo"><h3>3110 W Pierce St</h3><p class="paddr">Milwaukee, WI 53215</p><p class="psub">Silver City · 1928</p></div></a>
+      <a class="pcard wide reveal" href="/propiedades/muskego-1750.html"><span class="ptag">9 <span data-i="u">unidades</span></span><img src="1750-s-muskego-ave-mitchell-street-milwaukee-apartments-800.webp" loading="lazy" decoding="async" alt="1750–1752 S Muskego Ave, Historic Mitchell Street, Milwaukee"/><div class="pinfo"><h3>1750–1752 S Muskego Ave</h3><p class="paddr">Milwaukee, WI 53204</p><p class="psub">Historic Mitchell Street · 1912</p></div></a>
+      <a class="pcard reveal" href="/propiedades/muskego-1968.html"><span class="ptag">4 <span data-i="u">unidades</span></span><img src="1968-s-muskego-ave-mitchell-street-milwaukee-apartments-800.webp" loading="lazy" decoding="async" alt="1968 S Muskego Ave, Mitchell Street, Milwaukee"/><div class="pinfo"><h3>1968 S Muskego Ave</h3><p class="paddr">Milwaukee, WI 53204</p><p class="psub">Mitchell Street · 1900</p></div></a>
+      <a class="pcard reveal" href="/propiedades/muskego-1754.html"><span class="ptag">4 <span data-i="u">unidades</span></span><img src="1754-s-muskego-ave-mitchell-street-milwaukee-apartments-800.webp" loading="lazy" decoding="async" alt="1754–1756 S Muskego Ave, Mitchell Street, Milwaukee"/><div class="pinfo"><h3>1754–1756 S Muskego Ave</h3><p class="paddr">Milwaukee, WI 53204</p><p class="psub">Mitchell Street · 1913</p></div></a>
+      <a class="pcard reveal" href="/propiedades/eleventh-2176.html"><span class="ptag">4 <span data-i="u">unidades</span></span><img src="2176-s-11th-st-lincoln-village-milwaukee-apartments-800.webp" loading="lazy" decoding="async" alt="2176–2178 S 11th St, Lincoln Village, Milwaukee"/><div class="pinfo"><h3>2176–2178 S 11th St</h3><p class="paddr">Milwaukee, WI 53215</p><p class="psub">Lincoln Village · 1900</p></div></a>
+      <a class="pcard reveal" href="/propiedades/smith-210.html"><span class="ptag">2 <span data-i="u">unidades</span> · <span data-i="dup">dúplex</span></span><img src="210-e-smith-st-bay-view-milwaukee-duplex-800.webp" loading="lazy" decoding="async" alt="210 E Smith St, dúplex histórico en Bay View, Milwaukee"/><div class="pinfo"><h3>210 E Smith St</h3><p class="paddr">Milwaukee, WI 53207</p><p class="psub">Bay View · 1892</p></div></a>
     </div>
   </div>
 </section>
@@ -427,7 +463,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 
 <section class="section" id="familia" style="padding-top:0">
   <div class="wrap story">
-    <div class="story-logo reveal"><img src="logo-plaque.jpg?v=2" alt="Gamino Real Estate — logo de mosaico Talavera"/></div>
+    <div class="story-logo reveal"><img src="logo-plaque.webp" loading="lazy" decoding="async" alt="Gamino Real Estate — logo de mosaico Talavera"/></div>
     <div class="reveal">
       <p class="kicker" data-i="fam.k">Nuestra familia</p>
       <h2 data-i="fam.h2" data-html>No somos una corporación. <em>Somos tus vecinos.</em></h2>
@@ -445,14 +481,14 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
       <p data-i="fam.gp">Fotos reales de la familia. Así sabes exactamente con quién estás tratando.</p>
     </div>
     <div class="fam-gallery">
-      <figure class="ftile wide reveal"><img src="family/fam-04.jpg" alt="Tres generaciones de la familia Gamino juntas en casa"/><figcaption>Tres generaciones, un solo apellido<span>Three generations, one name</span><em class="who">De izq. a der.: Tío Chewy · tía · Rosario · Carlos · Leticia · tía — foto de Ciro</em></figcaption></figure>
-      <figure class="ftile tall reveal"><img src="family/fam-07.jpg" alt="Carlos y Rosario Gamino en otoño en Wisconsin"/><figcaption>Carlos y Rosario<span>Carlos &amp; Rosario, fall in Wisconsin</span></figcaption></figure>
-      <figure class="ftile reveal"><img src="family/fam-11.jpg" alt="Camiseta de los Brewers con el apellido GAMINO en la espalda"/><figcaption>El apellido, con orgullo<span>The family name, worn proud</span></figcaption></figure>
-      <figure class="ftile reveal"><img src="family/fam-02.jpg" alt="Los hombres de la familia Gamino, día de juego en el American Family Field"/><figcaption>Día de juego<span>Game day, American Family Field</span><em class="who">El sobrino · Carlos · papá Carlos L. · Ciro</em></figcaption></figure>
-      <figure class="ftile reveal"><img src="family/fam-10.jpg" alt="Día de Muertos en el jardín de la familia Gamino"/><figcaption>Día de Muertos en el jardín<span>Day of the Dead, front yard</span></figcaption></figure>
-      <figure class="ftile reveal"><img src="family/fam-05.jpg" alt="Rosario Gamino disfrazada en Halloween"/><figcaption>Rosario se toma Halloween en serio<span>Mom, fully committed to the bit</span></figcaption></figure>
-      <figure class="ftile reveal"><img src="family/fam-09.jpg" alt="La familia Gamino en un partido de los Brewers"/><figcaption>Fieles a los Brewers, siempre<span>Brewers faithful, always</span></figcaption></figure>
-      <figure class="ftile reveal"><img src="family/fam-08.jpg" alt="Rosario Gamino con la familia, un domingo"/><figcaption>Domingo, juntos<span>Sunday, together</span></figcaption></figure>
+      <figure class="ftile wide reveal"><img src="family/fam-04-800.webp" loading="lazy" decoding="async" alt="Tres generaciones de la familia Gamino juntas en casa"/><figcaption>Tres generaciones, un solo apellido<span>Three generations, one name</span><em class="who">De izq. a der.: Tío Chewy · tía · Rosario · Carlos · Leticia · tía — foto de Ciro</em></figcaption></figure>
+      <figure class="ftile tall reveal"><img src="family/fam-07-800.webp" loading="lazy" decoding="async" alt="Carlos y Rosario Gamino en otoño en Wisconsin"/><figcaption>Carlos y Rosario<span>Carlos &amp; Rosario, fall in Wisconsin</span></figcaption></figure>
+      <figure class="ftile reveal"><img src="family/fam-11-800.webp" loading="lazy" decoding="async" alt="Camiseta de los Brewers con el apellido GAMINO en la espalda"/><figcaption>El apellido, con orgullo<span>The family name, worn proud</span></figcaption></figure>
+      <figure class="ftile reveal"><img src="family/fam-02-800.webp" loading="lazy" decoding="async" alt="Los hombres de la familia Gamino, día de juego en el American Family Field"/><figcaption>Día de juego<span>Game day, American Family Field</span><em class="who">El sobrino · Carlos · papá Carlos L. · Ciro</em></figcaption></figure>
+      <figure class="ftile reveal"><img src="family/fam-10-800.webp" loading="lazy" decoding="async" alt="Día de Muertos en el jardín de la familia Gamino"/><figcaption>Día de Muertos en el jardín<span>Day of the Dead, front yard</span></figcaption></figure>
+      <figure class="ftile reveal"><img src="family/fam-05-800.webp" loading="lazy" decoding="async" alt="Rosario Gamino disfrazada en Halloween"/><figcaption>Rosario se toma Halloween en serio<span>Mom, fully committed to the bit</span></figcaption></figure>
+      <figure class="ftile reveal"><img src="family/fam-09-800.webp" loading="lazy" decoding="async" alt="La familia Gamino en un partido de los Brewers"/><figcaption>Fieles a los Brewers, siempre<span>Brewers faithful, always</span></figcaption></figure>
+      <figure class="ftile reveal"><img src="family/fam-08-800.webp" loading="lazy" decoding="async" alt="Rosario Gamino con la familia, un domingo"/><figcaption>Domingo, juntos<span>Sunday, together</span></figcaption></figure>
     </div>
   </div>
 </section>
@@ -534,7 +570,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 <section class="section" id="contacto" style="padding-top:0">
   <div class="wrap">
     <div class="cta reveal">
-      <div class="cta-bg" style="background-image:url('3110-w-pierce-st-silver-city-milwaukee-apartments.jpg')"></div>
+      <div class="cta-bg" style="background-image:url('3110-w-pierce-st-silver-city-milwaukee-apartments.webp')"></div>
       <h2 data-i="cta.h2" data-html>¿Listo para encontrar <em>tu hogar</em>?</h2>
       <p data-i="cta.p">Cuéntanos qué buscas. Te contactamos en 1–2 días hábiles, directo con la familia.</p>
       <a href="#solicitar" class="btn btn-gold" data-i="cta.b">Comenzar mi solicitud →</a>
@@ -556,11 +592,15 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
         <a href="#propiedades" data-i="nav.prop">Propiedades</a>
         <a href="#familia" data-i="nav.fam">Nuestra familia</a>
         <a href="#solicitar" data-i="nav.apply">Solicitar</a>
+        <a href="#disponibles" data-i="dp.k">Disponible ahora</a>
+        <a href="/propiedades/">Todas las propiedades / All buildings</a>
       </div>
       <div>
         <h4 data-i="ft.con">Contacto</h4>
         <p>Milwaukee, WI</p>
+        <a href="tel:+14148502272">(414) 850-CASA · 24/7</a>
         <a href="mailto:info@gaminorealestate.com">info@gaminorealestate.com</a>
+        <a href="/mantenimiento/">🔧 Inquilinos: pedir reparación / Request a repair</a>
       </div>
     </div>
     <div class="f-bottom"><span>© 2026 Gamino Real Estate</span><span style="display:flex;gap:16px;flex-wrap:wrap"><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a><span data-i="ft.r">Equal Housing Opportunity</span></span></div>
@@ -569,14 +609,15 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 
 <script>
 const D={en:{
- 'nav.avail':'★ Available Today ★', 'avail.t':'Available today: Apt 6 + 2 storefronts at 1750 S. Muskego',
+ 'nav.avail':'★ Available Today ★', 'avail.t':'Available today: apartments and storefronts',
+ 'dp.k':'Available now','dp.h2':'What’s <em>available today</em>.','dp.p':'Updated directly by the family. Call, book a viewing, or apply in minutes, free.','dp.none':'Don’t see what you need? Leave your email and you’ll hear first.','dp.notify':'Notify me →',
  'avail.s':'Fresh on the market — get notified before anyone else.',
  'avail.btn':'Notify me',
  'avail.book':'Book a viewing', 'nav.prop':'Properties','nav.fam':'Our family','nav.proc':'How to rent','nav.apply':'Apply',
  'hero.kicker':'Family-owned · Milwaukee, Wisconsin',
  'hero.h1':'Your next home<br/>has <em>history</em>.',
  'hero.p':"We're the Gamino family. Two generations caring for historic buildings on Milwaukee's south side, with our own hands, and for the people who live in them. No call centers, no middlemen, just direct personal service in your language.",
- 'hero.c1':'View properties →','hero.c2':'Apply to rent',
+ 'hero.c1':'See what’s available →','hero.c2':'Apply to rent',
  'st.1':'buildings','st.2':'units','st.3':'years of history','st.4':'generations of family',
  'val.h2':'Why rent <em>with the family</em>.',
  'val.p':"We don't manage hundreds of units for an investment fund. We manage our own, in the neighborhoods we grew up in, and we answer the phone ourselves.",
@@ -717,7 +758,7 @@ form.addEventListener('submit',async(e)=>{e.preventDefault();msg.className='form
 </script>
 <a class="callfab" href="tel:+14148502272" aria-label="Llamar a Gamino Real Estate / Call Gamino Real Estate"><svg viewBox="0 0 24 24"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.6.1.4 0 .8-.3 1l-2.2 2.2z"/></svg><span>(414) 850-CASA (2272)</span></a>
 <a class="talkfab" href="https://app.reception.ai/smb-public/book/gamino-real-estate" target="_blank" rel="noopener" aria-label="Talk to our AI receptionist / Habla con nuestra recepcionista"><svg viewBox="0 0 24 24"><path d="M4 4h16a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1H8l-4 4V5a1 1 0 0 1 1-1z"/></svg><span>Talk to us now</span></a>
-<div class="welcomecut" aria-hidden="true"><div class="wc-bubble">¡Bienvenidos!<span>Welcome to the family</span></div><img src="/carlos-rosario-welcome.png" alt="Carlos y Rosario Gamino les dan la bienvenida"/></div>
+<div class="welcomecut" aria-hidden="true"><div class="wc-bubble">¡Bienvenidos!<span>Welcome to the family</span></div><img src="/carlos-rosario-welcome-800.webp" loading="lazy" decoding="async" alt="Carlos y Rosario Gamino les dan la bienvenida"/></div>
 
 // hero avail strip
 const hf=document.getElementById('heroNotify');
@@ -725,5 +766,54 @@ if(hf){hf.addEventListener('submit',async(e)=>{e.preventDefault();const d=Object
  if(d.company){return;} if(!d.email){return;}
  try{const r=await fetch('/api/apply',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({...d,source:'listing_alert',property:'Lista de anuncios / mailing list',submittedFrom:location.href,lang:document.documentElement.lang||'es'})});
  const j=await r.json(); const b=hf.querySelector('button'); b.textContent=j.ok?'\u2713 Listo':'(414) 850-CASA'; if(j.ok){hf.querySelector('input[name=email]').value='';}}catch(_){}});}
+<script src="/assets/supa-config.js"></script>
+<script>
+// Live listings from the back office (Supabase get_listings). Static cards above stay if this fails.
+(function(){
+  var esc=function(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})};
+  // Fallback = last known listings (10-8-26) so the section is never empty or stale-language.
+  var F=[{property_slug:'pierce-3110',property_name:'3110 W Pierce St',address:'3110 W Pierce St',neighborhood:'Silver City',unit_number:'23',unit_type:'residential',rent:900,title_es:'Unidad #23',title_en:'Unit #23',desc_es:'Edificio clásico de 1928 en Silver City, cerca de Mitchell Park y la avenida National.',desc_en:'Classic 1928 building in Silver City, near Mitchell Park and National Ave.',photo:'/3110-w-pierce-st-silver-city-milwaukee-apartments.jpg'},
+    {property_slug:'muskego-1750',property_name:'1750-1752 S Muskego Ave',address:'1750 S Muskego Ave',neighborhood:'Historic Mitchell Street',unit_number:'6',unit_type:'residential',rent:1000,title_es:'Apartamento #6 · 2º piso',title_en:'Apartment #6 · 2nd floor',desc_es:'Segundo piso en edificio histórico de la familia, en el corazón de Historic Mitchell Street.',desc_en:'Second floor of a historic family building in the heart of Historic Mitchell Street.',photo:'/1750-s-muskego-ave-mitchell-street-milwaukee-apartments.jpg',video:'https://media.gaminorealestate.com/videos/apt6-walkthrough-720_Z1.mp4'},
+    {property_slug:'muskego-1750',property_name:'1750-1752 S Muskego Ave',address:'1750 S Muskego Ave',neighborhood:'Historic Mitchell Street',unit_number:'Storefront L',unit_type:'commercial',title_es:'Local comercial · lado izquierdo',title_en:'Storefront · left of entrance',desc_es:'Local a pie de calle con tráfico de Mitchell Street. Pregunta por medidas y renta.',desc_en:'Street-level retail with Mitchell Street foot traffic. Ask about size and rent.',photo:'/1750-s-muskego-ave-mitchell-street-milwaukee-apartments.jpg'},
+    {property_slug:'muskego-1750',property_name:'1750-1752 S Muskego Ave',address:'1750 S Muskego Ave',neighborhood:'Historic Mitchell Street',unit_number:'Storefront R',unit_type:'commercial',title_es:'Local comercial · lado derecho',title_en:'Storefront · right of entrance',desc_es:'Misma esquina histórica, vitrina con presencia. Pregunta por medidas y renta.',desc_en:'Same historic corner, a storefront with presence. Ask about size and rent.',photo:'/1750-s-muskego-ave-mitchell-street-milwaukee-apartments.jpg'}];
+  var L=F;
+  function isEn(){return (document.documentElement.lang||'es').indexOf('en')===0}
+  function img(p){if(!p)return '1750-s-muskego-ave-mitchell-street-milwaukee-apartments-800.webp';return p.replace(/^\//,'').replace(/\.jpg$/,'-800.webp')}
+  function beds(u,en){if(u.unit_type==='commercial')return en?'Commercial storefront':'Local comercial';if(u.bedrooms==null)return '';var b=Number(u.bedrooms);
+    var t=b===0?(en?'Studio':'Estudio'):b+(en?(b===1?' bedroom':' bedrooms'):(b===1?' recámara':' recámaras'));if(u.bathrooms)t+=' · '+Number(u.bathrooms)+(en?' bath':' baño');return t}
+  function when(u,en){if(!u.available_on)return '';var d=new Date(u.available_on+'T12:00:00');if(d<=new Date())return en?'Available now':'Disponible ya';
+    return (en?'Available ':'Disponible ')+d.toLocaleDateString(en?'en-US':'es-MX',{month:'short',day:'numeric'})}
+  function render(){
+    var en=isEn();if(!L.length){document.getElementById('dgrid').innerHTML='<p class="ddesc">'+(en?'Everything is rented right now. Leave your email below and you will hear first.':'Todo está rentado ahorita. Deja tu correo abajo y te avisamos primero.')+'</p>';var t0=document.getElementById('availT');if(t0)t0.textContent=en?'Fully rented: get on the list':'Todo rentado: únete a la lista';return}
+    document.getElementById('dgrid').innerHTML=L.map(function(u){
+      var title=(en?u.title_en:u.title_es)||u.unit_number, desc=(en?u.desc_en:u.desc_es)||'';
+      var rent=u.rent?('$'+Number(u.rent).toLocaleString('en-US')+'<small>'+(en?'/mo':'/mes')+'</small>'):(en?'Ask about rent':'Pregunta por renta');
+      var apply=u.unit_type==='commercial'?'':'<a class="btn btn-gold" href="#solicitar" data-unit="'+esc(u.address+' #'+u.unit_number)+'">'+(en?'Apply':'Solicitar')+'</a>';
+      return '<article class="dcard"><div class="dimg" style="background-image:url(\''+esc(img(u.photo))+'\')"><span class="now">'+esc(when(u,en)||(en?'Available':'Disponible'))+'</span></div><div class="din">'
+        +'<span class="dtag">'+esc(u.neighborhood||u.property_name)+'</span><h3>'+esc(title)+'</h3><p class="dmeta">'+esc(u.address)+(beds(u,en)?' · '+esc(beds(u,en)):'')+'</p>'
+        +(desc?'<p class="ddesc">'+esc(desc)+'</p>':'')+'<p class="drent">'+rent+'</p>'
+        +(u.video?'<a class="dvid" href="'+esc(u.video)+'" target="_blank" rel="noopener">▶ '+(en?'Video walkthrough':'Recorrido en video')+'</a>':'')
+        +'<div class="dact">'+apply+'<a class="btn btn-ghost" href="tel:+14148502272">(414) 850-CASA</a><a class="btn btn-ghost" href="/propiedades/'+esc(u.property_slug)+'.html">'+(en?'Building':'Edificio')+'</a></div></div></article>'}).join('');
+    var apts=L.filter(function(u){return u.unit_type!=='commercial'}).length, com=L.length-apts;
+    var t=document.getElementById('availT');if(t){t.textContent=en?('Available today: '+apts+(apts===1?' apartment':' apartments')+(com?' + '+com+(com===1?' storefront':' storefronts'):'')):('Disponible hoy: '+apts+(apts===1?' apartamento':' apartamentos')+(com?' + '+com+(com===1?' local':' locales'):''))}
+  }
+  document.addEventListener('click',function(e){var a=e.target.closest('[data-unit]');if(!a)return;var f=document.querySelector('#applyForm [name=property]');
+    if(f){if(f.tagName==='SELECT'){var num=a.dataset.unit.split(' ')[0];var o=[].find.call(f.options,function(o){return o.value&&o.text.indexOf(num)===0});if(o)f.value=o.value}else f.value=a.dataset.unit}
+    var m=document.querySelector('#applyForm [name=message]');if(m&&!m.value)m.value=(isEn()?'Interested in ':'Me interesa ')+a.dataset.unit});
+  var lb=document.getElementById('lang');if(lb)lb.addEventListener('click',function(){setTimeout(render,30)});
+  render();
+  if(!window.GRE_SUPA||/__SUPABASE/.test(GRE_SUPA.key))return;
+  fetch(GRE_SUPA.url+'/rest/v1/rpc/get_listings',{method:'POST',headers:{apikey:GRE_SUPA.key,authorization:'Bearer '+GRE_SUPA.key,'content-type':'application/json'},body:'{}'})
+    .then(function(r){return r.ok?r.json():[]}).then(function(rows){if(Array.isArray(rows)){L=rows;render();if(!rows.length)return;
+      var ld={"@context":"https://schema.org","@type":"ItemList","name":"Available rentals — Gamino Real Estate","itemListElement":rows.map(function(u,i){return{"@type":"ListItem","position":i+1,"item":{"@type":u.unit_type==='commercial'?"Place":"Apartment","name":(u.title_en||u.unit_number)+" — "+u.address,"address":{"@type":"PostalAddress","streetAddress":u.address,"addressLocality":"Milwaukee","addressRegion":"WI","postalCode":u.zip||undefined},"numberOfRooms":u.bedrooms==null?undefined:Number(u.bedrooms)}}})};
+      var sc=document.createElement('script');sc.type='application/ld+json';sc.textContent=JSON.stringify(ld);document.head.appendChild(sc)}}).catch(function(){});
+})();
+// GA4 key events: calls, WhatsApp, leads, alert sign-ups.
+document.addEventListener('click',function(e){var a=e.target.closest('a');if(!a||typeof gtag!=='function')return;
+  if(/^tel:/.test(a.getAttribute('href')||''))gtag('event','click_call',{link_url:a.href});
+  else if(/wa\.me/.test(a.href))gtag('event','click_whatsapp');});
+(function(){var f=window.fetch;window.fetch=function(u,o){var p=f.apply(this,arguments);if(String(u).indexOf('/api/apply')>=0&&typeof gtag==='function'){
+  p.then(function(r){if(r.ok){var src='';try{src=JSON.parse(o&&o.body||'{}').source||''}catch(_){}gtag('event',src==='listing_alert'?'sign_up':'generate_lead',{method:src||'application_form'})}}).catch(function(){})}return p}})();
+</script>
 </body>
 </html>

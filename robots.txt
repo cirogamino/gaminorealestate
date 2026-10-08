@@ -1,22 +1,49 @@
 User-agent: *
+Disallow: /office/
+Disallow: /wo/
 Allow: /
 
-# AI / LLM crawlers explicitly welcomed
+# AI / LLM crawlers explicitly welcomed.
+# A crawler that matches its own group ignores the "*" group,
+# so the private-path rules are repeated in every group.
 User-agent: GPTBot
+Disallow: /office/
+Disallow: /wo/
 Allow: /
+
 User-agent: OAI-SearchBot
+Disallow: /office/
+Disallow: /wo/
 Allow: /
+
 User-agent: ChatGPT-User
+Disallow: /office/
+Disallow: /wo/
 Allow: /
+
 User-agent: PerplexityBot
+Disallow: /office/
+Disallow: /wo/
 Allow: /
+
 User-agent: ClaudeBot
+Disallow: /office/
+Disallow: /wo/
 Allow: /
+
 User-agent: Claude-Web
+Disallow: /office/
+Disallow: /wo/
 Allow: /
+
 User-agent: Google-Extended
+Disallow: /office/
+Disallow: /wo/
 Allow: /
+
 User-agent: Applebot-Extended
+Disallow: /office/
+Disallow: /wo/
 Allow: /
 
 Sitemap: https://gaminorealestate.com/sitemap.xml
