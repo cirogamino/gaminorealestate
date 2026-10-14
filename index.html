@@ -394,7 +394,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
     </div>
     <div class="dgrid" id="dgrid">
       <article class="dcard"><div class="dimg" style="background-image:url('3110-w-pierce-st-silver-city-milwaukee-apartments-800.webp')"></div><div class="din"><span class="dtag">Silver City</span><h3>Unidad #23 · 3110 W Pierce St</h3><p class="drent">$900<small>/mes</small></p><div class="dact"><a class="btn btn-gold" href="#solicitar">Solicitar</a><a class="btn btn-ghost" href="tel:+14148502272">(414) 850-CASA</a></div></div></article>
-      <article class="dcard"><div class="dimg" style="background-image:url('1750-s-muskego-ave-mitchell-street-milwaukee-apartments-800.webp')"></div><div class="din"><span class="dtag">Historic Mitchell Street</span><h3>Apartamento #6 · 1750 S Muskego Ave</h3><p class="drent">$1,000<small>/mes</small></p><div class="dact"><a class="btn btn-gold" href="#solicitar">Solicitar</a><a class="btn btn-ghost" href="tel:+14148502272">(414) 850-CASA</a></div></div></article>
+      <article class="dcard"><div class="dimg" style="background-image:url('1750-s-muskego-ave-mitchell-street-milwaukee-apartments-800.webp')"></div><div class="din"><span class="dtag">Historic Mitchell Street</span><h3>Apartamento #6 · 1750 S Muskego Ave</h3><p class="drent">$1,050<small>/mes</small></p><div class="dact"><a class="btn btn-gold" href="#solicitar">Solicitar</a><a class="btn btn-ghost" href="tel:+14148502272">(414) 850-CASA</a></div></div></article>
       <article class="dcard"><div class="dimg" style="background-image:url('1750-s-muskego-ave-mitchell-street-milwaukee-apartments-800.webp')"></div><div class="din"><span class="dtag">Local comercial</span><h3>2 locales · 1750 S Muskego Ave</h3><p class="drent">Pregunta por renta</p><div class="dact"><a class="btn btn-gold" href="tel:+14148502272">(414) 850-CASA</a></div></div></article>
     </div>
     <div class="dnote"><span data-i="dp.none">¿No ves lo que buscas? Déjanos tu correo y te avisamos primero.</span> <a href="#heroNotify" data-i="dp.notify">Avísenme →</a> · <a href="/agenda" data-i="avail.book">Agendar visita</a></div>
@@ -760,12 +760,14 @@ form.addEventListener('submit',async(e)=>{e.preventDefault();msg.className='form
 <a class="talkfab" href="https://app.reception.ai/smb-public/book/gamino-real-estate" target="_blank" rel="noopener" aria-label="Talk to our AI receptionist / Habla con nuestra recepcionista"><svg viewBox="0 0 24 24"><path d="M4 4h16a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1H8l-4 4V5a1 1 0 0 1 1-1z"/></svg><span>Talk to us now</span></a>
 <div class="welcomecut" aria-hidden="true"><div class="wc-bubble">¡Bienvenidos!<span>Welcome to the family</span></div><img src="/carlos-rosario-welcome-800.webp" loading="lazy" decoding="async" alt="Carlos y Rosario Gamino les dan la bienvenida"/></div>
 
+<script>
 // hero avail strip
 const hf=document.getElementById('heroNotify');
 if(hf){hf.addEventListener('submit',async(e)=>{e.preventDefault();const d=Object.fromEntries(new FormData(hf).entries());
  if(d.company){return;} if(!d.email){return;}
  try{const r=await fetch('/api/apply',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({...d,source:'listing_alert',property:'Lista de anuncios / mailing list',submittedFrom:location.href,lang:document.documentElement.lang||'es'})});
  const j=await r.json(); const b=hf.querySelector('button'); b.textContent=j.ok?'\u2713 Listo':'(414) 850-CASA'; if(j.ok){hf.querySelector('input[name=email]').value='';}}catch(_){}});}
+</script>
 <script src="/assets/supa-config.js"></script>
 <script>
 // Live listings from the back office (Supabase get_listings). Static cards above stay if this fails.
