@@ -113,7 +113,8 @@ footer{border-top:1px solid rgba(0,0,0,.1);margin-top:30px;padding:18px 0 40px;f
       </div>
       <label data-es="¿Algo que debamos saber? (opcional)" data-en="Anything we should know? (optional)">¿Algo que debamos saber? (opcional)</label><textarea name="message" rows="2"></textarea>
       <label class="chk"><input type="checkbox" name="notify" checked/> <span data-es="Avísenme por correo de nuevas unidades disponibles." data-en="Email me about new openings.">Avísenme por correo de nuevas unidades disponibles.</span></label>
-      <button class="send" id="send" data-es="Enviar · Quiero ver el apartamento" data-en="Send · I want to see it">Enviar · Quiero ver el apartamento</button>
+      <label class="chk"><input type="checkbox" name="contact_consent" value="yes"/> <span>(Opcional) Acepto que Gamino Real Estate me llame o me envíe mensajes de texto al número de arriba, incluso mediante tecnología automatizada y llamadas o mensajes de voz generados por IA o pregrabados. El consentimiento no es condición de compra ni de renta. Pueden aplicar tarifas de mensajes y datos; responde STOP para cancelar. / (Optional) I agree that Gamino Real Estate may call or text me at the number above, including by automated technology and AI-generated or prerecorded voice calls and texts. Consent is not a condition of purchase or rental. Msg &amp; data rates may apply; reply STOP to opt out.</span></label>
+<button class="send" id="send" data-es="Enviar · Quiero ver el apartamento" data-en="Send · I want to see it">Enviar · Quiero ver el apartamento</button>
       <p class="msg" id="msg"></p>
     </form>
   </aside>
@@ -135,7 +136,7 @@ document.getElementById('f').addEventListener('submit',async e=>{
   b.disabled=true;m.className='msg';m.textContent=lang==='es'?'Enviando…':'Sending…';
   try{
     const r=await fetch('/api/apply',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({
-      name:d.name,phone:d.phone,email:d.email||'',property:'1750 S Muskego Ave — '+d.interest,movein:d.movein||'',
+      contact_consent:d.contact_consent||'',name:d.name,phone:d.phone,email:d.email||'',property:'1750 S Muskego Ave — '+d.interest,movein:d.movein||'',
       message:(d.message?d.message+' · ':'')+'[QR/flyer source: '+src+']',notify:d.notify==='on'?'on':'',lang,submittedFrom:location.href})});
     const j=await r.json();
     if(j.ok){m.className='msg ok';m.textContent=lang==='es'?'¡Listo! Te contactamos hoy. Si prefieres, llama ahora 24/7: 414-850-2272.':'Done! We will contact you today. Or call now 24/7: 414-850-2272.';f.reset();

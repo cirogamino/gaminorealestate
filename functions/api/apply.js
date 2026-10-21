@@ -35,6 +35,8 @@ export async function onRequestPost({ request, env }) {
       submittedFrom: (d.submittedFrom || "").toString().slice(0, 300),
       ip: request.headers.get("cf-connecting-ip") || "",
       ua: request.headers.get("user-agent") || "",
+      // 10-21-26 CPRO laneC: optional AI-voice / automated call+text consent checkbox (unchecked by default).
+      contact_consent: d.contact_consent === "yes" ? "yes" : "no",
     };
 
     // Store durably in KV if the binding exists. Key sorts chronologically.
@@ -76,7 +78,7 @@ export async function onRequestPost({ request, env }) {
           move_in_date: rec.movein,
           preferred_language: rec.language,
           preferred_contact: rec.contact_pref,
-          message: rec.message,
+          message: rec.contact_consent === "yes" ? (rec.message ? rec.message + "\n\n" : "") + "[Consent: OK to call/text incl. automated + AI/prerecorded voice]" : rec.message,
           submittedFrom: rec.submittedFrom,
         }),
       });
