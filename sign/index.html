@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>Application and Rules · Gamino Real Estate</title>
+<style>
+:root{--ink:#1b1b1b;--muted:#5f5a52;--line:#d9d2c5;--bg:#fbf8f2;--card:#fff;--brand:#0f5c4d;--brand2:#0b4a3e;--warn:#9a3412;--ok:#166534}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font:19px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;-webkit-text-size-adjust:100%}
+header{position:sticky;top:0;z-index:5;background:var(--brand);color:#fff;padding:12px 20px;display:flex;align-items:center;gap:12px}
+header b{font-size:18px;flex:1}
+header button{background:#fff;color:var(--brand);border:0;border-radius:999px;padding:8px 16px;font-weight:700;font-size:16px}
+.bar{height:6px;background:#cfe3dd}.bar i{display:block;height:100%;background:#f2b134;transform-origin:left;transform:scaleX(0);transition:transform .3s}
+main{max-width:760px;margin:0 auto;padding:20px 16px 140px}
+h1{font-size:30px;line-height:1.2;margin:8px 0 6px}h2{font-size:23px;margin:22px 0 8px}
+.sub{color:var(--muted);margin:0 0 18px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 18px 14px;margin:0 0 16px}
+label{display:block;font-weight:600;margin:12px 0 6px;font-size:18px}
+input,select,textarea{width:100%;font:inherit;padding:14px;border:1.5px solid var(--line);border-radius:12px;background:#fff;color:var(--ink)}
+input:focus,select:focus,textarea:focus{outline:3px solid #f2b13466;border-color:var(--brand)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}@media(max-width:560px){.row{grid-template-columns:1fr}}
+.units{display:grid;gap:12px}
+.unit{display:flex;gap:14px;align-items:center;text-align:left;width:100%;background:#fff;border:2px solid var(--line);border-radius:16px;padding:12px;font:inherit;color:inherit}
+.unit img{width:96px;height:72px;object-fit:cover;border-radius:10px;flex:none}
+.unit.sel{border-color:var(--brand);box-shadow:0 0 0 3px #0f5c4d33}
+.unit b{display:block;font-size:19px}.unit span{color:var(--muted);font-size:16px}
+.facts{display:grid;grid-template-columns:auto 1fr;gap:6px 16px;margin:0}.facts dt{color:var(--muted)}.facts dd{margin:0;font-weight:600}
+.check{display:flex;gap:14px;align-items:flex-start;padding:12px 0;border-top:1px solid var(--line)}
+.check:first-of-type{border-top:0}
+.check input{width:30px;height:30px;flex:none;margin-top:2px;accent-color:var(--brand)}
+.check div{font-size:18px}.check small{display:block;color:var(--muted);font-size:15px;margin-top:4px}
+.rule h2{margin-top:4px}.rule ul{padding-left:22px;margin:8px 0}.rule li{margin:6px 0}
+.init{display:flex;align-items:center;gap:12px;margin-top:14px;padding-top:14px;border-top:2px dashed var(--line)}
+.init input{width:130px;text-transform:uppercase;text-align:center;font-weight:800;font-size:24px;letter-spacing:2px}
+.init span{font-weight:700}
+.sig{border:2px solid var(--ink);border-radius:12px;background:#fff;touch-action:none;width:100%;height:220px;display:block}
+.sigtools{display:flex;justify-content:space-between;align-items:center;margin-top:8px;color:var(--muted);font-size:16px}
+.link{background:none;border:0;color:var(--brand);font:inherit;font-weight:700;text-decoration:underline;padding:6px}
+nav{position:fixed;left:0;right:0;bottom:0;background:#fffdf8ee;backdrop-filter:blur(6px);border-top:1px solid var(--line);padding:12px 16px calc(12px + env(safe-area-inset-bottom))}
+nav .in{max-width:760px;margin:0 auto;display:flex;gap:12px}
+.btn{flex:1;border:0;border-radius:14px;padding:18px;font:inherit;font-weight:800;font-size:20px}
+.next{background:var(--brand);color:#fff}.next:active{background:var(--brand2)}.next:disabled{background:#9db8b1}
+.back{flex:0 0 32%;background:#ece6da;color:var(--ink)}
+.err{color:var(--warn);font-weight:700;margin:10px 0 0;min-height:1em}
+.done{text-align:center;padding-top:30px}.done .big{font-size:64px}
+.small{font-size:15px;color:var(--muted)}
+.hide{display:none!important}
+@media print{header,nav,.bar,.noprint{display:none!important}main{padding:0}.card{break-inside:avoid}}
+</style>
+</head>
+<body>
+<header><b data-t="brand"></b><button id="langBtn" type="button">Español</button></header>
+<div class="bar"><i id="prog"></i></div>
+<main id="app"></main>
+<nav class="noprint"><div class="in"><button class="btn back" id="backBtn" type="button"></button><button class="btn next" id="nextBtn" type="button"></button></div></nav>
+
+<script>
+// Gamino Real Estate · iPad / phone application + rules + signatures. Made by Claude CLP 10-27-26.
+// Flow: pick apartment -> facts prefilled -> about you -> household -> income/history -> contact consent
+//       -> each rule initialed -> sign the rules -> sign the application -> submit -> printable copy.
+// Saves through Supabase RPC submit_signed_application (GRE project). Owner choices live in CONFIG.
+const CONFIG = {
+  supabase: "https://mtieaukygxrcnggstvjf.supabase.co",
+  key: "sb_publishable_2O_tZWnUVt9wtz-LDJ55fQ_G8kEObt3",   // public publishable key (same one the site already uses)
+  rulesVersion: "2026-10-27-v1",
+  leaseEnd: { en: "May 31", es: "31 de mayo" },              // every Gamino lease ends May 31 (June 1 turnover)
+  lateFee: "B",                                              // OWNER PICK: "A" (weekly, max $250) or "B" (max $100). Lease Section 5.
+  office: "414-850-2272",
+};
+
+const T = {
+  brand:{es:"Gamino Real Estate · Solicitud",en:"Gamino Real Estate · Application"},
+  next:{es:"Siguiente",en:"Next"}, back:{es:"Atrás",en:"Back"}, submit:{es:"Firmar y enviar",en:"Sign and submit"},
+  step:{es:"Paso",en:"Step"}, of:{es:"de",en:"of"},
+  pickT:{es:"¿Qué apartamento?",en:"Which apartment?"}, pickS:{es:"Toque el apartamento para el que está aplicando.",en:"Tap the apartment you are applying for."},
+  loading:{es:"Cargando apartamentos…",en:"Loading apartments…"},
+  aptT:{es:"Su apartamento",en:"Your apartment"}, aptS:{es:"Esta información ya está llenada. Revise que esté correcta.",en:"This is already filled in. Check that it is right."},
+  address:{es:"Dirección",en:"Address"}, unit:{es:"Apartamento",en:"Apartment"}, beds:{es:"Recámaras / baños",en:"Bedrooms / baths"},
+  rent:{es:"Renta mensual",en:"Monthly rent"}, ends:{es:"El contrato termina",en:"Lease ends"}, movein:{es:"Fecha de mudanza",en:"Move-in date"},
+  youT:{es:"Sus datos",en:"About you"}, youS:{es:"Usaremos esto para el contrato y para contactarle.",en:"We use this for the lease and to reach you."},
+  name:{es:"Nombre completo",en:"Full legal name"}, phone:{es:"Celular",en:"Mobile phone"}, email:{es:"Correo electrónico",en:"Email"},
+  lang:{es:"Idioma preferido",en:"Preferred language"}, dob:{es:"Fecha de nacimiento",en:"Date of birth"},
+  emer:{es:"Contacto de emergencia (nombre)",en:"Emergency contact (name)"}, emerP:{es:"Teléfono de emergencia",en:"Emergency phone"}, emerR:{es:"Relación",en:"Relationship"},
+  hhT:{es:"Quién vivirá aquí",en:"Who will live here"}, hhS:{es:"Todos los adultos firman el contrato.",en:"Every adult signs the lease."},
+  adults:{es:"Otros adultos (18+), nombre y celular",en:"Other adults (18+), name and phone"},
+  a2n:{es:"Segundo adulto (18+): nombre completo",en:"Second adult (18+): full name"}, a3n:{es:"Tercer adulto (18+): nombre completo",en:"Third adult (18+): full name"},
+  sigOT:{es:"Firma del adulto",en:"Adult signature"}, sigOS:{es:"Cada adulto de 18 años o más pone sus iniciales y firma. Al firmar confirma que leyó las reglas y que la información es verdadera.",en:"Every adult 18 or older initials and signs. Signing confirms you read the rules and the information is true."},
+  signedOn:{es:"Firmado",en:"Signed"}, kids:{es:"Niños (nombres y edades)",en:"Children (names and ages)"},
+  pets:{es:"Mascotas (tipo y cuántas, o \"ninguna\")",en:"Pets (type and how many, or \"none\")"}, cars:{es:"Vehículos (marca, modelo, placa)",en:"Vehicles (make, model, plate)"},
+  incT:{es:"Trabajo y vivienda",en:"Work and housing"}, incS:{es:"Para revisar la solicitud.",en:"To review the application."},
+  employer:{es:"Empleador",en:"Employer"}, income:{es:"Ingreso mensual (antes de impuestos)",en:"Monthly income (before tax)"},
+  voucher:{es:"¿Tiene voucher o ayuda de renta?",en:"Do you have a voucher or rent assistance?"}, yes:{es:"Sí",en:"Yes"}, no:{es:"No",en:"No"},
+  curAddr:{es:"Dirección actual",en:"Current address"}, curLL:{es:"Arrendador actual y teléfono",en:"Current landlord and phone"},
+  evict:{es:"¿Ha tenido un desalojo (eviction)?",en:"Have you ever been evicted?"},
+  conT:{es:"Cómo le contactamos",en:"How we contact you"}, conS:{es:"Marque cada una que acepte. Puede cancelar en cualquier momento respondiendo STOP.",en:"Check each one you agree to. You can stop any time by replying STOP."},
+  cEmail:{es:"Recibir el contrato, recibos y avisos por correo electrónico",en:"Get the lease, receipts and notices by email"},
+  cSms:{es:"Recibir mensajes de texto automáticos (recordatorios de renta, reparaciones, avisos del edificio)",en:"Get automated text messages (rent reminders, repairs, building notices)"},
+  cCall:{es:"Recibir llamadas automáticas, grabadas o con asistente de IA sobre mi renta",en:"Get automated, recorded or AI-assistant phone calls about my tenancy"},
+  cFine:{es:"Pueden aplicar cargos de mensajes y datos. Responda HELP para ayuda o llame al ",en:"Message and data rates may apply. Reply HELP for help or call "},
+  cNot:{es:"Este permiso no es condición para rentar.",en:"This consent is not a condition of renting."},
+  initL:{es:"Sus iniciales",en:"Your initials"}, initErr:{es:"Escriba sus iniciales para seguir.",en:"Type your initials to continue."},
+  sigRT:{es:"Firme las reglas",en:"Sign the rules"}, sigRS:{es:"Con su firma confirma que leyó y entendió cada regla que firmó con sus iniciales.",en:"Your signature confirms you read and understood every rule you initialed."},
+  sigAT:{es:"Firme la solicitud",en:"Sign the application"}, sigAS:{es:"Certifico que la información es verdadera y completa, y autorizo a Gamino Real Estate a verificarla (empleo, ingresos, historial de renta).",en:"I certify the information is true and complete, and I authorize Gamino Real Estate to verify it (employment, income, rental history)."},
+  clear:{es:"Borrar",en:"Clear"}, signHere:{es:"Firme aquí con el dedo",en:"Sign here with your finger"}, sigErr:{es:"Firme en el cuadro para seguir.",en:"Sign in the box to continue."},
+  req:{es:"Llene los campos marcados.",en:"Fill in the required fields."},
+  sending:{es:"Enviando…",en:"Sending…"}, sendErr:{es:"No se pudo enviar. Revise el internet e intente otra vez.",en:"Could not send. Check the internet and try again."},
+  doneT:{es:"¡Listo, gracias!",en:"All set, thank you!"}, doneS:{es:"Recibimos su solicitud firmada. Le entregaremos una copia.",en:"We received your signed application. You will get a copy."},
+  print:{es:"Imprimir / guardar copia",en:"Print / save a copy"}, newApp:{es:"Nueva solicitud",en:"New application"},
+  ref:{es:"Número de registro",en:"Record number"},
+};
+
+// Each rule = one screen with initials. Wording follows the Gamino lease (EN + ES templates, 10-14-26).
+const LATE = {
+  A:{en:["Rent is due on or before the 1st of every month.","Not paid in full by 11:59 p.m. on the 1st: a $50 late fee on the 2nd.","Still not paid: another $50 on each of the 9th, 16th, 23rd and 30th.","Most for one month: $250 ($200 in February). No fee is ever charged on an unpaid late fee."],
+     es:["La renta se paga el día 1 de cada mes o antes.","Si no está pagada completa a las 11:59 p.m. del día 1: cargo de $50 el día 2.","Si sigue sin pagar: otros $50 los días 9, 16, 23 y 30.","Máximo por un mes: $250 ($200 en febrero). Nunca se cobra un cargo por no pagar un cargo atrasado."]},
+  B:{en:["Rent is due on or before the 1st of every month.","Not paid in full by 11:59 p.m. on the 1st: a $50 late fee on the 2nd.","Still not paid in full by 11:59 p.m. on the 9th: one more $50 fee on the 10th.","Total late fees for one month never go over $100. No fee is ever charged on an unpaid late fee."],
+     es:["La renta se paga el día 1 de cada mes o antes.","Si no está pagada completa a las 11:59 p.m. del día 1: cargo de $50 el día 2.","Si no está pagada completa a las 11:59 p.m. del día 9: otro cargo de $50 el día 10.","El total de cargos por un mes nunca pasa de $100. Nunca se cobra un cargo por no pagar un cargo atrasado."]},
+};
+const RULES = () => [
+  {k:"rent", t:{en:"1. Rent and late fees",es:"1. Renta y cargos por atraso"},
+   b:{en:[...LATE[CONFIG.lateFee].en,"From the 2nd, if rent is unpaid, the landlord may serve a written 5-day notice to pay or move out (Wis. Stat. 704.17).","Paying part of the rent or a late fee does not cancel the rest that is owed."],
+      es:[...LATE[CONFIG.lateFee].es,"Desde el día 2, si la renta no está pagada, el arrendador puede entregar un aviso por escrito de 5 días para pagar o desocupar (Wis. Stat. 704.17).","Pagar una parte de la renta o un cargo no cancela lo que todavía se debe."]}},
+  {k:"pay", t:{en:"2. How to pay",es:"2. Cómo pagar"},
+   b:{en:["Pay rent the way the office tells you in writing (Zelle, online payment, check or money order). Keep your receipt.","Never pay rent in cash without getting a signed receipt.","A returned or reversed payment counts as unpaid rent."],
+      es:["Pague la renta como la oficina le indique por escrito (Zelle, pago en línea, cheque o giro). Guarde su recibo.","Nunca pague en efectivo sin recibir un recibo firmado.","Un pago devuelto o cancelado cuenta como renta no pagada."]}},
+  {k:"movein", t:{en:"3. Move-in: photos, video and check-in sheet",es:"3. Mudanza: fotos, video y hoja de revisión"},
+   b:{en:["On move-in day we walk the apartment together and record a video and photos of every room, so we both know what was there from the start.","You get a check-in sheet. You have 7 days to write down anything damaged or not working and return it.","Anything not written down or on the video is treated as being in good condition at move-in."],
+      es:["El día de la mudanza revisamos el apartamento juntos y grabamos video y fotos de cada cuarto, para que los dos sepamos cómo estaba desde el principio.","Usted recibe una hoja de revisión. Tiene 7 días para anotar cualquier daño o cosa que no funcione y devolverla.","Lo que no esté anotado ni en el video se considera en buen estado al mudarse."]}},
+  {k:"repairs", t:{en:"4. Repairs and damage",es:"4. Reparaciones y daños"},
+   b:{en:["Report problems right away: gaminorealestate.com/mantenimiento or call "+CONFIG.office+". Emergencies (water, gas, no heat, fire): call right away.","We fix normal wear and things that break on their own.","You pay for damage caused by you, your family or your guests, and for problems you did not report that got worse."],
+      es:["Reporte los problemas de inmediato: gaminorealestate.com/mantenimiento o llame al "+CONFIG.office+". Emergencias (agua, gas, sin calefacción, fuego): llame de inmediato.","Nosotros arreglamos el desgaste normal y lo que se descompone solo.","Usted paga los daños causados por usted, su familia o sus visitas, y los problemas no reportados que empeoraron."]}},
+  {k:"rules", t:{en:"5. House rules",es:"5. Reglas de la casa"},
+   b:{en:["No smoking or vaping inside the building or within 15 feet of doors and windows.","Guests may stay up to 14 nights in a year; longer needs written OK.","Quiet hours and respect for neighbors. Trash and recycling go in the bins, bagged, on the right days.","Only the people listed on the lease live in the apartment. Pets only if written in the lease."],
+      es:["No fumar ni vapear dentro del edificio ni a menos de 15 pies de puertas y ventanas.","Las visitas pueden quedarse hasta 14 noches al año; más necesita permiso por escrito.","Respetar el silencio y a los vecinos. La basura y el reciclaje en los botes, en bolsas, los días que tocan.","Solo viven en el apartamento las personas del contrato. Mascotas solo si están en el contrato."]}},
+  {k:"entry", t:{en:"6. Landlord entry",es:"6. Entrada del arrendador"},
+   b:{en:["We give at least 12 hours' notice before entering for repairs, inspections or showings, between 8 a.m. and 8 p.m.","In an emergency we may enter without notice."],
+      es:["Avisamos al menos con 12 horas antes de entrar para reparaciones, inspecciones o visitas, entre 8 a.m. y 8 p.m.","En una emergencia podemos entrar sin aviso."]}},
+  {k:"moveout", t:{en:"7. Lease end and move-out",es:"7. Fin del contrato y mudanza"},
+   b:{en:["Every Gamino lease ends "+CONFIG.leaseEnd.en+". Move-outs and move-ins happen June 1. We tell you about renewal 60 to 90 days before.","At move-out: remove everything, clean the apartment, return all keys, give us your new address.","We walk and video the apartment again and compare it to the move-in video.","Your deposit, minus any lawful deductions listed in writing, is returned within 21 days."],
+      es:["Todos los contratos de Gamino terminan el "+CONFIG.leaseEnd.es+". Las mudanzas son el 1 de junio. Le avisamos de la renovación de 60 a 90 días antes.","Al salir: saque todo, limpie el apartamento, entregue todas las llaves y denos su nueva dirección.","Revisamos y grabamos el apartamento otra vez y lo comparamos con el video de entrada.","Su depósito, menos las deducciones legales detalladas por escrito, se devuelve dentro de 21 días."]}},
+  {k:"insurance", t:{en:"8. Renter's insurance and your belongings",es:"8. Seguro de inquilino y sus cosas"},
+   b:{en:["Our insurance does not cover your belongings. We strongly recommend renter's insurance."],
+      es:["Nuestro seguro no cubre sus cosas. Le recomendamos mucho un seguro de inquilino."]}},
+];
+
+let L = (new URLSearchParams(location.search).get("lang")==="es") ? "es" : "en";   // English default (Ciro 10-27-26); Spanish only by button
+const S = { step:0, units:[], unit:null, a:{}, consents:{email:false,sms:false,ai_calls:false}, initials:{}, sigR:null, sigA:null, sigAt:{}, others:{}, id:null };
+const isSig = c => c==="sigR"||c==="sigA"||c.startsWith("sigO");
+const lastSig = () => { const st=steps(); return st[st.length-2]; };
+const tt = k => (T[k]||{})[L] || k;
+const esc = s => String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const app = document.getElementById("app");
+
+function steps(){ const ex=["adult2","adult3"].filter(k=>(S.a[k+"_name"]||"").trim()).map(k=>"sigO:"+k);
+  return ["pick","apt","you","hh","inc","con",...RULES().map(r=>"rule:"+r.k),"sigR","sigA",...ex,"done"]; }
+
+async function loadUnits(){
+  try{
+    const r = await fetch(CONFIG.supabase+"/rest/v1/rpc/get_listings",{method:"POST",headers:{apikey:CONFIG.key,authorization:"Bearer "+CONFIG.key,"content-type":"application/json"},body:"{}"});
+    const rows = await r.json();
+    S.units = (Array.isArray(rows)?rows:[]).filter(u=>u.unit_type!=="commercial");
+    const want = new URLSearchParams(location.search).get("unit");
+    if(want){ S.unit = S.units.find(u=>u.unit_id===want) || null; }
+  }catch(e){ S.units=[]; }
+  render();
+}
+
+function field(id,label,type="text",req=false,extra=""){
+  return `<label for="${id}">${esc(label)}${req?" *":""}</label><input id="${id}" type="${type}" ${extra} value="${esc(S.a[id]||"")}" ${req?"required":""}>`;
+}
+function yn(id,label){
+  const v=S.a[id]||""; return `<label for="${id}">${esc(label)}</label><select id="${id}"><option value=""></option><option ${v==="yes"?"selected":""} value="yes">${tt("yes")}</option><option ${v==="no"?"selected":""} value="no">${tt("no")}</option></select>`;
+}
+
+function render(){
+  document.querySelectorAll("[data-t]").forEach(e=>e.textContent=tt(e.dataset.t));
+  document.documentElement.lang=L; document.getElementById("langBtn").textContent = L==="es"?"English":"Español";
+  const st = steps(), cur = st[S.step];
+  document.getElementById("prog").style.transform = "scaleX("+(S.step/(st.length-1))+")";
+  const back=document.getElementById("backBtn"), next=document.getElementById("nextBtn");
+  back.textContent=tt("back"); back.classList.toggle("hide", S.step===0 || cur==="done");
+  next.textContent = cur===lastSig() ? tt("submit") : tt("next"); next.disabled=false;
+  document.querySelector("nav").classList.toggle("hide", cur==="done");
+  let h = "";
+  if(cur==="pick"){
+    h += `<h1>${tt("pickT")}</h1><p class="sub">${tt("pickS")}</p><div class="units">`;
+    if(!S.units.length) h += `<p>${tt("loading")}</p>`;
+    for(const u of S.units){
+      h += `<button type="button" class="unit ${S.unit&&S.unit.unit_id===u.unit_id?"sel":""}" data-u="${u.unit_id}">${u.photo?`<img alt="" src="${esc(u.photo)}">`:""}<div><b>${esc(u.address)} · #${esc(u.unit_number)}</b><span>${esc(L==="es"?u.title_es:u.title_en)} · $${Number(u.rent||0).toLocaleString()}/mo</span></div></button>`;
+    }
+    h += `</div><p class="err" id="err"></p>`;
+  } else if(cur==="apt"){
+    const u=S.unit;
+    h += `<h1>${tt("aptT")}</h1><p class="sub">${tt("aptS")}</p><div class="card"><dl class="facts">
+      <dt>${tt("address")}</dt><dd>${esc(u.address)}, Milwaukee, WI ${esc(u.zip)}</dd>
+      <dt>${tt("unit")}</dt><dd>#${esc(u.unit_number)}</dd>
+      <dt>${tt("beds")}</dt><dd>${esc(u.bedrooms??"-")} / ${esc(u.bathrooms??"-")}</dd>
+      <dt>${tt("rent")}</dt><dd>$${Number(u.rent||0).toLocaleString()}</dd>
+      <dt>${tt("ends")}</dt><dd>${CONFIG.leaseEnd[L]}</dd></dl></div>
+      <div class="card">${field("move_in",tt("movein"),"date",true)}</div><p class="err" id="err"></p>`;
+  } else if(cur==="you"){
+    h += `<h1>${tt("youT")}</h1><p class="sub">${tt("youS")}</p><div class="card">
+      ${field("full_name",tt("name"),"text",true,'autocomplete="name"')}
+      <div class="row"><div>${field("phone",tt("phone"),"tel",true,'autocomplete="tel" inputmode="tel"')}</div><div>${field("email",tt("email"),"email",true,'autocomplete="email" inputmode="email"')}</div></div>
+      <div class="row"><div><label for="language">${tt("lang")}</label><select id="language"><option ${S.a.language!=="English"?"selected":""}>Español</option><option ${S.a.language==="English"?"selected":""}>English</option></select></div><div>${field("dob",tt("dob"),"date")}</div></div>
+      ${field("emergency_name",tt("emer"))}
+      <div class="row"><div>${field("emergency_phone",tt("emerP"),"tel",false,'inputmode="tel"')}</div><div>${field("emergency_rel",tt("emerR"))}</div></div></div><p class="err" id="err"></p>`;
+  } else if(cur==="hh"){
+    h += `<h1>${tt("hhT")}</h1><p class="sub">${tt("hhS")}</p><div class="card"><div class="row"><div>${field("adult2_name",tt("a2n"))}</div><div>${field("adult2_phone",tt("phone"),"tel",false,'inputmode="tel"')}</div></div><div class="row"><div>${field("adult3_name",tt("a3n"))}</div><div>${field("adult3_phone",tt("phone"),"tel",false,'inputmode="tel"')}</div></div>${field("children",tt("kids"))}${field("pets",tt("pets"))}${field("vehicles",tt("cars"))}</div>`;
+  } else if(cur==="inc"){
+    h += `<h1>${tt("incT")}</h1><p class="sub">${tt("incS")}</p><div class="card">
+      <div class="row"><div>${field("employer",tt("employer"))}</div><div>${field("income",tt("income"),"text",false,'inputmode="decimal"')}</div></div>
+      ${yn("voucher",tt("voucher"))}${field("current_address",tt("curAddr"))}${field("current_landlord",tt("curLL"))}${yn("evicted",tt("evict"))}</div>`;
+  } else if(cur==="con"){
+    const c=S.consents, item=(k,lab)=>`<label class="check"><input type="checkbox" data-c="${k}" ${c[k]?"checked":""}><div>${esc(lab)}</div></label>`;
+    h += `<h1>${tt("conT")}</h1><p class="sub">${tt("conS")}</p><div class="card">${item("email",tt("cEmail"))}${item("sms",tt("cSms"))}${item("ai_calls",tt("cCall"))}
+      <p class="small">${tt("cFine")}${CONFIG.office}. ${tt("cNot")}</p></div>`;
+  } else if(cur.startsWith("rule:")){
+    const r = RULES().find(x=>"rule:"+x.k===cur);
+    h += `<div class="card rule"><h2>${esc(r.t[L])}</h2><ul>${r.b[L].map(x=>`<li>${esc(x)}</li>`).join("")}</ul>
+      <div class="init"><span>${tt("initL")}:</span><input id="init" maxlength="4" autocapitalize="characters" autocomplete="off" value="${esc(S.initials[r.k]||"")}"></div></div><p class="err" id="err"></p>`;
+  } else if(cur.startsWith("sigO:")){
+    const k=cur.slice(5), o=S.others[k]||{};
+    h += `<h1>${tt("sigOT")}: ${esc(S.a[k+"_name"])}</h1><p class="sub">${tt("sigOS")}</p>
+      <div class="card"><div class="init" style="border:0;margin:0;padding:0"><span>${tt("initL")}:</span><input id="init" maxlength="4" autocapitalize="characters" autocomplete="off" value="${esc(o.initials||"")}"></div></div>
+      <div class="card"><canvas class="sig" id="pad"></canvas><div class="sigtools"><span>${tt("signHere")} · ${esc(S.a[k+"_name"])}</span><button class="link" type="button" id="clr">${tt("clear")}</button></div></div><p class="err" id="err"></p>`;
+  } else if(cur==="sigR" || cur==="sigA"){
+    const isR = cur==="sigR";
+    h += `<h1>${tt(isR?"sigRT":"sigAT")}</h1><p class="sub">${tt(isR?"sigRS":"sigAS")}</p>
+      <div class="card"><canvas class="sig" id="pad"></canvas><div class="sigtools"><span>${tt("signHere")} · ${esc(S.a.full_name||"")}</span><button class="link" type="button" id="clr">${tt("clear")}</button></div></div><p class="err" id="err"></p>`;
+  } else if(cur==="done"){
+    h += `<div class="done"><div class="big">✅</div><h1>${tt("doneT")}</h1><p class="sub">${tt("doneS")}</p><p class="small">${tt("ref")}: ${esc(S.id)}</p>
+      <p class="noprint"><button class="btn next" type="button" onclick="window.print()">${tt("print")}</button></p>
+      <p class="noprint"><button class="link" type="button" onclick="location.href=location.pathname+'?lang='+L">${tt("newApp")}</button></p></div>${summaryHTML()}`;
+  }
+  app.innerHTML = h; window.scrollTo(0,0);
+  if(cur==="pick") app.querySelectorAll(".unit").forEach(b=>b.onclick=()=>{S.unit=S.units.find(u=>u.unit_id===b.dataset.u); render();});
+  if(cur==="con") app.querySelectorAll("[data-c]").forEach(cb=>cb.onchange=()=>{S.consents[cb.dataset.c]=cb.checked;});
+  if(isSig(cur)) setupPad(cur);
+}
+
+function summaryHTML(){
+  const a=S.a, u=S.unit||{};
+  const rows=[[tt("unit"),`${u.address||""} #${u.unit_number||""}`],[tt("movein"),a.move_in],[tt("name"),a.full_name],[tt("phone"),a.phone],[tt("email"),a.email],
+    [tt("adults"),[a.adult2_name,a.adult3_name,a.other_adults].filter(Boolean).join(", ")],[tt("kids"),a.children],[tt("pets"),a.pets],[tt("employer"),a.employer],[tt("income"),a.income]];
+  return `<div class="card" style="text-align:left"><dl class="facts">${rows.map(r=>`<dt>${esc(r[0])}</dt><dd>${esc(r[1]||"-")}</dd>`).join("")}</dl>
+    <p class="small">${RULES().map(r=>esc(r.t[L])+": "+esc(S.initials[r.k]||"")).join(" · ")}</p>
+    ${[["sigR",tt("sigRT"),a.full_name],["sigA",tt("sigAT"),a.full_name],...Object.entries(S.others).map(([k,o])=>["o:"+k,tt("sigOT"),o.name])].map(([key,label,who])=>{
+       const src=key.startsWith("o:")?S.others[key.slice(2)].sig:S[key]; if(!src) return "";
+       const when=key.startsWith("o:")?S.others[key.slice(2)].at:S.sigAt[key];
+       return `<div style="margin-top:14px"><p class="small" style="margin:0">${esc(label)}</p><img alt="" src="${src}" style="max-width:100%;height:110px;border-bottom:1.5px solid #111"><p style="margin:4px 0 0;font-weight:700">${esc(who||"")}</p><p class="small" style="margin:0">${tt("signedOn")}: ${esc(when||"")}</p></div>`; }).join("")}</div>`;
+}
+
+let pad=null;
+function setupPad(which){
+  const c=document.getElementById("pad"), ctx=c.getContext("2d"), dpr=window.devicePixelRatio||1;
+  const r=c.getBoundingClientRect(); c.width=r.width*dpr; c.height=r.height*dpr; ctx.scale(dpr,dpr);
+  ctx.lineWidth=3.6; ctx.lineCap="round"; ctx.lineJoin="round"; ctx.strokeStyle="#111";
+  let drawing=false, inked=false, last=null;
+  const pt=e=>{const b=c.getBoundingClientRect();return{x:e.clientX-b.left,y:e.clientY-b.top};};
+  c.onpointerdown=e=>{drawing=true;last=pt(e);c.setPointerCapture(e.pointerId);};
+  c.onpointermove=e=>{if(!drawing)return;const p=pt(e);ctx.beginPath();ctx.moveTo(last.x,last.y);ctx.lineTo(p.x,p.y);ctx.stroke();last=p;inked=true;};
+  c.onpointerup=c.onpointercancel=()=>{drawing=false;};
+  document.getElementById("clr").onclick=()=>{ctx.clearRect(0,0,c.width,c.height);inked=false;S[which]=null;};
+  pad={get:()=>inked?c.toDataURL("image/png"):null};
+  if(S[which]){const im=new Image();im.onload=()=>{ctx.drawImage(im,0,0,r.width,r.height);inked=true;};im.src=S[which];}
+}
+
+function collect(){ app.querySelectorAll("input[id],select[id]").forEach(i=>{ if(i.id!=="init"&&i.id!=="pad") S.a[i.id]=i.value.trim(); }); }
+function fail(k){ const e=document.getElementById("err"); if(e) e.textContent=tt(k); return false; }
+
+function validate(cur){
+  if(cur==="pick") return S.unit ? true : fail("pickS");
+  if(cur==="apt"||cur==="you"){ collect(); const missing=[...app.querySelectorAll("[required]")].some(i=>!i.value.trim()); return missing?fail("req"):true; }
+  if(cur==="hh"||cur==="inc"){ collect(); return true; }
+  if(cur.startsWith("rule:")){ const v=document.getElementById("init").value.trim().toUpperCase(); if(v.length<2) return fail("initErr"); S.initials[cur.slice(5)]=v; return true; }
+  if(cur==="sigR"||cur==="sigA"){ const d=pad&&pad.get(); if(!d) return fail("sigErr"); S[cur]=d; S.sigAt[cur]=new Date().toLocaleString(); return true; }
+  if(cur.startsWith("sigO:")){ const k=cur.slice(5), iv=document.getElementById("init").value.trim().toUpperCase(); if(iv.length<2) return fail("initErr");
+    const d=pad&&pad.get(); if(!d) return fail("sigErr");
+    S.others[k]={name:S.a[k+"_name"], phone:S.a[k+"_phone"]||"", initials:iv, sig:d, at:new Date().toLocaleString()}; return true; }
+  return true;
+}
+
+async function submit(){
+  const next=document.getElementById("nextBtn"); next.disabled=true; next.textContent=tt("sending");
+  const rules=RULES();
+  const body={ p:{ unit_id:S.unit.unit_id, unit_label:`${S.unit.address} #${S.unit.unit_number}`, lang:L, applicant:S.a, consents:S.consents, initials:S.initials,
+    rules_version:CONFIG.rulesVersion+"-latefee"+CONFIG.lateFee, rules_text:Object.fromEntries(rules.map(r=>[r.k,{title:r.t[L],text:r.b[L]}])),
+    sig_rules:S.sigR, sig_application:S.sigA, user_agent:navigator.userAgent } };
+  body.p.applicant = {...S.a, signed_at_local:S.sigAt, other_adults_signed:S.others};
+  try{
+    const r=await fetch(CONFIG.supabase+"/rest/v1/rpc/submit_signed_application",{method:"POST",headers:{apikey:CONFIG.key,authorization:"Bearer "+CONFIG.key,"content-type":"application/json"},body:JSON.stringify(body)});
+    const j=await r.json(); if(!r.ok) throw new Error(j&&j.message||"error");
+    S.id=j; S.step++; render();
+  }catch(e){ next.disabled=false; next.textContent=tt("submit"); fail("sendErr"); }
+}
+
+document.getElementById("nextBtn").onclick=()=>{
+  const st=steps(), cur=st[S.step];
+  if(!validate(cur)) return;
+  if(cur===lastSig()) return submit();
+  S.step++; render();
+};
+document.getElementById("backBtn").onclick=()=>{ const cur=steps()[S.step]; if(cur==="sigR"||cur==="sigA"){const d=pad&&pad.get(); if(d) S[cur]=d;} else if(!isSig(cur)) collect(); S.step=Math.max(0,S.step-1); render(); };
+document.getElementById("langBtn").onclick=()=>{ const cur=steps()[S.step]; if(!cur.startsWith("rule:")&&!isSig(cur)) collect(); L=L==="es"?"en":"es"; render(); };
+render(); loadUnits();
+</script>
+</body>
+</html>
