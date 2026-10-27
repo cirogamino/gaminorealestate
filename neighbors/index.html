@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Neighborhood Businesses · Gamino Real Estate</title>
+<meta name="description" content="Local shops, groceries, restaurants and services near Gamino Real Estate buildings in Milwaukee.">
+<link rel="canonical" href="https://gaminorealestate.com/neighbors/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<style>
+:root{--serif:'Fraunces',Georgia,serif;--sans:'Archivo',-apple-system,sans-serif;--bg:#fbf7ef;--card:#fff;--ink:#1d1a14;--dim:#625b4e;--line:#e6dccb;--gold:#b3872f;--green:#0f5c4d;--res:#0f5c4d;--off:#b3872f;--ret:#8a3b2e}
+*{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.6 var(--sans)}
+a{color:var(--green)}
+header{background:#131009;color:#f7f2e9;padding:14px 20px;display:flex;align-items:center;gap:16px}
+header a{color:#e4c887;text-decoration:none;font-weight:600}header .sp{flex:1}
+.hero{max-width:1100px;margin:0 auto;padding:44px 20px 18px}
+.kick{color:var(--gold);font-weight:700;letter-spacing:.08em;text-transform:uppercase;font-size:13px}
+h1{font:700 44px/1.1 var(--serif);margin:8px 0 12px}h2{font:600 30px/1.2 var(--serif);margin:0 0 6px}h3{font:600 21px/1.3 var(--serif);margin:0 0 6px}
+.lede{font-size:19px;color:var(--dim);max-width:760px;margin:0}
+.upd{display:inline-block;margin-top:14px;background:#efe6d3;border-radius:999px;padding:6px 14px;font-weight:600;font-size:14px}
+section{max-width:1100px;margin:0 auto;padding:26px 20px}
+.sub{color:var(--dim);margin:0 0 18px}
+#map{height:520px;border-radius:16px;border:1px solid var(--line)}
+.legend{display:flex;gap:18px;flex-wrap:wrap;margin-top:10px;font-size:14px;color:var(--dim)}.legend i{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:6px;vertical-align:-1px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px}
+.card .n{font:600 20px/1.3 var(--serif);margin-bottom:10px}
+.rents{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;margin:0}.rents dt{color:var(--dim)}.rents dd{margin:0;font-weight:700;text-align:right}
+.small{font-size:13px;color:var(--dim)}
+table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+th,td{padding:10px 12px;border-bottom:1px solid var(--line);text-align:left;font-size:15px;vertical-align:top}th{background:#f4ecdc;font-weight:700}
+td.num{text-align:right;white-space:nowrap}
+.tablewrap{overflow-x:auto}
+.cta{background:#131009;color:#f7f2e9;border-radius:20px;padding:28px;display:grid;grid-template-columns:1.4fr 1fr;gap:20px;align-items:center}
+.cta h2{color:#f7f2e9}.cta p{color:#c9c0ad;margin:0}.cta a.btn{display:inline-block;background:#c8a34f;color:#131009;font-weight:700;text-decoration:none;padding:14px 22px;border-radius:12px;text-align:center}
+@media(max-width:700px){h1{font-size:34px}.cta{grid-template-columns:1fr}#map{height:400px}}
+.report h3{margin-top:22px}.report ul{padding-left:22px}td{overflow-wrap:anywhere}
+footer{max-width:1100px;margin:0 auto;padding:26px 20px 50px;color:var(--dim);font-size:14px}
+
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 14px}.filters button{border:1px solid var(--line);background:#fff;border-radius:999px;padding:8px 14px;font:600 14px var(--sans);color:var(--ink)}
+.filters button.on{background:#131009;color:#f7f2e9;border-color:#131009}
+.biz{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+.biz .card{padding:14px 16px}.biz .card b{font-size:17px}.biz .meta{color:var(--dim);font-size:14px;margin-top:2px}
+.badge{display:inline-block;background:#c8a34f;color:#131009;font-weight:700;font-size:12px;border-radius:999px;padding:2px 10px;margin-top:6px}
+.offer{margin-top:6px;font-weight:600;color:var(--green)}
+header a{white-space:nowrap}@media(max-width:500px){header{gap:10px;font-size:15px}header a[href="/market/"]{display:none}}
+</style>
+</head>
+<body>
+<header><a href="/">Gamino Real Estate</a><span class="sp"></span><a href="/market/">Rent report</a><a href="tel:+14148502272">414-850-2272</a></header>
+<div class="hero">
+  <div class="kick">Our neighbors</div>
+  <h1>Shop local near our buildings</h1>
+  <p class="lede">Groceries, bakeries, restaurants, laundromats and services near every Gamino Real Estate building on Milwaukee's south side, from a short walk to a short drive.</p><p class="lede" id="partnerline" hidden>Gamino tenants: look for <b>Gamino Partner</b> businesses and show your tenant card for their special offer.</p>
+  <span class="upd" id="cnt">Loading neighborhood businesses…</span>
+</div>
+<section>
+  <div id="map" role="img" aria-label="Map of neighborhood businesses near Gamino Real Estate buildings"></div>
+  <div class="legend"><span id="plegend" hidden><i style="background:#c8a34f"></i>Gamino Partner (tenant offer)</span><span><i style="background:#0f5c4d"></i>Neighborhood business</span><span><i style="background:#131009"></i>Gamino buildings</span></div>
+</section>
+<section>
+  <div class="filters" id="filters"></div>
+  <div class="biz" id="list"></div>
+  <p style="text-align:center"><button type="button" id="more" hidden class="btn" style="border:0;background:#131009;color:#f7f2e9;border-radius:12px;padding:12px 20px;font:700 15px var(--sans)" onclick="showAll=true;draw()"></button></p>
+</section>
+<section>
+  <div class="cta"><div><h2>Own a business near one of our buildings?</h2><p>Put up our rentals flyer and offer something special to our tenants. We'll list you here free, put your coupon in every building and send our tenants your way.</p></div><div><a class="btn" href="tel:+14148502272">Call 414-850-2272</a></div></div>
+</section>
+<footer>Listings are local businesses near Gamino Real Estate buildings, not endorsements.<span id="pfoot" hidden> Offers are set by each partner business and may change.</span> Equal Housing Opportunity. Made by Gamino Real Estate.</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script>
+const SB="https://mtieaukygxrcnggstvjf.supabase.co", KEY="sb_publishable_2O_tZWnUVt9wtz-LDJ55fQ_G8kEObt3";
+const OURS=[["1750-1752 S Muskego Ave",43.01138,-87.9386],["1754-1756 S Muskego Ave",43.01128,-87.9387],["1968 S Muskego Ave",43.009,-87.94087],["3110 W Pierce St",43.02416,-87.95302],["2176-2178 S 11th St",43.00478,-87.92561],["210 E Smith St",43.00126,-87.90761]];
+const BLD={"muskego-1750":"1750 S Muskego","muskego-1754":"1754 S Muskego","muskego-1968":"1968 S Muskego","pierce-3110":"3110 W Pierce","eleventh-2176":"2176 S 11th","smith-210":"210 E Smith"};
+const LABEL={convenience:"Convenience stores",grocery:"Groceries",bakery:"Bakeries",restaurant:"Restaurants",laundromat:"Laundromats",auto:"Auto",barber_salon:"Barbers & salons",pharmacy:"Pharmacies",health:"Health",phone_repair:"Phone repair",gym:"Gyms",hardware:"Hardware",childcare:"Childcare",services:"Services",retail:"Shops",other:"Other"};
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const map=L.map("map",{scrollWheelZoom:false}).setView([43.012,-87.93],14);
+L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19,attribution:"© OpenStreetMap contributors"}).addTo(map);
+OURS.forEach(([n,a,b])=>L.circleMarker([a,b],{radius:9,color:"#fff",weight:2,fillColor:"#131009",fillOpacity:1}).bindPopup("<b>"+esc(n)+"</b><br>Gamino Real Estate").addTo(map));
+let ALL=[], cur="all", showAll=false, layer=L.layerGroup().addTo(map);
+function draw(){
+  const rows=ALL.filter(b=>cur==="all"||(cur==="spanish"?b.spanish_grocery:b.category===cur));
+  layer.clearLayers();
+  rows.filter(b=>b.lat&&b.lon).forEach(b=>L.circleMarker([b.lat,b.lon],{radius:b.partner?8:6,color:"#fff",weight:1.5,fillColor:b.partner?"#c8a34f":"#0f5c4d",fillOpacity:.95})
+    .bindPopup("<b>"+esc(b.name)+"</b><br>"+esc(b.address)+(b.phone?"<br>"+esc(b.phone):"")+(b.partner&&b.coupon?"<br><b>Tenant offer:</b> "+esc(b.coupon):"")).addTo(layer));
+  const shown=showAll?rows:rows.slice(0,40);
+  document.getElementById("list").innerHTML=shown.map(b=>`<div class="card"><b>${esc(b.name)}</b><div class="meta">${esc(LABEL[b.category]||b.category)} · ${esc(b.address)}</div><div class="meta">${b.zone==="walk"?"Walk":"Short drive"} from ${esc(BLD[b.nearest]||"our building")}</div>
+    ${b.phone?`<div class="meta">${esc(b.phone)}</div>`:""}${b.website?`<div class="meta"><a href="${esc(b.website)}" target="_blank" rel="noopener">Website</a></div>`:""}
+    ${b.partner?`<span class="badge">Gamino Partner</span>${b.coupon?`<div class="offer">Tenant offer: ${esc(b.coupon)}</div>`:""}`:""}</div>`).join("") || "<p>No businesses in this group yet.</p>";
+  const more=document.getElementById("more"); more.hidden=showAll||rows.length<=40; more.textContent="Show all "+rows.length;
+}
+fetch(SB+"/rest/v1/rpc/get_neighbors",{method:"POST",headers:{apikey:KEY,authorization:"Bearer "+KEY,"content-type":"application/json"},body:"{}"})
+.then(r=>r.json()).then(d=>{
+  ALL=Array.isArray(d)?d:[];
+  const p=ALL.filter(b=>b.partner).length;
+  document.getElementById("cnt").textContent=ALL.length+" neighborhood businesses"+(p?" · "+p+" Gamino Partners":"");
+  ["partnerline","plegend","pfoot"].forEach(id=>document.getElementById(id).hidden=!p);
+  const cats=[...new Set(ALL.map(b=>b.category))].sort();
+  const f=[["all","All"],...(ALL.some(b=>b.spanish_grocery)?[["spanish","Mexican & Latino groceries"]]:[]),...cats.map(c=>[c,LABEL[c]||c])];
+  const fe=document.getElementById("filters");
+  fe.innerHTML=f.map(([k,t])=>`<button type="button" data-k="${k}" class="${k===cur?"on":""}">${esc(t)}</button>`).join("");
+  fe.onclick=e=>{const k=e.target.dataset.k; if(!k) return; cur=k; showAll=false; fe.querySelectorAll("button").forEach(b=>b.classList.toggle("on",b.dataset.k===k)); draw();};
+  draw();
+}).catch(()=>{document.getElementById("cnt").textContent="Listings temporarily unavailable";});
+</script>
+</body>
+</html>
