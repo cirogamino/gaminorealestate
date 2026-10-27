@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>South Side Milwaukee Rent Report · Gamino Real Estate</title>
+<meta name="description" content="What apartments and storefronts actually rent for on Milwaukee's south side: Historic Mitchell Street, Silver City, Lincoln Village, Bay View. Updated from live listings by Gamino Real Estate.">
+<link rel="canonical" href="https://gaminorealestate.com/market/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<style>
+:root{--serif:'Fraunces',Georgia,serif;--sans:'Archivo',-apple-system,sans-serif;--bg:#fbf7ef;--card:#fff;--ink:#1d1a14;--dim:#625b4e;--line:#e6dccb;--gold:#b3872f;--green:#0f5c4d;--res:#0f5c4d;--off:#b3872f;--ret:#8a3b2e}
+*{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.6 var(--sans)}
+a{color:var(--green)}
+header{background:#131009;color:#f7f2e9;padding:14px 20px;display:flex;align-items:center;gap:16px}
+header a{color:#e4c887;text-decoration:none;font-weight:600}header .sp{flex:1}
+.hero{max-width:1100px;margin:0 auto;padding:44px 20px 18px}
+.kick{color:var(--gold);font-weight:700;letter-spacing:.08em;text-transform:uppercase;font-size:13px}
+h1{font:700 44px/1.1 var(--serif);margin:8px 0 12px}h2{font:600 30px/1.2 var(--serif);margin:0 0 6px}h3{font:600 21px/1.3 var(--serif);margin:0 0 6px}
+.lede{font-size:19px;color:var(--dim);max-width:760px;margin:0}
+.upd{display:inline-block;margin-top:14px;background:#efe6d3;border-radius:999px;padding:6px 14px;font-weight:600;font-size:14px}
+section{max-width:1100px;margin:0 auto;padding:26px 20px}
+.sub{color:var(--dim);margin:0 0 18px}
+#map{height:520px;border-radius:16px;border:1px solid var(--line)}
+.legend{display:flex;gap:18px;flex-wrap:wrap;margin-top:10px;font-size:14px;color:var(--dim)}.legend i{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:6px;vertical-align:-1px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px}
+.card .n{font:600 20px/1.3 var(--serif);margin-bottom:10px}
+.rents{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;margin:0}.rents dt{color:var(--dim)}.rents dd{margin:0;font-weight:700;text-align:right}
+.small{font-size:13px;color:var(--dim)}
+table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+th,td{padding:10px 12px;border-bottom:1px solid var(--line);text-align:left;font-size:15px;vertical-align:top}th{background:#f4ecdc;font-weight:700}
+td.num{text-align:right;white-space:nowrap}
+.tablewrap{overflow-x:auto}
+.cta{background:#131009;color:#f7f2e9;border-radius:20px;padding:28px;display:grid;grid-template-columns:1.4fr 1fr;gap:20px;align-items:center}
+.cta h2{color:#f7f2e9}.cta p{color:#c9c0ad;margin:0}.cta a.btn{display:inline-block;background:#c8a34f;color:#131009;font-weight:700;text-decoration:none;padding:14px 22px;border-radius:12px;text-align:center}
+@media(max-width:700px){h1{font-size:34px}.cta{grid-template-columns:1fr}#map{height:400px}}
+.report h3{margin-top:22px}.report ul{padding-left:22px}td{overflow-wrap:anywhere}
+footer{max-width:1100px;margin:0 auto;padding:26px 20px 50px;color:var(--dim);font-size:14px}
+</style>
+</head>
+<body>
+<header><a href="/">Gamino Real Estate</a><span class="sp"></span><a href="tel:+14148502272">414-850-2272</a></header>
+
+<div class="hero">
+  <div class="kick">South Side Milwaukee · Rent Report</div>
+  <h1>What rentals actually go for on the south side</h1>
+  <p class="lede">We track live asking rents for apartments and storefronts around our buildings, so tenants and business owners can see the real market, not a guess. Every listing links to its source.</p>
+  <span class="upd" id="upd">Loading the latest numbers…</span>
+</div>
+
+<section>
+  <h2>The map</h2>
+  <p class="sub">Each dot is a current listing near Historic Mitchell Street, Silver City, Lincoln Village and Bay View. Tap a dot for the rent and the source.</p>
+  <div id="map" role="img" aria-label="Map of south side Milwaukee rental listings"></div>
+  <div class="legend"><span><i style="background:var(--res)"></i>Apartments</span><span><i style="background:var(--off)"></i>Office</span><span><i style="background:var(--ret)"></i>Retail / storefront</span><span><i style="background:#131009"></i>Gamino buildings</span></div>
+</section>
+
+<section>
+  <h2>Typical apartment rents by neighborhood</h2>
+  <p class="sub">Typical asking rent per month from current listings, next to the HUD Fair Market Rent for the Milwaukee area.</p>
+  <div class="grid" id="areas"></div>
+</section>
+
+<section>
+  <h2>Storefronts and offices for rent nearby</h2>
+  <p class="sub">What similar commercial spaces are asking right now, per month and per square foot per year.</p>
+  <div class="tablewrap"><table><thead><tr><th>Address</th><th>Type</th><th>Size</th><th>Rent / month</th><th>$/sq ft/yr</th><th>Terms</th><th>Source</th></tr></thead><tbody id="com"><tr><td colspan="7">Loading…</td></tr></tbody></table></div>
+</section>
+
+<section>
+  <div class="card"><h3>Looking at the storefronts?</h3><p class="small" style="font-size:15px">See the full commercial location study for 1746-1752 S Muskego Ave: traffic counts, nearby investment, zoning, incentives and the business types that fit best.</p><p><a href="/storefronts/">Read the storefront location study</a></p></div>
+</section>
+
+<section>
+  <div class="cta">
+    <div><h2>Two storefronts available at 1746-1752 S Muskego Ave</h2><p>A large, built-out professional office with private offices (formerly a law firm), and a small street-front office for one or two people. Lease one or both, on the Historic Mitchell Street side of the south side.</p></div>
+    <div><a class="btn" href="tel:+14148502272">Call 414-850-2272</a></div>
+  </div>
+</section>
+
+<footer>Data: live listings collected by Gamino Real Estate (source linked on every row) and HUD FY2027 Fair Market Rents. Listings change daily; contact each listing for current terms. Made by Gamino Real Estate. Equal Housing Opportunity.</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script>
+const SB="https://mtieaukygxrcnggstvjf.supabase.co", KEY="sb_publishable_2O_tZWnUVt9wtz-LDJ55fQ_G8kEObt3";
+// Approximate neighborhood centers (labels only) and our buildings (public addresses already on this site).
+const HOODS={"Historic Mitchell Street":[43.0122,-87.9297],"Mitchell Street":[43.0122,-87.9297],"Silver City":[43.0236,-87.9536],"Lincoln Village":[43.0045,-87.9230],"Bay View":[42.9935,-87.8975]};
+// Geocoded 10-27-26 (OpenStreetMap Nominatim).
+const OURS=[["1750-1752 S Muskego Ave",43.01138,-87.9386],["1754-1756 S Muskego Ave",43.01128,-87.9387],["1968 S Muskego Ave",43.009,-87.94087],["3110 W Pierce St",43.02416,-87.95302],["2176-2178 S 11th St",43.00478,-87.92561],["210 E Smith St",43.00126,-87.90761]];
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const $m=n=>n==null||n===""?"–":"$"+Math.round(Number(n)).toLocaleString();
+const map=L.map("map",{scrollWheelZoom:false}).setView([43.010,-87.925],13);
+L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:18,attribution:"© OpenStreetMap contributors"}).addTo(map);
+const dot=(lat,lon,color,html,r=8)=>L.circleMarker([lat,lon],{radius:r,color:"#fff",weight:2,fillColor:color,fillOpacity:.95}).bindPopup(html).addTo(map);
+OURS.forEach(([n,a,b])=>dot(a,b,"#131009",`<b>${esc(n)}</b><br>Gamino Real Estate`,9));
+fetch(SB+"/rest/v1/rpc/get_market_board",{method:"POST",headers:{apikey:KEY,authorization:"Bearer "+KEY,"content-type":"application/json"},body:"{}"})
+.then(r=>r.json()).then(d=>{
+  const up=d.updated?new Date(d.updated+"T12:00:00").toLocaleDateString("en-US",{month:"long",day:"numeric",year:"numeric"}):"";
+  document.getElementById("upd").textContent=up?"Updated "+up:"Update in progress";
+  // newest survey per neighborhood
+  const by={}; (d.areas||[]).forEach(a=>{const k=a.neighborhood==="Mitchell Street"?"Historic Mitchell Street":a.neighborhood; if(!by[k]||a.as_of>by[k].as_of) by[k]={...a,neighborhood:k};});
+  document.getElementById("areas").innerHTML=Object.values(by).map(a=>`<div class="card"><div class="n">${esc(a.neighborhood)}</div><dl class="rents">
+    ${a.studio?`<dt>Studio</dt><dd>${$m(a.studio)}</dd>`:""}${a.one_br?`<dt>1 bedroom</dt><dd>${$m(a.one_br)}</dd>`:""}${a.two_br?`<dt>2 bedrooms</dt><dd>${$m(a.two_br)}</dd>`:""}${a.three_br?`<dt>3 bedrooms</dt><dd>${$m(a.three_br)}</dd>`:""}</dl>
+    <p class="small">HUD fair market rent: 1BR ${$m(a.hud&&a.hud["1br"])} · 2BR ${$m(a.hud&&a.hud["2br"])} · surveyed ${esc(a.as_of)}</p></div>`).join("");
+  Object.values(by).forEach(a=>{const c=HOODS[a.neighborhood]; if(c) L.marker(c,{opacity:.0}).bindTooltip(a.neighborhood,{permanent:true,direction:"center",className:""}).addTo(map);});
+  const comps=d.comps||[];
+  comps.filter(c=>c.lat&&c.lon).forEach(c=>{const col=c.kind==="residential"?"#0f5c4d":c.kind==="office"?"#b3872f":"#8a3b2e";
+    dot(c.lat,c.lon,col,`<b>${esc(c.address)}</b><br>${c.kind==="residential"?(esc(c.beds)+" BR · "+$m(c.rent_month)+"/mo"):((c.sqft?Number(c.sqft).toLocaleString()+" sq ft · ":"")+(c.rent_sqft_year?"$"+c.rent_sqft_year+"/sq ft/yr":$m(c.rent_month)+"/mo"))}<br><a href="${esc(c.source_url)}" target="_blank" rel="noopener">Listing</a> · ${esc(c.seen_on)}`);});
+  const com=comps.filter(c=>c.kind!=="residential");
+  document.getElementById("com").innerHTML=com.length?com.map(c=>`<tr><td>${esc(c.address)}</td><td>${esc(c.kind)}</td><td class="num">${c.sqft?Number(c.sqft).toLocaleString()+" sq ft":"–"}</td><td class="num">${$m(c.rent_month)}</td><td class="num">${c.rent_sqft_year?"$"+Number(c.rent_sqft_year).toFixed(2):"–"}</td><td>${esc(c.lease_type||"")}</td><td>${c.source_url?`<a href="${esc(c.source_url)}" target="_blank" rel="noopener">${esc(c.seen_on)}</a>`:""}</td></tr>`).join(""):`<tr><td colspan="7">New commercial listings are being added.</td></tr>`;
+}).catch(()=>{document.getElementById("upd").textContent="Numbers temporarily unavailable";});
+</script>
+</body>
+</html>
