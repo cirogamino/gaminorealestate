@@ -64,7 +64,8 @@ nav .in{max-width:760px;margin:0 auto;display:flex;gap:12px}
 const CONFIG = {
   supabase: "https://mtieaukygxrcnggstvjf.supabase.co",
   key: "sb_publishable_2O_tZWnUVt9wtz-LDJ55fQ_G8kEObt3",   // public publishable key (same one the site already uses)
-  rulesVersion: "2026-10-27-v1",
+  rulesVersion: "2026-10-28-v3",
+  zelle: { name: "Rosario Gamino", phone: "414-350-7359" },  // Mom's text 10-27-26: deposit + rent go by Zelle to her
   leaseEnd: { en: "May 31", es: "31 de mayo" },              // every Gamino lease ends May 31 (June 1 turnover)
   lateFee: "B",                                              // OWNER PICK: "A" (weekly, max $250) or "B" (max $100). Lease Section 5.
   office: "414-850-2272",
@@ -95,9 +96,9 @@ const T = {
   curAddr:{es:"Dirección actual",en:"Current address"}, curLL:{es:"Arrendador actual y teléfono",en:"Current landlord and phone"},
   evict:{es:"¿Ha tenido un desalojo (eviction)?",en:"Have you ever been evicted?"},
   conT:{es:"Cómo le contactamos",en:"How we contact you"}, conS:{es:"Marque cada una que acepte. Puede cancelar en cualquier momento respondiendo STOP.",en:"Check each one you agree to. You can stop any time by replying STOP."},
-  cEmail:{es:"Recibir el contrato, recibos y avisos por correo electrónico",en:"Get the lease, receipts and notices by email"},
-  cSms:{es:"Recibir mensajes de texto automáticos (recordatorios de renta, reparaciones, avisos del edificio)",en:"Get automated text messages (rent reminders, repairs, building notices)"},
-  cCall:{es:"Recibir llamadas automáticas, grabadas o con asistente de IA sobre mi renta",en:"Get automated, recorded or AI-assistant phone calls about my tenancy"},
+  cEmail:{es:"Gamino Real Estate puede mandarme correos electrónicos: el contrato, recibos, recordatorios de renta, reparaciones, avisos del edificio y otros anuncios de Gamino Real Estate",en:"Gamino Real Estate may email me: the lease, receipts, rent reminders, repairs, building notices and other announcements from Gamino Real Estate"},
+  cSms:{es:"Gamino Real Estate puede mandarme mensajes de texto, también automáticos: recordatorios de renta, recibos, reparaciones, avisos del edificio y otros anuncios de Gamino Real Estate",en:"Gamino Real Estate may text me, including automated texts: rent reminders, receipts, repairs, building notices and other announcements from Gamino Real Estate"},
+  cCall:{es:"Gamino Real Estate puede llamarme, también con llamadas automáticas, grabadas o de un asistente de IA, para recordatorios de renta, reparaciones, avisos y otros anuncios",en:"Gamino Real Estate may call me, including automated, recorded or AI-assistant calls, for rent reminders, repairs, notices and other announcements"},
   cFine:{es:"Pueden aplicar cargos de mensajes y datos. Responda HELP para ayuda o llame al ",en:"Message and data rates may apply. Reply HELP for help or call "},
   cNot:{es:"Este permiso no es condición para rentar.",en:"This consent is not a condition of renting."},
   initL:{es:"Sus iniciales",en:"Your initials"}, initErr:{es:"Escriba sus iniciales para seguir.",en:"Type your initials to continue."},
@@ -109,6 +110,8 @@ const T = {
   doneT:{es:"¡Listo, gracias!",en:"All set, thank you!"}, doneS:{es:"Recibimos su solicitud firmada. Le entregaremos una copia.",en:"We received your signed application. You will get a copy."},
   print:{es:"Imprimir / guardar copia",en:"Print / save a copy"}, newApp:{es:"Nueva solicitud",en:"New application"},
   ref:{es:"Número de registro",en:"Record number"},
+  payNextT:{es:"Siguiente paso: mande su depósito y primer mes",en:"Next step: send your deposit and first month's rent"},
+  payNextS:{es:"Por Zelle a",en:"By Zelle to"}, payNextK:{es:"Las llaves se entregan cuando lleguen los dos pagos completos.",en:"Keys are handed over once both payments arrive in full."},
 };
 
 // Each rule = one screen with initials. Wording follows the Gamino lease (EN + ES templates, 10-14-26).
@@ -118,32 +121,45 @@ const LATE = {
   B:{en:["Rent is due on or before the 1st of every month.","Not paid in full by 11:59 p.m. on the 1st: a $50 late fee on the 2nd.","Still not paid in full by 11:59 p.m. on the 9th: one more $50 fee on the 10th.","Total late fees for one month never go over $100. No fee is ever charged on an unpaid late fee."],
      es:["La renta se paga el día 1 de cada mes o antes.","Si no está pagada completa a las 11:59 p.m. del día 1: cargo de $50 el día 2.","Si no está pagada completa a las 11:59 p.m. del día 9: otro cargo de $50 el día 10.","El total de cargos por un mes nunca pasa de $100. Nunca se cobra un cargo por no pagar un cargo atrasado."]},
 };
-const RULES = () => [
+// Ciro 10-28-26: security deposit = one month's rent (for now).
+const RENT = () => (S.unit&&S.unit.rent) ? Number(S.unit.rent) : 0;
+const money = n => "$"+n.toLocaleString();
+const RULES = () => { const R1=RENT()?" ("+money(RENT())+")":"", R2=RENT()?money(RENT()*2):""; return [
   {k:"rent", t:{en:"1. Rent and late fees",es:"1. Renta y cargos por atraso"},
    b:{en:[...LATE[CONFIG.lateFee].en,"From the 2nd, if rent is unpaid, the landlord may serve a written 5-day notice to pay or move out (Wis. Stat. 704.17).","Paying part of the rent or a late fee does not cancel the rest that is owed."],
       es:[...LATE[CONFIG.lateFee].es,"Desde el día 2, si la renta no está pagada, el arrendador puede entregar un aviso por escrito de 5 días para pagar o desocupar (Wis. Stat. 704.17).","Pagar una parte de la renta o un cargo no cancela lo que todavía se debe."]}},
-  {k:"pay", t:{en:"2. How to pay",es:"2. Cómo pagar"},
-   b:{en:["Pay rent the way the office tells you in writing (Zelle, online payment, check or money order). Keep your receipt.","Never pay rent in cash without getting a signed receipt.","A returned or reversed payment counts as unpaid rent."],
-      es:["Pague la renta como la oficina le indique por escrito (Zelle, pago en línea, cheque o giro). Guarde su recibo.","Nunca pague en efectivo sin recibir un recibo firmado.","Un pago devuelto o cancelado cuenta como renta no pagada."]}},
-  {k:"movein", t:{en:"3. Move-in: photos, video and check-in sheet",es:"3. Mudanza: fotos, video y hoja de revisión"},
+  {k:"pay", t:{en:"2. How to pay: Zelle",es:"2. Cómo pagar: Zelle"},
+   b:{en:["Before you pay anything, sign up for Zelle (in your bank's app or the Zelle app).","Send your security deposit and every month's rent by Zelle to: "+CONFIG.zelle.name+", "+CONFIG.zelle.phone+".","In the Zelle memo write your address and apartment number (example: 1750 S Muskego #6, November rent).","Zelle sends you a confirmation. Keep it: that is your receipt.","A returned or reversed payment counts as unpaid rent."],
+      es:["Antes de pagar, regístrese en Zelle (en la app de su banco o en la app de Zelle).","Mande su depósito de seguridad y la renta de cada mes por Zelle a: "+CONFIG.zelle.name+", "+CONFIG.zelle.phone+".","En la nota de Zelle escriba su dirección y número de apartamento (ejemplo: 1750 S Muskego #6, renta de noviembre).","Zelle le manda una confirmación. Guárdela: ese es su recibo.","Un pago devuelto o cancelado cuenta como renta no pagada."]}},
+  {k:"moveinpay", t:{en:"3. Before move-in: deposit and first month's rent",es:"3. Antes de mudarse: depósito y primer mes de renta"},
+   b:{en:["Before you move in, you must send BOTH: (1) the security deposit, which equals one month's rent"+R1+", and (2) the first month's rent"+R1+"."+(R2?" Total before move-in: "+R2+".":""),"Both are paid by Zelle to "+CONFIG.zelle.name+", "+CONFIG.zelle.phone+".","No keys and no move-in until both payments are received in full."],
+      es:["Antes de mudarse debe mandar LOS DOS: (1) el depósito de seguridad, que es igual a un mes de renta"+R1+", y (2) el primer mes de renta"+R1+"."+(R2?" Total antes de mudarse: "+R2+".":""),"Los dos se pagan por Zelle a "+CONFIG.zelle.name+", "+CONFIG.zelle.phone+".","No se entregan llaves ni hay mudanza hasta recibir los dos pagos completos."]}},
+  {k:"movein", t:{en:"4. Move-in: photos, video and check-in sheet",es:"4. Mudanza: fotos, video y hoja de revisión"},
    b:{en:["On move-in day we walk the apartment together and record a video and photos of every room, so we both know what was there from the start.","You get a check-in sheet. You have 7 days to write down anything damaged or not working and return it.","Anything not written down or on the video is treated as being in good condition at move-in."],
       es:["El día de la mudanza revisamos el apartamento juntos y grabamos video y fotos de cada cuarto, para que los dos sepamos cómo estaba desde el principio.","Usted recibe una hoja de revisión. Tiene 7 días para anotar cualquier daño o cosa que no funcione y devolverla.","Lo que no esté anotado ni en el video se considera en buen estado al mudarse."]}},
-  {k:"repairs", t:{en:"4. Repairs and damage",es:"4. Reparaciones y daños"},
+  {k:"repairs", t:{en:"5. Repairs and damage",es:"5. Reparaciones y daños"},
    b:{en:["Report problems right away: gaminorealestate.com/mantenimiento or call "+CONFIG.office+". Emergencies (water, gas, no heat, fire): call right away.","We fix normal wear and things that break on their own.","You pay for damage caused by you, your family or your guests, and for problems you did not report that got worse."],
       es:["Reporte los problemas de inmediato: gaminorealestate.com/mantenimiento o llame al "+CONFIG.office+". Emergencias (agua, gas, sin calefacción, fuego): llame de inmediato.","Nosotros arreglamos el desgaste normal y lo que se descompone solo.","Usted paga los daños causados por usted, su familia o sus visitas, y los problemas no reportados que empeoraron."]}},
-  {k:"rules", t:{en:"5. House rules",es:"5. Reglas de la casa"},
+  {k:"rules", t:{en:"6. House rules",es:"6. Reglas de la casa"},
    b:{en:["No smoking or vaping inside the building or within 15 feet of doors and windows.","Guests may stay up to 14 nights in a year; longer needs written OK.","Quiet hours and respect for neighbors. Trash and recycling go in the bins, bagged, on the right days.","Only the people listed on the lease live in the apartment. Pets only if written in the lease."],
       es:["No fumar ni vapear dentro del edificio ni a menos de 15 pies de puertas y ventanas.","Las visitas pueden quedarse hasta 14 noches al año; más necesita permiso por escrito.","Respetar el silencio y a los vecinos. La basura y el reciclaje en los botes, en bolsas, los días que tocan.","Solo viven en el apartamento las personas del contrato. Mascotas solo si están en el contrato."]}},
-  {k:"entry", t:{en:"6. Landlord entry",es:"6. Entrada del arrendador"},
+  {k:"entry", t:{en:"7. Landlord entry",es:"7. Entrada del arrendador"},
    b:{en:["We give at least 12 hours' notice before entering for repairs, inspections or showings, between 8 a.m. and 8 p.m.","In an emergency we may enter without notice."],
       es:["Avisamos al menos con 12 horas antes de entrar para reparaciones, inspecciones o visitas, entre 8 a.m. y 8 p.m.","En una emergencia podemos entrar sin aviso."]}},
-  {k:"moveout", t:{en:"7. Lease end and move-out",es:"7. Fin del contrato y mudanza"},
+  {k:"moveout", t:{en:"8. Lease end and move-out",es:"8. Fin del contrato y mudanza"},
    b:{en:["Every Gamino lease ends "+CONFIG.leaseEnd.en+". Move-outs and move-ins happen June 1. We tell you about renewal 60 to 90 days before.","At move-out: remove everything, clean the apartment, return all keys, give us your new address.","We walk and video the apartment again and compare it to the move-in video.","Your deposit, minus any lawful deductions listed in writing, is returned within 21 days."],
       es:["Todos los contratos de Gamino terminan el "+CONFIG.leaseEnd.es+". Las mudanzas son el 1 de junio. Le avisamos de la renovación de 60 a 90 días antes.","Al salir: saque todo, limpie el apartamento, entregue todas las llaves y denos su nueva dirección.","Revisamos y grabamos el apartamento otra vez y lo comparamos con el video de entrada.","Su depósito, menos las deducciones legales detalladas por escrito, se devuelve dentro de 21 días."]}},
-  {k:"insurance", t:{en:"8. Renter's insurance and your belongings",es:"8. Seguro de inquilino y sus cosas"},
+  {k:"insurance", t:{en:"9. Renter's insurance and your belongings",es:"9. Seguro de inquilino y sus cosas"},
    b:{en:["Our insurance does not cover your belongings. We strongly recommend renter's insurance."],
       es:["Nuestro seguro no cubre sus cosas. Le recomendamos mucho un seguro de inquilino."]}},
-];
+  // Ciro 10-28-26: tenants should expect one increase a year, at the national rate.
+  {k:"increase", t:{en:"10. Rent goes up once a year",es:"10. La renta sube una vez al año"},
+   b:{en:["Expect your rent to go up once a year, when your lease renews on June 1.","The increase follows the national rent inflation rate: the 12-month change in the U.S. Consumer Price Index for rent (\"Rent of primary residence\", U.S. Bureau of Labor Statistics).","We tell you the new rent in writing at least 60 days before it starts. Rent never changes in the middle of a lease."],
+      es:["Espere que su renta suba una vez al año, cuando su contrato se renueva el 1 de junio.","El aumento sigue la inflación nacional de rentas: el cambio de 12 meses en el Índice de Precios al Consumidor de EE. UU. para la renta (\"Rent of primary residence\", Oficina de Estadísticas Laborales de EE. UU.).","Le avisamos la nueva renta por escrito al menos 60 días antes. La renta nunca cambia a mitad de un contrato."]}},
+  {k:"disclosures", t:{en:"11. Your rights and our disclosures",es:"11. Sus derechos y nuestras declaraciones"},
+   b:{en:["Applying is free.","At move-in you get a check-in sheet; you have 7 days to note any damage. You may also ask for a list of damages charged to the last tenant's deposit (Wis. Admin. Code ATCP 134.06).","Your deposit comes back within 21 days after you move out, minus any deductions, each listed in writing (Wis. Stat. 704.28).","Gamino buildings were built before 1978, so before you sign we give you the federal lead-paint disclosure and the EPA booklet \"Protect Your Family From Lead in Your Home\".","Every lease includes the Wisconsin notice of domestic abuse protections (Wis. Stat. 704.14).","Gamino Real Estate is an equal housing opportunity provider. We do not discriminate for any reason the law protects.","Your lease is the full agreement. No charge can be made unless it is written in the lease or its signed attachments (ATCP 134.09)."],
+      es:["Aplicar es gratis.","Al mudarse recibe una hoja de revisión; tiene 7 días para anotar cualquier daño. También puede pedir la lista de daños cobrados del depósito del inquilino anterior (Wis. Admin. Code ATCP 134.06).","Su depósito se devuelve dentro de 21 días después de mudarse, menos cualquier deducción, cada una detallada por escrito (Wis. Stat. 704.28).","Los edificios de Gamino se construyeron antes de 1978, así que antes de firmar le damos la declaración federal de pintura con plomo y el folleto de la EPA \"Proteja a su familia del plomo en su casa\".","Todo contrato incluye el aviso de Wisconsin sobre protecciones por violencia doméstica (Wis. Stat. 704.14).","Gamino Real Estate ofrece vivienda con igualdad de oportunidades. No discriminamos por ninguna razón que la ley protege.","Su contrato es el acuerdo completo. No se puede cobrar nada que no esté escrito en el contrato o sus anexos firmados (ATCP 134.09)."]}},
+]; };
 
 let L = (new URLSearchParams(location.search).get("lang")==="es") ? "es" : "en";   // English default (Ciro 10-27-26); Spanish only by button
 const S = { step:0, units:[], unit:null, a:{}, consents:{email:false,sms:false,ai_calls:false}, initials:{}, sigR:null, sigA:null, sigAt:{}, others:{}, id:null };
@@ -232,6 +248,7 @@ function render(){
       <div class="card"><canvas class="sig" id="pad"></canvas><div class="sigtools"><span>${tt("signHere")} · ${esc(S.a.full_name||"")}</span><button class="link" type="button" id="clr">${tt("clear")}</button></div></div><p class="err" id="err"></p>`;
   } else if(cur==="done"){
     h += `<div class="done"><div class="big">✅</div><h1>${tt("doneT")}</h1><p class="sub">${tt("doneS")}</p><p class="small">${tt("ref")}: ${esc(S.id)}</p>
+      <div class="card" style="text-align:left"><h2 style="margin-top:0">${tt("payNextT")}</h2><p>${tt("payNextS")} <b>${esc(CONFIG.zelle.name)}</b>, <b>${esc(CONFIG.zelle.phone)}</b>.</p><p class="small" style="margin-bottom:0">${tt("payNextK")}</p></div>
       <p class="noprint"><button class="btn next" type="button" onclick="window.print()">${tt("print")}</button></p>
       <p class="noprint"><button class="link" type="button" onclick="location.href=location.pathname+'?lang='+L">${tt("newApp")}</button></p></div>${summaryHTML()}`;
   }
