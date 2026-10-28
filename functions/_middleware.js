@@ -18,8 +18,9 @@ export async function onRequest(ctx) {
     if (url.pathname === "/robots.txt") {
       return new Response("User-agent: *\nDisallow: /\n", { headers: { "content-type": "text/plain" } });
     }
-    if (url.pathname === "/" || url.pathname === "/index.html") {
-      const res = await ctx.env.ASSETS.fetch(new Request(new URL("/plans/", url), ctx.request));
+    if (url.pathname === "/" || url.pathname === "/index.html" || url.pathname.startsWith("/second-floor")) {
+      const target = url.pathname.startsWith("/second-floor") ? "/plans/second-floor/" : "/plans/";
+      const res = await ctx.env.ASSETS.fetch(new Request(new URL(target, url), ctx.request));
       const out = new Response(res.body, res);
       out.headers.set("X-Robots-Tag", "noindex, nofollow");
       return out;
