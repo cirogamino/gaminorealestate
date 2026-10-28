@@ -172,6 +172,17 @@ const OPTIONS = [
       [46,0,60,36,"Repair counter + showroom","retail"],[46,36,60,82,"Repair workshop","shop"],STAIR,HALL]},
 ];
 
+// Research 10-28-26 (Claude CLP, docs/muskego-first-floor-target-tenants_10-28-26_CLP.md). Estimates, not quotes.
+const MONEY = {
+  A:{ok:"allowed (office use in LB2)", cost:"$1-5K", month:"$3,750-4,875 rent", first:"4-12 months"},
+  F:{ok:"allowed", cost:"$1-5K", month:"about $4,035 rent from two tenants", first:"1-8 months"},
+  B1:{ok:"allowed", cost:"$5-15K", month:"$1,300-2,000 after costs", first:"1-2 months"},
+  B2:{ok:"special use + city rooming-house license", cost:"$80-200K", month:"$3,100-3,900 after costs", first:"4-9 months"},
+  C:{ok:"blocked by density: the lot allows 8 apartments, 7 exist; 6 more needs a zoning-board variance", cost:"$600K-1.2M + sprinklers", month:"$3,800-4,500 after costs", first:"12-18 months"},
+  D:{ok:"same density block, worse (about 15 units on a lot sized for 8)", cost:"$720K-1.4M + sprinklers", month:"$4,200-5,400 after costs", first:"12-18 months"},
+  E:{ok:"allowed; selling used machines needs a $315 two-year secondhand dealer license", cost:"$15-25K incl. a used van", month:"left side rent about $3,385 + shop income + $7-15K a year saved on family units", first:"1-2 weeks"},
+};
+
 // ---------- scene ----------
 const canvas = document.getElementById("c");
 const renderer = new THREE.WebGLRenderer({canvas, antialias:true});
@@ -242,7 +253,8 @@ function setOption(i){
   document.getElementById("oStats").innerHTML = st.map(s=>`<div class="stat"><span>${s[0]}</span><b>${s[1]}</b></div>`).join("");
   document.getElementById("oRooms").innerHTML = rooms.filter(r=>r.use!=="hall"||r.label.startsWith("Stairs")).map(r=>
     `<tr><td><span class="sw" style="background:${USE[r.use].c}"></span>${r.label}</td><td>${USE[r.use].n}</td><td class="r">${Math.round(r.w)}′ × ${Math.round(r.d)}′</td><td class="r">${r.sq.toLocaleString()}</td></tr>`).join("");
-  document.getElementById("oNotes").innerHTML = opt.notes.map(n=>`<li>${n}</li>`).join("") +
+  const m = MONEY[opt.k];
+  document.getElementById("oNotes").innerHTML = (m ? `<li><b>Zoning:</b> ${m.ok}</li><li><b>Cost to start:</b> ${m.cost} · <b>Monthly:</b> ${m.month} · <b>First dollar:</b> ${m.first}</li>` : "") + opt.notes.map(n=>`<li>${n}</li>`).join("") +
     `<li>Lower-level offices are not drawn yet; they get added once the walkthrough is measured.</li>`;
 }
 
