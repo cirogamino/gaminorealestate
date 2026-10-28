@@ -1,0 +1,407 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Muskego Second Floor</title>
+<meta name="description" content="3D floor plan of the six second-floor apartments at 1750-1752 S Muskego Ave, Milwaukee. Approximate; measurements pending.">
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;700&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<style>
+/* Same blueprint drafting-table look as /plans/ (first floor). One dark look on purpose. */
+:root{
+  --paper:#0d2238; --paper-2:#12304d; --line:#7fb3e0; --ink:#e8f1fb; --dim:#9bb6d1; --hot:#ffd166;
+  --head:"Barlow Condensed","Arial Narrow",Arial,sans-serif; --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{overflow-x:hidden}
+body{margin:0;background:var(--paper);color:var(--ink);font:14px/1.5 var(--mono)}
+a{color:var(--hot)}
+.wrap{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.title{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:10px;padding-block:18px 10px;border-bottom:1px solid color-mix(in srgb,var(--line) 45%,transparent)}
+h1{font-family:var(--head);font-weight:700;font-size:clamp(26px,5vw,40px);letter-spacing:1px;text-transform:uppercase;margin:0;line-height:1}
+.sheet{font-size:12px;color:var(--dim);text-align:right}
+.sheet b{color:var(--hot);font-weight:600}
+.floors{display:flex;flex-wrap:wrap;gap:6px 14px;padding-top:10px;font-size:12.5px}
+.floors a,.floors span{text-decoration:none;border-bottom:1px dashed currentColor}
+.floors span{color:var(--ink);border-bottom-style:solid}
+.tabs{display:flex;flex-wrap:wrap;gap:6px;padding-block:12px 0}
+.tab{font:600 12.5px var(--mono);color:var(--dim);background:transparent;border:1px solid color-mix(in srgb,var(--line) 45%,transparent);border-radius:4px;padding:7px 10px;cursor:pointer;letter-spacing:.3px}
+.tab b{color:var(--ink);margin-right:5px}
+.tab[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.tab[aria-pressed="true"] b{color:var(--paper)}
+.tab:focus-visible,.cam:focus-visible{outline:2px solid var(--hot);outline-offset:2px}
+.stage{position:relative;margin-top:12px;border:1px solid color-mix(in srgb,var(--line) 45%,transparent);border-radius:6px;overflow:hidden;background:var(--paper-2);height:min(68vh,620px);min-height:360px}
+#c{display:block;width:100%;height:100%;touch-action:none}
+.cams{position:absolute;top:10px;left:10px;display:flex;flex-wrap:wrap;gap:6px;max-width:calc(100% - 20px)}
+.cam{font:600 11.5px var(--mono);background:color-mix(in srgb,var(--paper) 85%,transparent);color:var(--ink);border:1px solid color-mix(in srgb,var(--line) 60%,transparent);border-radius:4px;padding:6px 9px;cursor:pointer}
+.cam[aria-pressed="true"]{border-color:var(--hot);color:var(--hot)}
+.stamp{position:absolute;right:10px;bottom:10px;font-size:11px;color:var(--dim);background:color-mix(in srgb,var(--paper) 80%,transparent);padding:6px 9px;border:1px dashed color-mix(in srgb,var(--line) 50%,transparent);border-radius:4px;max-width:min(330px,62%)}
+.stamp b{color:var(--hot)}
+.hint{position:absolute;left:10px;bottom:10px;font-size:11px;color:var(--dim);max-width:34%}
+@media (max-width:560px){.hint{display:none}.stamp{max-width:calc(100% - 20px);left:10px}}
+.below{display:grid;grid-template-columns:1fr;gap:16px;padding-block:16px 34px}
+@media (min-width:880px){.below{grid-template-columns:1.1fr 1fr}}
+.card{border:1px solid color-mix(in srgb,var(--line) 40%,transparent);border-radius:6px;padding:16px;min-width:0}
+h2{font-family:var(--head);font-weight:700;font-size:24px;letter-spacing:.6px;text-transform:uppercase;margin:0 0 4px;text-wrap:balance}
+.tag{color:var(--dim);margin:0 0 12px}
+.stats{display:flex;flex-wrap:wrap;gap:18px;margin-bottom:12px}
+.stat span{display:block;font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:1px}
+.stat b{font-family:var(--head);font-size:28px;font-weight:700;color:var(--hot);font-variant-numeric:tabular-nums}
+.tw{overflow-x:auto;max-width:100%}
+table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;font-size:12.5px}
+th,td{padding:6px 8px;border-bottom:1px solid color-mix(in srgb,var(--line) 25%,transparent);text-align:left;white-space:nowrap}
+th{color:var(--dim);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.8px}
+td.r,th.r{text-align:right}
+td.src{color:var(--dim);font-size:11.5px}
+.sw{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:7px;vertical-align:-1px}
+ul.notes{margin:0;padding-left:18px;color:var(--dim)}
+ul.notes li{margin:5px 0}
+ul.notes b{color:var(--ink);font-weight:600}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:12px;color:var(--dim);margin-top:12px}
+.cta{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.cta a{font:600 12.5px var(--mono);text-decoration:none;color:var(--paper);background:var(--hot);border-radius:4px;padding:8px 11px}
+.cta a.ghost{background:transparent;color:var(--ink);border:1px solid color-mix(in srgb,var(--line) 60%,transparent)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <div class="title">
+    <h1>1750–1752 S Muskego · Second floor</h1>
+    <div class="sheet">SHEET A-2 · APARTMENTS · <b>APPROXIMATE</b><br>Gamino Real Estate · 10-28-26 · Claude CLP</div>
+  </div>
+  <nav class="floors" aria-label="Floors">
+    <a href="/plans/">First floor (storefronts)</a>
+    <span aria-current="page">Second floor (apartments 1–6)</span>
+  </nav>
+  <div class="tabs" id="tabs" role="toolbar" aria-label="Apartments"></div>
+  <div class="stage">
+    <canvas id="c" aria-label="3D model of the second floor apartments"></canvas>
+    <div class="cams" role="toolbar" aria-label="Camera">
+      <button class="cam" data-cam="iso" aria-pressed="true" type="button">3D</button>
+      <button class="cam" data-cam="top" aria-pressed="false" type="button">Bird's eye</button>
+      <button class="cam" data-cam="street" aria-pressed="false" type="button">From the street</button>
+      <button class="cam" id="spin" aria-pressed="true" type="button">Spin</button>
+    </div>
+    <div class="hint">Drag to turn · pinch or scroll to zoom</div>
+    <div class="stamp"><b>Approximate; measurements pending.</b> Apartment 6 is drawn from its walkthrough video (about ±20%). Apartment 5 is drawn as its mirror. Apartments 1–4 are estimates until they are measured.</div>
+  </div>
+
+  <div class="below">
+    <div class="card">
+      <h2 id="oTitle"></h2>
+      <p class="tag" id="oTag"></p>
+      <div class="stats" id="oStats"></div>
+      <div class="tw"><table><thead id="oHead"></thead><tbody id="oRows"></tbody></table></div>
+      <div class="cta" id="oCta"></div>
+    </div>
+    <div class="card">
+      <h2>How sure is this?</h2>
+      <ul class="notes" id="oNotes"></ul>
+      <div class="legend" id="legend"></div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script>
+// Footprint (feet): 60 wide along S Muskego Ave (z = 0 is the street), 82 deep to the back parking lot / alley.
+// Second floor: stairs from the 1750 door rise in the middle of the front, a center hall runs front to back,
+// and a back stair goes down to the parking lot. Three apartments per side: front, middle, back.
+const W = 60, D = 82, WALL_H = 8.5;
+const PHONE = {tel:"tel:+14148502272", label:"Call (414) 850-CASA (2272)"};
+const VIDEO = "https://www.youtube.com/watch?v=NoUroIB-Wwc"; // public, Gamino Real Estate channel, 8:11
+const LISTING = "/propiedades/muskego-1750.html";
+// Current rents of occupied apartments stay off the public page unless this is switched on.
+const SHOW_OCCUPIED_RENT = false;
+
+const USE = {
+  bed:{c:"#4cc9f0", n:"Bedroom"}, living:{c:"#90be6d", n:"Living room"}, kitchen:{c:"#ffd166", n:"Kitchen"},
+  bath:{c:"#b8c0ff", n:"Bathroom"}, hall:{c:"#8d99ae", n:"Hall / closet"}, common:{c:"#5c7a99", n:"Shared hall / stairs"}
+};
+const SRC = {
+  V:"Walkthrough video",
+  M:"Mirror of Apt 6",
+  E:"Estimate, not filmed"
+};
+// Rooms: [x0, z0, x1, z1, label, use, source]
+const mir = r => [W - r[2], r[1], W - r[0], r[3], r[4], r[5], "M"];
+const mirE = r => [W - r[2], r[1], W - r[0], r[3], r[4], r[5], "E"];
+
+const APT6 = [ // back right. Sizes from the 8:11 walkthrough (30" range, 60" tub, 12" floor tile, doors).
+  [33,57,42.5,65.5,"Kitchen","kitchen","V"],
+  [33,66,46,82,"Living room","living","V"],
+  [46.5,57,51.5,65,"Bathroom","bath","V"],
+  [46.5,65.5,50.5,71.5,"Hall","hall","V"],
+  [52,57,60,70,"Bedroom 1","bed","V"],
+  [51,72,60,82,"Bedroom 2","bed","V"],
+];
+const APT1 = [ // front left. Window spots from the street photo; room sizes are estimates.
+  [0.5,0.5,11,12,"Bedroom 1","bed","E"],
+  [12,0.5,27,14,"Living room","living","E"],
+  [0.5,13,11,25,"Bedroom 2","bed","E"],
+  [12,15,17,23,"Bathroom","bath","E"],
+  [18,15,27,25,"Kitchen","kitchen","E"],
+  [12,24,17,28,"Hall","hall","E"],
+];
+const APT3 = [ // middle left, 1 bedroom. Not filmed.
+  [0.5,30,14,44,"Living room","living","E"],
+  [0.5,45,13,55.5,"Bedroom","bed","E"],
+  [15,30,27,40,"Kitchen","kitchen","E"],
+  [15,41,22,46,"Hall + closet","hall","E"],
+  [14,47,19,55,"Bathroom","bath","E"],
+];
+
+// Unit data: bedrooms, baths, rent and status from Gamino Real Estate's records (units table, read 10-28-26).
+const UNITS = [
+  {n:"1", where:"Front, left", beds:2, baths:1, rent:600,  status:"occupied", box:[0,0,27,29],  door:[27,20,23], rooms:APT1, c:"#f28482"},
+  {n:"2", where:"Front, right", beds:2, baths:1, rent:850, status:"occupied", box:[33,0,60,29], door:[33,20,23], rooms:APT1.map(mirE), c:"#f8961e"},
+  {n:"3", where:"Middle, left", beds:1, baths:1, rent:900, status:"occupied", box:[0,29,27,56], door:[27,33,36], rooms:APT3, c:"#43aa8b"},
+  {n:"4", where:"Middle, right", beds:1, baths:1, rent:900, status:"occupied", box:[33,29,60,56], door:[33,33,36], rooms:APT3.map(mirE), c:"#577590"},
+  {n:"5", where:"Back, left", beds:2, baths:1, rent:1050, status:"available", box:[0,56,27,82], door:[27,61,64], rooms:APT6.map(mir), c:"#c77dff"},
+  {n:"6", where:"Back, right", beds:2, baths:1, rent:1050, status:"available", box:[33,56,60,82], door:[33,61,64], rooms:APT6, c:"#ffd166"},
+];
+const COMMON = [
+  [27,0,33,16,"Stairs from 1750 door","common","E"],
+  [27,16,33,70,"Center hall","common","V"],
+  [27,70,33,82,"Back stairs to parking lot","common","V"],
+];
+// Windows: [x0, z0, x1, z1, source]. Front ones measured off the street photo; Apt 6 ones from the video.
+const WIN = [
+  [4,0,8,0,"photo"],[18,0,22,0,"photo"],[23,0,27,0,"photo"],[31,0,34,0,"photo"],
+  [38,0,42,0,"photo"],[42.5,0,46.5,0,"photo"],[54,0,57,0,"photo"],
+  [36,82,39,82,"video"],[39.5,82,42.5,82,"video"],[54,82,57,82,"video"],[60,74,60,77,"video"],[60,59.5,60,62.5,"video"],[60,64.5,60,67.5,"video"],
+  [21,82,24,82,"mirror"],[17.5,82,20.5,82,"mirror"],[3,82,6,82,"mirror"],[0,74,0,77,"mirror"],[0,59.5,0,62.5,"mirror"],[0,64.5,0,67.5,"mirror"],
+  [29,82,31,82,"video"],
+];
+
+const money = v => "$" + v.toLocaleString("en-US");
+function rentText(u){
+  if (u.status === "available") return money(u.rent) + "/mo";
+  return SHOW_OCCUPIED_RENT ? money(u.rent) + "/mo (current)" : "Occupied";
+}
+const roomSq = r => Math.round((r[2]-r[0])*(r[3]-r[1]));
+const ft = v => { const f = Math.floor(v), i = Math.round((v-f)*12); return i ? `${f}′${i}″` : `${f}′`; };
+
+// ---------- scene ----------
+const canvas = document.getElementById("c");
+const renderer = new THREE.WebGLRenderer({canvas, antialias:true});
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+const scene = new THREE.Scene();
+scene.background = new THREE.Color("#12304d");
+const camera = new THREE.PerspectiveCamera(40, 1, 1, 2000);
+const controls = new THREE.OrbitControls(camera, canvas);
+controls.target.set(W/2, 0, D/2); controls.enableDamping = true; controls.maxPolarAngle = Math.PI*0.49;
+controls.minDistance = 25; controls.maxDistance = 320; controls.autoRotate = true; controls.autoRotateSpeed = 0.6;
+
+scene.add(new THREE.HemisphereLight(0xe8f1fb, 0x0d2238, 0.9));
+const sun = new THREE.DirectionalLight(0xffffff, 0.6); sun.position.set(-60, 120, -40); scene.add(sun);
+const grid = new THREE.GridHelper(200, 40, 0x2e5a85, 0x1d4266); grid.position.set(W/2, -0.05, D/2); scene.add(grid);
+
+function textSprite(lines, opts={}){
+  const cv = document.createElement("canvas"), s = 2; cv.width = 512*s; cv.height = 160*s;
+  const g = cv.getContext("2d"); g.scale(s, s); g.textAlign = "center";
+  g.fillStyle = opts.color || "#e8f1fb";
+  g.font = `700 ${opts.size||44}px "Barlow Condensed", "Arial Narrow", sans-serif`;
+  g.fillText(lines[0].toUpperCase(), 256, lines[1] ? 70 : 96);
+  if (lines[1]) { g.fillStyle = opts.sub || "#ffd166"; g.font = `600 ${opts.subSize||34}px "IBM Plex Mono", monospace`; g.fillText(lines[1], 256, 122); }
+  const t = new THREE.CanvasTexture(cv); t.anisotropy = 4;
+  const sp = new THREE.Sprite(new THREE.SpriteMaterial({map:t, transparent:true, depthTest:false}));
+  sp.renderOrder = 10; return sp;
+}
+const street = textSprite(["S Muskego Ave", "street side"], {size:56, color:"#7fb3e0", sub:"#9bb6d1"}); street.position.set(W/2, 1, -14); street.scale.set(42, 13, 1); scene.add(street);
+const alley = textSprite(["Parking lot · alley"], {size:56, color:"#7fb3e0"}); alley.position.set(W/2, 1, D+12); alley.scale.set(38, 11.9, 1); scene.add(alley);
+const outline = new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.BoxGeometry(W, 0.1, D)), new THREE.LineBasicMaterial({color:0x7fb3e0}));
+outline.position.set(W/2, 0, D/2); scene.add(outline);
+
+const wallMat = new THREE.MeshStandardMaterial({color:0xe8f1fb, transparent:true, opacity:0.3, roughness:0.9});
+const wallDim = new THREE.MeshStandardMaterial({color:0xe8f1fb, transparent:true, opacity:0.07, roughness:0.9});
+const DIM = new THREE.Color("#3d5f80");
+
+function roomMesh(g, r, lit){
+  const [x0,z0,x1,z1,, use] = r, w = x1-x0, d = z1-z0, col = lit ? new THREE.Color(USE[use].c) : DIM;
+  const floor = new THREE.Mesh(new THREE.BoxGeometry(w-0.3, 0.6, d-0.3), new THREE.MeshStandardMaterial({color:col, roughness:0.8, transparent:true, opacity: lit ? 0.9 : 0.45}));
+  floor.position.set(x0+w/2, 0.3, z0+d/2); g.add(floor);
+  const h = lit ? WALL_H : WALL_H*0.55;
+  const box = new THREE.Mesh(new THREE.BoxGeometry(w-0.4, h, d-0.4), lit ? wallMat : wallDim);
+  box.position.set(x0+w/2, h/2, z0+d/2); g.add(box);
+  const edges = new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.BoxGeometry(w-0.4, h, d-0.4)), new THREE.LineBasicMaterial({color:col, transparent:true, opacity: lit ? 1 : 0.5}));
+  edges.position.copy(box.position); g.add(edges);
+}
+function label(g, labels, lines, x, z, sc, opts){
+  const sp = textSprite(lines, opts); sp.position.set(x, WALL_H + 2.5, z); sp.scale.set(sc, sc*0.3125, 1); labels.push(sp); g.add(sp);
+}
+
+function buildFloor(focus){ // focus: null = whole floor, else a unit object
+  const g = new THREE.Group(), labels = [];
+  for (const r of COMMON) roomMesh(g, r, !focus);
+  for (const u of UNITS) {
+    const lit = !focus || focus === u;
+    for (const r of u.rooms) roomMesh(g, r, lit);
+    // unit outline at floor level
+    const [bx0,bz0,bx1,bz1] = u.box;
+    const ol = new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.BoxGeometry(bx1-bx0, 0.2, bz1-bz0)), new THREE.LineBasicMaterial({color: lit ? u.c : 0x3d5f80}));
+    ol.position.set((bx0+bx1)/2, 0.7, (bz0+bz1)/2); g.add(ol);
+    // entry door (gold) on the hall wall
+    const [dx, dz0, dz1] = u.door;
+    const door = new THREE.Mesh(new THREE.BoxGeometry(0.7, 7, dz1-dz0), new THREE.MeshStandardMaterial({color: lit ? 0xffd166 : 0x3d5f80}));
+    door.position.set(dx, 3.5, (dz0+dz1)/2); g.add(door);
+    if (!focus) {
+      label(g, labels, ["Apt " + u.n + " · " + u.beds + " BR", rentText(u)], (bx0+bx1)/2, (bz0+bz1)/2, 22, {size:50, subSize:36, sub: u.status === "available" ? "#ffd166" : "#9bb6d1"});
+    } else if (focus === u) {
+      for (const r of u.rooms) {
+        const [x0,z0,x1,z1,lab] = r, w = x1-x0, d = z1-z0;
+        const sc = Math.min(Math.max(Math.min(w, d)*1.7, 14), 20);
+        label(g, labels, [lab, ft(w) + " × " + ft(d)], x0+w/2, z0+d/2, sc, {size: lab.length > 12 ? 38 : 46});
+      }
+    }
+  }
+  // windows
+  for (const [x0,z0,x1,z1] of WIN) {
+    const along = x1 !== x0, len = along ? x1-x0 : z1-z0;
+    const m = new THREE.Mesh(new THREE.BoxGeometry(along ? len : 0.5, 4.5, along ? 0.5 : len), new THREE.MeshStandardMaterial({color:0xbfe3ff, transparent:true, opacity:0.75, emissive:0x2a5a85}));
+    m.position.set((x0+x1)/2, 5, (z0+z1)/2); g.add(m);
+  }
+  if (!focus) label(g, labels, ["Center hall"], 30, 44, 12, {size:46, color:"#9bb6d1"});
+  g.userData.labels = labels; return g;
+}
+
+// ---------- tabs + schedule ----------
+const TABS = [{k:"All", name:"Whole floor", unit:null}, ...UNITS.map(u=>({k:"Apt " + u.n, name: u.beds + " BR · " + (u.status === "available" ? money(u.rent) : "occupied"), unit:u}))];
+const LEG = Object.values(USE).map(u=>`<span><span class="sw" style="background:${u.c}"></span>${u.n}</span>`).join("") +
+  `<span><span class="sw" style="background:#bfe3ff"></span>Window</span><span><span class="sw" style="background:#ffd166;outline:1px solid #0d2238"></span>Front door</span>`;
+
+let current = null, anim = null, focusUnit = null;
+function setTab(i){
+  const t = TABS[i], u = t.unit; focusUnit = u;
+  document.querySelectorAll(".tab").forEach((b,j)=>b.setAttribute("aria-pressed", j===i ? "true" : "false"));
+  const next = buildFloor(u); next.scale.y = 0.001; next.userData.labels.forEach(l=>l.visible=false); scene.add(next);
+  anim = {old: current, next, t0: performance.now()}; current = next;
+  setCam(document.querySelector('.cam[data-cam][aria-pressed="true"]').dataset.cam);
+  const cta = [];
+  if (!u) {
+    document.getElementById("oTitle").textContent = "Second floor · 6 apartments";
+    document.getElementById("oTag").textContent = "Four 2-bedroom apartments (1, 2, 5, 6) and two 1-bedroom apartments in the middle (3, 4), off one center hall. Stairs come up from the 1750 door on S Muskego Ave; back stairs go down to the parking lot.";
+    const avail = UNITS.filter(x=>x.status==="available");
+    document.getElementById("oStats").innerHTML = [["Apartments",6],["2-bedroom",4],["1-bedroom",2],["Available now",avail.length]].map(s=>`<div class="stat"><span>${s[0]}</span><b>${s[1]}</b></div>`).join("");
+    document.getElementById("oHead").innerHTML = `<tr><th>Apt</th><th>Where</th><th class="r">Beds</th><th class="r">Bath</th><th>Rent</th><th class="r">Rooms, sq ft</th></tr>`;
+    document.getElementById("oRows").innerHTML = UNITS.map(x=>{
+      const sq = x.rooms.reduce((a,r)=>a+roomSq(r),0);
+      return `<tr><td><span class="sw" style="background:${x.c}"></span>${x.n}</td><td>${x.where}</td><td class="r">${x.beds}</td><td class="r">${x.baths}</td><td>${rentText(x)}</td><td class="r">~${sq.toLocaleString()}*</td></tr>`;
+    }).join("");
+    document.getElementById("oNotes").innerHTML = [
+      "<b>Real:</b> bedroom count, bathrooms, rent and status for each apartment come from Gamino Real Estate's own records. Apartments 1–2 are in front, 3–4 in the middle, 5–6 in back.",
+      "<b>Apartment 6</b> was laid out from its 8-minute walkthrough video: room order, doors, windows, and sizes scaled from the 30″ stove, the 60″ tub, 12″ floor tiles and the doors. Expect about ±20%.",
+      "<b>Apartment 5</b> is said to be the same as Apartment 6 and is drawn as its mirror. It has not been filmed.",
+      "<b>Apartments 1–4</b> are drawn estimates. Only the front window spots are real (from the street photo).",
+      "<b>Which side is which:</b> the video puts Apartment 6 on the right-hand side of the hall when you walk in from the back stairs. Left/right numbering of the other apartments is assumed.",
+      "* Sq ft is the floor inside the drawn rooms, not counting walls and closets. <b>Measurements pending.</b>",
+    ].map(n=>`<li>${n}</li>`).join("");
+    cta.push(`<a href="${LISTING}">See the building</a>`, `<a class="ghost" href="${VIDEO}" target="_blank" rel="noopener">Watch the Apt 6 video</a>`, `<a class="ghost" href="${PHONE.tel}">${PHONE.label}</a>`);
+  } else {
+    const sq = u.rooms.reduce((a,r)=>a+roomSq(r),0);
+    const filmed = u.n === "6", mirrored = u.n === "5";
+    document.getElementById("oTitle").textContent = "Apartment " + u.n + " · " + u.beds + " bedroom" + (u.beds > 1 ? "s" : "");
+    document.getElementById("oTag").textContent = u.where + " side of the second floor. " +
+      (u.status === "available" ? "Available now, asking " + money(u.rent) + " a month." : "Occupied right now.") +
+      (filmed ? " Drawn from the walkthrough video." : mirrored ? " Drawn as the mirror of Apartment 6." : " Layout is an estimate; not filmed yet.");
+    document.getElementById("oStats").innerHTML = [["Bedrooms",u.beds],["Bath",u.baths],["Rent",rentText(u)],["Rooms, sq ft","~" + sq]].map(s=>`<div class="stat"><span>${s[0]}</span><b>${s[1]}</b></div>`).join("");
+    document.getElementById("oHead").innerHTML = `<tr><th>Room</th><th class="r">Size</th><th class="r">Sq ft</th><th>Source</th></tr>`;
+    document.getElementById("oRows").innerHTML = u.rooms.map(r=>{
+      const w = r[2]-r[0], d = r[3]-r[1];
+      return `<tr><td><span class="sw" style="background:${USE[r[5]].c}"></span>${r[4]}</td><td class="r">${ft(w)} × ${ft(d)}</td><td class="r">${roomSq(r)}</td><td class="src">${SRC[r[6]]}</td></tr>`;
+    }).join("");
+    let notes;
+    if (filmed) notes = [
+      "<b>Walk-in order (from the video):</b> the front door opens from the hall, right at the top of the back stairs, into the kitchen. A tiled peninsula with open shelves separates the kitchen from the living room.",
+      "<b>Living room:</b> double window on the back wall over the parking lot, ceiling fan, radiator, vinyl floor.",
+      "<b>Bedroom 2</b> (blue carpet) opens off the living room: a corner room with windows on two walls and a closet.",
+      "<b>A small hall</b> leads to the <b>bathroom</b> (tub, toilet, vanity, radiator, tile floor) and <b>bedroom 1</b> (gray carpet, two side windows, reach-in closet).",
+      "<b>Kitchen:</b> gas stove, fridge, sink, pantry door, tile floor.",
+      "<b>How big:</b> about 545 sq ft of rooms (likely 455–660), about 600 sq ft to the outside walls. Nobody has measured with a tape yet.",
+    ];
+    else if (mirrored) notes = [
+      "<b>Not filmed.</b> Apartment 5 is said to be the same as Apartment 6, so it is drawn as Apartment 6 flipped left to right.",
+      "Back corner of the building; the living room looks over the parking lot.",
+      "Sizes carry the same ±20% as Apartment 6 until it is measured.",
+    ];
+    else notes = [
+      "<b>Not filmed yet.</b> Bedroom count, bath and status are real; the room shapes and sizes are estimates drawn to fill the space.",
+      u.n <= "2" ? "The front windows are placed where they show in the street photo: one single window and one double window on S Muskego Ave." : "Window spots for the middle apartments are not known yet.",
+      "Will be redrawn once the apartment is walked and measured.",
+    ];
+    document.getElementById("oNotes").innerHTML = notes.map(n=>`<li>${n}</li>`).join("") + `<li><b>Approximate; measurements pending.</b></li>`;
+    if (u.status === "available") cta.push(`<a href="${PHONE.tel}">${PHONE.label}</a>`);
+    if (filmed || mirrored) cta.push(`<a class="ghost" href="${VIDEO}" target="_blank" rel="noopener">Watch the Apt 6 walkthrough (8:11)</a>`);
+    cta.push(`<a class="ghost" href="${LISTING}">See the building</a>`);
+  }
+  document.getElementById("oCta").innerHTML = cta.join("");
+}
+
+const tabs = document.getElementById("tabs");
+TABS.forEach((t,i)=>{ const b = document.createElement("button"); b.className = "tab"; b.type = "button"; b.innerHTML = `<b>${t.k}</b>${t.name}`; b.onclick = ()=>setTab(i); tabs.appendChild(b); });
+document.getElementById("legend").innerHTML = LEG;
+
+// ---------- camera ----------
+function camFor(k){
+  const c = camBase(k), s = Math.min(2, Math.max(1, 1.25 / (camera.aspect || 1.5))); // pull back on tall phone screens
+  if (s > 1 && k !== "street") c.pos.sub(c.tgt).multiplyScalar(s).add(c.tgt);
+  return c;
+}
+function camBase(k){
+  if (!focusUnit) {
+    const T = new THREE.Vector3(W/2, 0, D/2);
+    const P = {iso:[-18, 70, -22], top:[W/2+0.01, 118, D/2], street:[W/2, 12, -34]}[k];
+    return {pos:new THREE.Vector3(...P), tgt:T};
+  }
+  const [x0,z0,x1,z1] = focusUnit.box, cx = (x0+x1)/2, cz = (z0+z1)/2, side = cx < W/2 ? -1 : 1;
+  const T = new THREE.Vector3(cx, 0, cz);
+  const P = {iso:[cx + side*30, 42, cz - 30], top:[cx+0.01, 62, cz], street:[cx, 10, -26]}[k];
+  return {pos:new THREE.Vector3(...P), tgt: k === "street" ? new THREE.Vector3(cx, 2, cz) : T};
+}
+let camTween = null;
+function setCam(k){
+  document.querySelectorAll(".cam[data-cam]").forEach(b=>b.setAttribute("aria-pressed", b.dataset.cam===k ? "true" : "false"));
+  const c = camFor(k);
+  camTween = {from: camera.position.clone(), to: c.pos, tFrom: controls.target.clone(), tTo: c.tgt, t0: performance.now()};
+}
+document.querySelectorAll(".cam[data-cam]").forEach(b=>b.onclick=()=>setCam(b.dataset.cam));
+document.getElementById("spin").onclick = e => { controls.autoRotate = !controls.autoRotate; e.currentTarget.setAttribute("aria-pressed", String(controls.autoRotate)); };
+canvas.addEventListener("pointerdown", ()=>{ camTween = null; });
+
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+if (reduce) { controls.autoRotate = false; document.getElementById("spin").setAttribute("aria-pressed","false"); }
+camera.position.set(-18, 70, -22);
+let lastW = innerWidth; // re-frame only when the width really changes (not when a phone's URL bar slides)
+addEventListener("resize", ()=>{ if (innerWidth === lastW) return; lastW = innerWidth; resize(); const k = document.querySelector('.cam[data-cam][aria-pressed="true"]'); if (k) setCam(k.dataset.cam); });
+
+function resize(){ const r = canvas.getBoundingClientRect(); renderer.setSize(r.width, r.height, false); camera.aspect = r.width / r.height; camera.updateProjectionMatrix(); }
+addEventListener("resize", resize);
+const ease = t => t<0.5 ? 4*t*t*t : 1-Math.pow(-2*t+2,3)/2;
+function loop(now){
+  if (anim) {
+    const t = reduce ? 1 : Math.min(1, (now - anim.t0)/700);
+    if (anim.old) { anim.old.scale.y = Math.max(0.001, 1 - ease(Math.min(1, t*1.6))); anim.old.userData.labels.forEach(l=>l.visible=false); }
+    anim.next.scale.y = Math.max(0.001, ease(Math.max(0, (t-0.25)/0.75)));
+    if (t >= 1) { if (anim.old) scene.remove(anim.old); anim.next.scale.y = 1; anim.next.userData.labels.forEach(l=>l.visible=true); anim = null; }
+  }
+  if (camTween) {
+    const t = reduce ? 1 : Math.min(1, (now - camTween.t0)/900), e = ease(t);
+    camera.position.lerpVectors(camTween.from, camTween.to, e); controls.target.lerpVectors(camTween.tFrom, camTween.tTo, e);
+    if (t >= 1) camTween = null;
+  }
+  controls.update(); renderer.render(scene, camera); requestAnimationFrame(loop);
+}
+// Open a unit directly with #apt-6 etc.
+const startIdx = Math.max(0, TABS.findIndex(t => t.unit && location.hash === "#apt-" + t.unit.n));
+(document.fonts ? document.fonts.ready : Promise.resolve()).then(()=>{ resize(); setTab(startIdx); requestAnimationFrame(loop); });
+</script>
+
+</body>
+</html>
