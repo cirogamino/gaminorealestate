@@ -102,7 +102,8 @@ a{color:var(--gold-d)}
 <header><div class="wrap">
   <div class="top"><img src="/logo-crest-gold.jpg" alt=""/><h1>Gamino Real Estate · Back Office</h1><span class="who" id="who"></span><button class="btn ghost sm" id="logout">Sign out</button></div>
   <nav class="tabs" id="tabs">
-    <button data-t="rent" class="on">💵 Rent</button>
+    <button data-t="stats" class="on">📈 Stats</button>
+    <button data-t="rent">💵 Rent</button>
     <button data-t="units">🏠 Units & listings</button>
     <button data-t="tenants">👥 Tenants</button>
     <button data-t="maint">🔧 Maintenance</button>
@@ -113,7 +114,13 @@ a{color:var(--gold-d)}
 </div></header>
 <main class="wrap">
 
-<section id="t-rent">
+<section id="t-stats">
+  <h2>Stats by year</h2>
+  <p style="margin:-4px 0 12px;font-size:.9rem;opacity:.8">Every number counts real records only (tests left out). Applications are numbered in the same order: 1750MUSKEGO-6-APP-OCT28-2026-007 is the 7th application of 2026.</p>
+  <div style="overflow-x:auto"><table id="statsTbl" style="width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums"></table></div>
+</section>
+
+<section id="t-rent" class="hidden">
   <h2>Rent roll</h2>
   <p class="sub">Mark who paid. Totals come straight from the database.</p>
   <div class="bar">
@@ -207,7 +214,7 @@ async function boot(){
   if(!session){show('login');return}
   const {data:prof} = await sb.from('profiles').select('role,email').eq('id',session.user.id).maybeSingle();
   if(!prof || prof.role!=='admin'){show('login');$('#loginMsg').className='msg err';$('#loginMsg').textContent='This account does not have back-office access.';await sb.auth.signOut();return}
-  me = prof; $('#who').textContent = prof.email; show('app'); openTab('rent');
+  me = prof; $('#who').textContent = prof.email; show('app'); openTab('stats');
 }
 function show(v){$('#loginView').classList.toggle('hidden',v!=='login');$('#appView').classList.toggle('hidden',v!=='app')}
 $('#loginForm').addEventListener('submit',async e=>{e.preventDefault();const m=$('#loginMsg');m.className='msg';m.textContent='…';
@@ -230,10 +237,21 @@ $('#resetForm').addEventListener('submit',async e=>{e.preventDefault();const {er
 $('#logout').addEventListener('click',async()=>{await sb.auth.signOut();location.reload()});
 
 // ---------- tabs ----------
-const loaders = {rent:loadRent,units:loadUnits,tenants:loadTenants,maint:loadMaint,leads:loadLeads,list:loadList,market:loadMarketTab};
+const loaders = {stats:loadStats,rent:loadRent,units:loadUnits,tenants:loadTenants,maint:loadMaint,leads:loadLeads,list:loadList,market:loadMarketTab};
 function openTab(t){document.querySelectorAll('#tabs button').forEach(b=>b.classList.toggle('on',b.dataset.t===t));
   Object.keys(loaders).forEach(k=>$('#t-'+k).classList.toggle('hidden',k!==t));loaders[t]().catch(fail)}
 $('#tabs').addEventListener('click',e=>{const b=e.target.closest('button');if(b)openTab(b.dataset.t)});
+
+// ---------- stats (Ciro 10-28-26: "in my back office I want to see everything") ----------
+async function loadStats(){
+  const {data,error}=await sb.rpc('owner_stats_by_year');if(error)throw error;
+  const cols=[['yr','Year'],['applications','Signed applications'],['web_inquiries','Website inquiries'],['new_leases','Leases started'],['move_outs','Move-outs'],['rent_collected','Rent recorded'],['payments','Payments'],['repair_requests','Repair requests']];
+  const money=v=>'$'+Number(v||0).toLocaleString(undefined,{maximumFractionDigits:0});
+  const th='padding:8px 10px;text-align:right;border-bottom:2px solid currentColor;font-size:.78rem;text-transform:uppercase;letter-spacing:.5px;white-space:nowrap';
+  const td='padding:8px 10px;text-align:right;border-bottom:1px solid rgba(127,127,127,.25);white-space:nowrap';
+  $('#statsTbl').innerHTML='<thead><tr>'+cols.map(c=>'<th style="'+th+'">'+c[1]+'</th>').join('')+'</tr></thead><tbody>'+
+    (data||[]).map(r=>'<tr>'+cols.map(c=>'<td style="'+td+(c[0]==='yr'?';font-weight:700':'')+'">'+(c[0]==='rent_collected'?money(r[c[0]]):c[0]==='yr'?r[c[0]]:Number(r[c[0]]).toLocaleString())+'</td>').join('')+'</tr>').join('')+'</tbody>';
+}
 
 // ---------- rent ----------
 const now = new Date(); $('#month').value = now.toISOString().slice(0,7);
