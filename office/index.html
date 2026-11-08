@@ -108,6 +108,7 @@ a{color:var(--gold-d)}
     <button data-t="tenants">👥 Tenants</button>
     <button data-t="maint">🔧 Maintenance</button>
     <button data-t="leads">📥 Leads</button>
+    <button data-t="refer">⭐ Referrals</button>
     <button data-t="list">✉️ Mailing list</button>
     <button data-t="market">📊 Market rents</button>
   </nav>
@@ -190,6 +191,16 @@ a{color:var(--gold-d)}
   <div id="marketBoard"></div>
 </section>
 
+<section id="t-refer" class="hidden">
+  <h2>Referrals</h2>
+  <p class="sub">Our tenants are our best salespeople. Every vacancy goes to every tenant first. If someone they refer signs a lease and moves in, the tenant gets $100 cash. Each tenant has a personal link; applications that come through it are credited to them automatically.</p>
+  <div class="kpis" id="referKpis"></div>
+  <div class="card"><h3>⭐ Referral stars <small>tenants who brought us renters</small></h3><div id="referStars" style="padding:12px 14px"></div></div>
+  <div class="card"><h3>Open right now <small>goes to every tenant first</small></h3><div class="tbl" id="referUnits"></div></div>
+  <div class="card"><h3>Every tenant <small>personal link + vacancy text to copy (nothing is sent automatically)</small></h3><div class="tbl" id="referBoard"></div></div>
+  <div class="card"><h3>$100 rewards <small>earned when a referred renter signs · paid in cash</small></h3><div class="tbl" id="referRewards"></div></div>
+</section>
+
 </main>
 </div>
 <div class="toast" id="toast"></div>
@@ -237,7 +248,7 @@ $('#resetForm').addEventListener('submit',async e=>{e.preventDefault();const {er
 $('#logout').addEventListener('click',async()=>{await sb.auth.signOut();location.reload()});
 
 // ---------- tabs ----------
-const loaders = {stats:loadStats,rent:loadRent,units:loadUnits,tenants:loadTenants,maint:loadMaint,leads:loadLeads,list:loadList,market:loadMarketTab};
+const loaders = {stats:loadStats,rent:loadRent,units:loadUnits,tenants:loadTenants,maint:loadMaint,leads:loadLeads,refer:loadReferrals,list:loadList,market:loadMarketTab};
 function openTab(t){document.querySelectorAll('#tabs button').forEach(b=>b.classList.toggle('on',b.dataset.t===t));
   Object.keys(loaders).forEach(k=>$('#t-'+k).classList.toggle('hidden',k!==t));loaders[t]().catch(fail)}
 $('#tabs').addEventListener('click',e=>{const b=e.target.closest('button');if(b)openTab(b.dataset.t)});
@@ -422,6 +433,69 @@ $('#copyBcc').addEventListener('click',async()=>{await navigator.clipboard.write
 $('#exportSubs').addEventListener('click',()=>csv([['email','name','language','source','date']].concat(subs.map(s=>[s.email,s.name,s.lang,s.source,s.created_at])),'mailing-list.csv'));
 
 // ---------- market rents ----------
+// ---------- referrals (Ciro 11-7-26: tenants are our best salespeople; $100 cash per referral that rents) ----------
+function referUnitLine(u, lang){
+  const b = BUILDINGS[u.properties && u.properties.slug] || '';
+  if (u.unit_type === 'commercial' || u.bedrooms == null) return lang === 'es' ? `local comercial (${u.unit_number}) en ${b}` : `commercial space (${u.unit_number}) at ${b}`;
+  const beds = Number(u.bedrooms) === 0 ? (lang === 'es' ? 'estudio' : 'studio') : `${u.bedrooms} ${lang === 'es' ? 'rec.' : 'BR'}`;
+  const soon = u.status === 'turnover' ? (lang === 'es' ? ' (pronto)' : ' (coming soon)') : '';
+  return `#${u.unit_number} ${lang === 'es' ? 'en' : 'at'} ${b}, ${beds}${u.rent ? ', ' + money(u.rent) + (lang === 'es' ? '/mes' : '/mo') : ''}${soon}`;
+}
+function referText(row, units){
+  const res = units.filter(u => u.bedrooms != null && u.unit_type !== 'commercial');
+  const com = units.length - res.length;
+  const es = `Gamino Real Estate: ¡Hola${row.tenant_name ? ' ' + row.tenant_name.split(' ')[0] : ''}! Tenemos disponibles: ${[...res.map(u => referUnitLine(u, 'es')), ...(com ? ['espacio comercial'] : [])].join('; ')}. ¿Conoces a alguien buscando? Comparte tu enlace: ${row.referral_link} . Si firma y se muda, te damos $100 en efectivo.`;
+  const en = `Hi! We have openings: ${[...res.map(u => referUnitLine(u, 'en')), ...(com ? ['commercial space'] : [])].join('; ')}. Know someone looking? Share your link: ${row.referral_link} . If they sign and move in, you get $100 cash. Questions: (414) 850-CASA. Responde STOP / Reply STOP to opt out.`;
+  return es + '\n\n' + en;
+}
+async function referCopy(text){
+  try { await navigator.clipboard.writeText(text); toast('Copied'); }
+  catch (_) { const ta = document.createElement('textarea'); ta.value = text; document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); toast('Copied'); } catch (e) { toast('Select and copy the text'); } ta.remove(); }
+}
+async function loadReferrals(){
+  const [{data:board,error:e1},{data:units,error:e2},{data:rewards,error:e3}] = await Promise.all([
+    sb.from('referral_leaderboard').select('*'),
+    sb.from('units').select('id,unit_number,unit_type,bedrooms,rent,status,sort,properties(slug)').in('status',['vacant','turnover']).order('sort',{nullsFirst:false}),
+    sb.from('referral_rewards').select('*').order('earned_at',{ascending:false})]);
+  if(e1)throw e1;if(e2)throw e2;if(e3)throw e3;
+  const byLease = Object.fromEntries(board.map(r => [r.lease_id, r]));
+  const owed = rewards.filter(r => r.status === 'earned' || r.status === 'approved').reduce((s, r) => s + Number(r.amount_usd), 0);
+  const paid = rewards.filter(r => r.status === 'paid').reduce((s, r) => s + Number(r.amount_usd), 0);
+  $('#referKpis').innerHTML = `<div class="kpi"><span>Tenants with a link</span><b>${board.length}</b></div>
+    <div class="kpi"><span>Referred applicants</span><b>${board.reduce((s, r) => s + Number(r.referred), 0)}</b></div>
+    <div class="kpi"><span>Rented by referral</span><b>${board.reduce((s, r) => s + Number(r.rented), 0)}</b></div>
+    <div class="kpi"><span>Owed / paid</span><b>${money(owed)} / ${money(paid)}</b></div>`;
+  const stars = board.filter(r => Number(r.rented) > 0 || Number(r.referred) > 0).slice(0, 3);
+  $('#referStars').innerHTML = stars.length ? stars.map((r, i) => `<div style="display:flex;gap:12px;align-items:center;padding:6px 0"><span style="font:700 1.4rem var(--serif);color:var(--gold-d)">${['🥇','🥈','🥉'][i]}</span>
+      <div><b>${esc(r.tenant_name)}</b> <span class="muted">· ${esc(r.building)} #${esc(r.unit_number)}</span><br><span class="pill paid">${r.rented} rented</span> <span class="pill part">${r.referred} referred</span> <span class="pill none">${money(Number(r.owed_usd) + Number(r.paid_usd))} earned</span></div></div>`).join('')
+    : '<p class="muted">No referrals yet. The first tenant to send us a renter shows up here.</p>';
+  $('#referUnits').innerHTML = units.length ? `<table><tr><th>Unit</th><th class="num">Rent</th><th>Status</th></tr>${units.map(u => `<tr><td>${esc(referUnitLine(u, 'en'))}</td><td class="num">${u.rent ? money(u.rent) : '—'}</td><td><span class="pill ${u.status === 'vacant' ? 'due' : 'part'}">${esc(u.status)}</span></td></tr>`).join('')}</table>`
+    : '<p class="muted" style="padding:12px 14px">Nothing open. When a unit turns vacant, its text shows up below for every tenant.</p>';
+  $('#referBoard').innerHTML = `<table><tr><th>Building</th><th>Unit</th><th>Tenant</th><th>Phone</th><th>Code</th><th class="num">Referred</th><th class="num">Rented</th><th></th></tr>
+    ${board.map(r => `<tr><td>${esc(r.building)}</td><td><b>${esc(r.unit_number)}</b></td><td>${esc(r.tenant_name)}</td><td>${tel(r.tenant_phone)}</td><td><code>${esc(r.referral_code)}</code></td>
+      <td class="num">${r.referred}</td><td class="num">${r.rented}</td>
+      <td style="white-space:nowrap"><button class="btn ghost sm" data-rlink="${esc(r.lease_id)}">Copy link</button> ${units.length ? `<button class="btn sm" data-rtext="${esc(r.lease_id)}">Copy vacancy text</button>` : ''}</td></tr>`).join('')}</table>`;
+  $('#referBoard').onclick = e => { const t = e.target;
+    if (t.dataset.rlink) referCopy(byLease[t.dataset.rlink].referral_link);
+    if (t.dataset.rtext) referCopy(referText(byLease[t.dataset.rtext], units)); };
+  $('#referRewards').innerHTML = rewards.length ? `<table><tr><th>Tenant who referred</th><th>Earned</th><th class="num">Amount</th><th>Status</th><th></th></tr>
+    ${rewards.map(r => { const t = byLease[r.referrer_lease_id] || {};
+      return `<tr><td>${esc(t.tenant_name || '(past tenant)')} <span class="muted">${esc(t.building || '')} ${t.unit_number ? '#' + esc(t.unit_number) : ''}</span></td><td>${esc(String(r.earned_at).slice(0, 10))}</td><td class="num">${money(r.amount_usd)}</td>
+      <td><span class="pill ${r.status === 'paid' ? 'paid' : r.status === 'void' ? 'none' : 'due'}">${esc(r.status)}</span>${r.paid_how ? ' <span class="muted">' + esc(r.paid_how) + ' ' + esc(String(r.paid_at || '').slice(0, 10)) + '</span>' : ''}</td>
+      <td style="white-space:nowrap">${r.status === 'earned' || r.status === 'approved' ? `<button class="btn sm" data-rpaid="${esc(r.id)}">Mark paid</button> <button class="btn ghost sm" data-rvoid="${esc(r.id)}">Void</button>` : ''}</td></tr>`; }).join('')}</table>`
+    : '<p class="muted" style="padding:12px 14px">No rewards yet. A reward appears here by itself when a referred applicant signs a lease (matched by phone number).</p>';
+  $('#referRewards').onclick = async e => { const t = e.target;
+    if (t.dataset.rpaid) {
+      const how = prompt('How was the $100 paid? (cash or Zelle)', 'cash'); if (!how) return;
+      const now = new Date().toISOString();
+      const {error} = await sb.from('referral_rewards').update({status:'paid', approved_by:(me && me.email) || 'admin', approved_at:now, paid_at:now, paid_how:how.slice(0, 40)}).eq('id', t.dataset.rpaid);
+      if (error) return fail(error); toast('Marked paid'); loadReferrals(); }
+    if (t.dataset.rvoid) {
+      if (!confirm('Void this reward? Use this only if the referral did not count.')) return;
+      const {error} = await sb.from('referral_rewards').update({status:'void'}).eq('id', t.dataset.rvoid);
+      if (error) return fail(error); toast('Voided'); loadReferrals(); } };
+}
+
 async function loadMarketTab(){
   MARKET=null; await loadMarket();
   const [{data:us,error:e1},{data:ls,error:e2}]=await Promise.all([
