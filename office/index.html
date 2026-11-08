@@ -444,9 +444,9 @@ function referUnitLine(u, lang){
 function referText(row, units){
   const res = units.filter(u => u.bedrooms != null && u.unit_type !== 'commercial');
   const com = units.length - res.length;
-  const es = `Gamino Real Estate: ¡Hola${row.tenant_name ? ' ' + row.tenant_name.split(' ')[0] : ''}! Tenemos disponibles: ${[...res.map(u => referUnitLine(u, 'es')), ...(com ? ['espacio comercial'] : [])].join('; ')}. ¿Conoces a alguien buscando? Comparte tu enlace: ${row.referral_link} . Si firma y se muda, te damos $100 en efectivo.`;
-  const en = `Hi! We have openings: ${[...res.map(u => referUnitLine(u, 'en')), ...(com ? ['commercial space'] : [])].join('; ')}. Know someone looking? Share your link: ${row.referral_link} . If they sign and move in, you get $100 cash. Questions: (414) 850-CASA. Responde STOP / Reply STOP to opt out.`;
-  return es + '\n\n' + en;
+  const es = `¡Hola! Tenemos disponibles: ${[...res.map(u => referUnitLine(u, 'es')), ...(com ? ['espacio comercial'] : [])].join('; ')}. ¿Conoces a alguien buscando? Comparte tu enlace: ${row.referral_link} . Si firma y se muda, te damos $100 en efectivo. Reply STOP to opt out / Responde STOP para no recibir más.`;
+  const en = `Gamino Real Estate: Hi${row.tenant_name ? ' ' + row.tenant_name.split(' ')[0] : ''}! We have openings: ${[...res.map(u => referUnitLine(u, 'en')), ...(com ? ['commercial space'] : [])].join('; ')}. Know someone looking? Share your link: ${row.referral_link} . If they sign and move in, you get $100 cash. Questions: (414) 850-CASA.`;
+  return en + '\n\n' + es;  // English first, always (Ciro 11-7-26)
 }
 async function referCopy(text){
   try { await navigator.clipboard.writeText(text); toast('Copied'); }
