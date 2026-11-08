@@ -486,7 +486,7 @@ async function loadReferrals(){
     : '<p class="muted" style="padding:12px 14px">No rewards yet. A reward appears here by itself when a referred applicant signs a lease (matched by phone number).</p>';
   $('#referRewards').onclick = async e => { const t = e.target;
     if (t.dataset.rpaid) {
-      const how = prompt('How was the $100 paid? (cash or Zelle)', 'cash'); if (!how) return;
+      const how = prompt('How was the $100 paid? (cash, Venmo or Zelle — never taken off rent)', 'cash'); if (!how) return;
       const now = new Date().toISOString();
       const {error} = await sb.from('referral_rewards').update({status:'paid', approved_by:(me && me.email) || 'admin', approved_at:now, paid_at:now, paid_how:how.slice(0, 40)}).eq('id', t.dataset.rpaid);
       if (error) return fail(error); toast('Marked paid'); loadReferrals(); }
